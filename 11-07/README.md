@@ -101,3 +101,13 @@ while(표현식){
 > ex) git branch -m master main
 - 저장점 전환 : git branch checkout 브랜치이름
 - 저장점 삭제 : git branch -d 브랜치 이름 
+
+
+```
+// 로컬에서 브랜치 삭제하기 명령어 
+git branch -d localBranchName(로컬의 브랜치 이름)
+
+// 원격에서 브랜치 삭제하기 명령어
+git push origin --delete remoteBranchName(원격 브랜치 이름)
+
+```
