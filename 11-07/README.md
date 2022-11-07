@@ -93,3 +93,10 @@ while(표현식){
 
 
 ### 함수 호출: 직접호출, 콜백으로 지정해서 호출 
+
+
+### branch :저장점 -변경된 내용을 별도로 관리하고자 할때 작업
+- 저장점 확인 git branch
+- 이름 변경 : git branch -m  
+- 저장점 전환 : git branch checkout 브랜치이름
+- 저장점 삭제 : git branch -d 브랜치 이름 
