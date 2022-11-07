@@ -13,12 +13,12 @@
     //     console.log('*'.repeat(i))
     //   }
       
-      for(let i =0; i<4; i++){
-            for(let j =0; j<5; j++){
-                console.log("*");
-            }
-            console.log("");
-      }
+    //   for(let i =0; i<4; i++){
+    //         for(let j =0; j<5; j++){
+    //             console.log("*");
+    //         }
+    //         console.log("");
+    //   }
    /*
      *
      **
@@ -27,15 +27,15 @@
    */
   var index=1;
  while(index++ <5){
-    console.log(index);
+    // console.log(index);
  }
- console.log(index);
+//  console.log(index);
  
  var obj = {
     "abc":"123",
     "age":100
  }
- console.log(obj.abc)
+//  console.log(obj.abc)
 var ar =[100,200,300];
         
  for (var attr in ar){
@@ -43,6 +43,15 @@ var ar =[100,200,300];
  }
  for(var attr in obj){
     // alert(attr+ " :"+ obj[attr])
+ }
+
+ for (let i =1; i<10; i++){
+    console.log(i);
+
+    if(i%3==0){
+        // continue;// 아래는 수행하지않고 다음 반복문으로 넘어감
+        // break;
+    }
  }
     </script>
     

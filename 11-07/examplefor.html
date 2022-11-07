@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>별찍기연습</title>
+</head>
+<body>
+    <script>
+ for(i=0; i<5;i++){
+    for(j=0; j<i*2+1; j++){
+    document.write("*");
+    //0에 0+1 하나 
+    //1 에 1+1 2까지 돌고 끝나고 br
+    //총 5줄 
+  }
+    document.write('<br/>');
+    }
+    document.write('<br/>')
+    
+ for(i=0; i<5;i++){
+    for(j=0; j<6; j++){
+    document.write("*");
+  }
+    document.write('<br/>');
+    }
+
+    document.write('<br/>');
+    
+
+    for(i=0; i<5;i++){
+    for(j=0; j<5-1*i; j++){
+    document.write("*");
+  }
+    document.write('<br/>');
+    }   
+    document.write('<br/>');
+    
+
+    for(i=0; i<5;i++){
+        if(i<3){
+            for (j =0; j<i+1; j++ ){
+                document.write('*');
+            }
+        }else{
+            for(j=0; j<5-1*i; j++){
+                document.write('*')
+            }
+
+        }
+    document.write('<br/>');
+    }
+    document.write('<br/>')
+    
+    for(i=0; i<6;i++){
+     for(j=0; j<9-i; j++){
+    document.write("^");
+   
+  }
+  for(j=0; j<2*i+1; j++){
+    document.write("*");
+   
+  }
+  for(j=0; j<9; j++){
+    document.write("^");
+   
+  }
+    document.write('<br/>');
+    }   
+    document.write('<br/>');
+    
+   
+
+
+    </script>
+    
+</body>
+</html>
