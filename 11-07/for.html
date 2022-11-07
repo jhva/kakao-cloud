@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for 문</title>
+</head>
+<body>
+    <script>
+        //for문
+    //   for(let i =4; i>0; i--){
+    //     console.log('*'.repeat(i))
+    //   }
+      
+      for(let i =0; i<4; i++){
+            for(let j =0; j<5; j++){
+                console.log("*");
+            }
+            console.log("");
+      }
+   /*
+     *
+     **
+    ****
+    ****
+   */
+  var index=1;
+ while(index++ <5){
+    console.log(index);
+ }
+ console.log(index);
+ 
+ var obj = {
+    "abc":"123",
+    "age":100
+ }
+ console.log(obj.abc)
+var ar =[100,200,300];
+        
+ for (var attr in ar){
+    // alert(attr + ":"+ar[attr])
+ }
+ for(var attr in obj){
+    // alert(attr+ " :"+ obj[attr])
+ }
+    </script>
+    
+</body>
+</html>
