@@ -24,7 +24,11 @@
         instanceadf.getName();
         instanceadf.setName('123에서 바뀐 내임')
         instanceadf.school="어우스쿨"
-        console.log(instanceadf.getName())
+        console.log(instanceadf)
+
+
+        Member.prototype.getJob=function(){return "직업"}
+        console.log(instanceadf.getJob());
     </script>
     
 </body>

@@ -4,7 +4,12 @@
 - 맨처음에 실행하면 호출스택에 쌓임 (주인은 운영체제)
 
 ### stack - 함수 
+- 원시 타입(숫자 등) 데이터가 저장된다.
+- 실행 콘텍스트(Execution Context)를 통해
 
+- 1) 변수 식별자(이름) 저장,
+- 2) 스코프 체인 및 this 관리,
+- 3) 코드 실행 순서 관리 등을 수행.
 
 ### Heap - 배열, 인스턴스 
 - 해제나, 크기변경이 가능함
@@ -134,3 +139,19 @@ let 이름 = class 내부에서 사용할 이름 {클래스 내용}
 
 ### 클래스 안에 멤버 속성 만들기 
 - 메서드 안에서 this와 이름을 만들면 인스턴스의 속성이 된다 .
+
+
+### javascript는 class에서 정적이지 않다 
+- javascript 에서는 class내용을 수정 할 수 있다 .
+- Class 가 prototype이라는 내부 객체를 이용해서 모든 속성을 저장함.
+prototype이 객체라서 확장이 가능함
+- 클래스를 선언할 때는 없었는데 나중에 추가 혹은 변경 할때는
+[클래스이름.prototype.속성이름 = 내용 ]  으로 클래스에 속성을 추가하는 것이 가능하다.
+
+```javascript
+
+  Member.prototype.getJob=function(){return "직업"}
+        console.log(instanceadf.getJob());
+        //result : 직업
+
+```
