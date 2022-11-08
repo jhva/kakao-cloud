@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class</title>
+</head>
+<body>
+    <script>
+        //멤버라는 클래스 ㅐㅇ성
+        class Member {
+          getName() {
+            return this.name;
+          }
+          setName(name){
+            this.name=name;
+          }
+          name=this.name
+          school=this.school;
+        }
+        let instanceadf=new Member();
+        instanceadf.name=123;
+        instanceadf.getName();
+        instanceadf.setName('123에서 바뀐 내임')
+        instanceadf.school="어우스쿨"
+        console.log(instanceadf.getName())
+    </script>
+    
+</body>
+</html>

@@ -12,6 +12,28 @@
 
         }
         f1();
+
+        let singer = function(name,age){
+            // name = "이름없음"
+            // song = "노래없음"
+            // //this와 함계 만들어야 객체의 속성이 됨
+            this.name=name;
+            this.song=age;
+        }
+        //생성자를 이용한 인스턴스 생성
+        var adsf= new singer("123","456");
+        console.log(adsf);
+
+
+        let singer1 = function(){
+            // name = "이름없음"
+                        // song = "노래없음"
+            // //this와 함계 만들어야 객체의 속성이 됨
+            this.name="이름없음";
+            this.song="노래없음"
+        }
+
+        var asf=new singer();
     </script>
     
 </body>

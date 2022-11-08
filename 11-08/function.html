@@ -67,11 +67,13 @@
         f0();
 
         function f13(num1,num2){
-            return document.write(num1+num2);
+            return num1+num2;
         }
-        f13(3,4)
-
-
+      var test=  f13(3,4);
+      console.log(test)
+        //리턴된 결과를 다른 함수의 매개변수로사용 
+        test=f13(f13(3000,4000),2000);
+        console.log(test)
         
 
     </script>
