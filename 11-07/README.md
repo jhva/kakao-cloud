@@ -94,6 +94,37 @@ while(표현식){
 
 ### 함수 호출: 직접호출, 콜백으로 지정해서 호출 
 
+### callback (임의로 본인이쓴거)
+- 1. 변수나 데이터안에 담길 수 있고
+
+- 2. 매개변수로 전달 할 수 있고
+
+- 3. 반환 값으로 사용할 수 있고
+
+- 4. 실행도중에 생성될 수 있다
+> 콜백함수는 간단하게 다른 함수에 매개변수로 넘겨준 함수를 말한다.<br/>
+
+   매개변수로 넘겨받은 함수는 일단 넘겨받고,<br/>
+   때가 되면 나중에 호출(called back)한다는 것이 콜백함수의 개념이다.<br/>
+```
+function checkGang(count, link, good) {
+  count < 3 ? link() : good();
+}
+
+function linkGang() {
+  console.log('1일 3깡은 기본입니다. 아래 링크를 통해 깡을 시청해주세요');
+  console.log('https://youtu.be/xqFvYsy4wE4');
+}
+
+function goodGang() {
+  console.log('오늘 할당량은 모두 채우셨습니다! :)')
+}
+
+checkGang(2, linkGang, goodGang)
+
+reference: https://bigtop.tistory.com/35
+
+```
     
 ### branch :저장점 -변경된 내용을 별도로 관리하고자 할때 작업
 - 저장점 확인 git branch
@@ -111,3 +142,5 @@ git branch -d localBranchName(로컬의 브랜치 이름)
 git push origin --delete remoteBranchName(원격 브랜치 이름)
 
 ```
+
+
