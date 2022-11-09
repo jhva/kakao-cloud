@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let obj = {
+            "name":"김정훈"
+        
+        }
+        let ar = ["resact","javar","Asdfs"]
+
+        let result = obj[Symbol.iterator];
+        
+        if(ar===undefined){
+            console.log("123")
+        }else{
+            let etr = ar[Symbol.iterator]();
+            // result = ar[Symbol.iterator]();
+        console.log(etr.next())
+        console.log(etr.next())
+        // console.log(result);
+        }
+        // in은 속성을 추출 - 배열의 경우는 Index
+        for (attr in ar){
+            console.log(attr)
+        }
+        // 데이터를 순회 
+        for (attr of ar){
+            console.log(attr)
+        }
+  
+    </script>
+    
+</body>
+</html>
