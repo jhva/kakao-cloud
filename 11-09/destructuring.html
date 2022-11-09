@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //배열은  순차적으로 들어온다.
+        // 배열은 iterator를 준수하기 때ㅔ문에 준수함
+        let ar = [100,2003,400,322];
+        let [one,two,three,four]=ar;
+         //객체는 iterator 가 없기때문에 순차적으로 대입되는게아니고
+         //이름을 보고 대입이댐 
+        var obj ={"name":"카리나","job":"가수"};
+        let {name,job}= obj;
+        console.log(name);
+
+
+        let display = (obj)=>{
+            let {msg,n} =obj;
+            for(let i =0; i<n; i++){
+                console.log(msg);
+            }
+        }
+        display({"msg":"야이시발아","n":3})
+
+    </script>
+    
+</body>
+</html>
