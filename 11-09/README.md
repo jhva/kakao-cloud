@@ -192,3 +192,10 @@ try{
 
 
 ###  charAt(index) - 인덱스 번째 문자를 리턴 
+
+
+```javascript 
+
+var str = "CGCCGDKSKDGCCGCCGDKDGCCGDS";
+//이 문자열에서 GCCG를 찾아서 첫글자의 위치를 전부 출력해보세용
+```
