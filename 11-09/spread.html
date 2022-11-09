@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let br = [100,200,300,400];
+        const ins ={"name":"react","job":"가수","company":"회사당","company":"회사당"}
+        let {...etc}= ins;
+        console.log(etc);
+
+        //함수에 사용할때 
+        function rest({name1,job1,...rest}){
+            console.log(rest)
+        }
+        rest(ins);
+
+        let [a,b,c,d,e=500]=br;
+        console.log(e)
+        let abc=[1,2,3,4,5];
+        let def= [...abc,1123];
+        console.log(def)
+    </script>
+    
+</body>
+</html>
