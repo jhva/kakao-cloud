@@ -192,7 +192,7 @@ try{
 
 
 ###  charAt(index) - 인덱스 번째 문자를 리턴 
-
+  
 
 ```javascript 
 
