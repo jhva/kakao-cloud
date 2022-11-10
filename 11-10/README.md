@@ -289,3 +289,60 @@ console.log(`${data} 입니다`);
 
 
 ```
+
+
+
+## Set 
+- 여러 개의 데이터를 중복없이 저장하는 자료구조
+- 데이터를 가지고 key를 만들어서 저장한다 
+  - 이때 해싱을 수행해서 key를 만들어낸다 
+    * 해싱은 데이터를 가지고 새로운 데이터를 만들어 내는 것인데, 
+  이렇게 만들어진 코드를  HashCode라고 함. 데이터가 같으면 HashCode 는 같음 <br/>
+  <b>HashCode가 같다고 해서 데이터가 같지는 않습니다</b>
+  <b>HashCode 를 가지고 원본 데이터를 찾는 것도 아주 어렵다</b>
+
+
+## 생성 
+- new Set()
+- new Set(배열)
+  > 함수<br/> 
+  - add ,has, keys,values,delete,clear
+
+```javascript
+let set =new Set()
+set.add("JavaScript")
+set.add("Java")
+set.add("JavaScript")
+console.log(set)
+// 결과 {Javascript,Java}
+```
+
+## Map 
+> key와 value를 쌍으로 저장 
+ - 이때 key는 Set으로 만들어진다 
+   - 동일한 key에 value를 여러 번 설정하면 마지막 value만 저장된다.
+    ```javascript
+    new Map([key,value],[key,value]...)
+    ```
+
+- 함수 
+  - keys(): key를 순회할 수 있는 이터레이터 리턴
+  - values(): value를 순회할 수 있는 이터레이터 리턴
+  - entries(): 모든 데이터를 순회할 수 있는 이터레이터 리턴
+  - delete(key) : key에 해당하는 데이터 삭제
+  - clear() : 모든 데이터 삭제
+  - has(key) : 키의 존재여부를 리턴
+
+
+## BOM(Browser Object Model)
+
+>  웹 브라우저와 관련된 객체
+
+ - window 가 최상위 객체 ,나머지는 window안에 포함된 객체
+ 
+- windoiw 객체
+  - 브라우저 자체 
+  - 속성과 메서드 
+  - location 속성: 현재 URL을 리턴하고 이 속성에 URL을 대입하면 그 URL 로 이동함. 
+  - 화면의 너비와 높이 관련 속성 : outerWidth, outerHeight
+  - open 이라는 메서드를 이용해서 새로운 창을 화면에 출력하는 것이 가능 : 팝업창을 만들때 사용 

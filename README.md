@@ -13,3 +13,7 @@
 
 ### Sass(software as a service) 사스란 ?
 > 클라우드를 통해 제공되는 소프트웨어로 별도의 설치나 전환 과정 없이 퍼블릭 클라우드에 설치되어 있는 애플리케이션, 서비스를 인터넷을 통해 제공받는 것을 말한다. 구글, 마이크로소프트, 어도비 등 과거 설치형 서비스가 Saas 서비스로 변화하고 있다. 참고
+
+
+### vscode 단축기 찾아본것들 
+- https://inpa.tistory.com/entry/VS-Code-%E2%8F%B1%EF%B8%8F-%EC%9C%A0%EC%9A%A9%ED%95%9C-%EB%8B%A8%EC%B6%95%ED%82%A4-%EC%A0%95%EB%A6%AC
