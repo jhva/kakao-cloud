@@ -172,3 +172,120 @@ console.log(`${data} 입니다`);
 - every(): 매개변수가 1개이고 boolean을 리턴하는 함수를 매개변수로 받아서 배열의 모든요소를 매개변수로 대입해서 함수를 호출후 모든 데이터가 true를 리턴하는지 확인해서 boolean 을 리턴
 
 - some():  매개변수가 1개이고 boolean을 리턴하는 함수를 매개변수로 받아서 배열의 모든요소를 매개변수로 대입해서 함수를 호출후 1개의 데이터라도 true를 리턴하는지 확인해서 boolean 을 리턴
+
+
+
+```javascript
+      * forEach
+
+        const dataFunction =[10,20,30,13,55,32,3,6].forEach((item)=>console.log(item));
+        //함수의 매개변수 자리에 배열의 데이터를 순서대로 대입해서 함수를 호출함 .
+        //내부 반복자를 사용하기때문에 실행 속도가 빠름 . forEach
+        //결과 10 \n 20 \n 30 \n 13 \n  55\n 으로 출력 
+        console.log(dataFunction);
+        
+      * Map
+        
+        let data =[10,20,30].map((v)=>{return v*5})
+        console.log(data)
+        //배열의 모든 요소에 함수를 호출해서 그 결과를 모아서 배열을 리턴
+        //forEach와다르게  result = [50,100,150]
+      
+      * filter
+        //조건에 맞는 데이터만 추출하는 함수 
+        //매개변수가 1개이고 boolean을 리턴하는 함수를 설정 
+        var br = ["korea","china","korean"];
+
+        let data123 =br.filter((e)=>{
+        //0 , -1 ,0 있으면 0 없으면 -1 
+           return e.indexOf("ko")>=0;
+        })
+        //결과 ['korea','korean']
+        console.log(data123)
+
+```
+
+
+# JSON 객체 
+
+> JSON(JavaScript Object Notation) : 데이터를 자바스크립트의 객체 표현법의 문자열로 만드는 것 
+
+
+- JSON.parse(json 문자열) : json 문자열을 자바스크립트 데이터로 변경해서 리턴함 => 서버에서 데이터를 받아온 경우에 사용함.
+- JSON.stringify(자바스크립트데이터) : 데이터를 json문자열로 변환 => 서버에서 데이터를 전송할 때 사용함
+
+
+### RegExp 객체
+
+> 정규표현식
+
+- 문자열의 패턴을 정의하기 위한 객체로 Perl 에서 처음 사용되었는데 지금은 거의 모든 프로그래밍 언어에서 제공하고 언어 차원에서 제공하지 않으면 외부 라이ㅏ브러리를 통해서 제공 
+- 장점은 복잡한 코드를 줄여서 표현할수있다.
+- 단점은 가독성이 떨어진다 .
+
+> 객체 생성
+
+- new RegExp(패턴,한정자): /패턴/한정자
+
+> 함수
+- test(문자열) : 문자열에 정규 표현식 패턴이 존재하는지 확인
+- exec(문자열) : 정규표현식 문자열을 리턴
+
+```javascript
+     var str="Javascript Reg Exp";
+        // 위의 문자열에 script 가 포함되어 있는지 확인 
+        var regExp = /script/;
+        console.log(regExp.test(str));
+        //true or false
+        /script/i < i를 넣어주면 대소문자 구분씹가능
+        /script/g < 전체 영역에서 비교
+        /script/m < 여러줄에서 비교
+
+```
+> 앵커 문자 
+- ^패턴 : 패턴으로 시작하는 
+- 패턴$ : 패턴으로 끝내는
+
+> 메타 문자
+- . : 아무글자
+- [문자나열] : 문자 중 1개
+- [^문자]: 문자를 제외
+- [시작-끝]: 시작에서 끝에 포함되는 <br/> 영문소문자 ex) [a-z]<br/> 영문대소문자[A-Za-z]<br/> 한글[가-힣] 
+- ￦d: 숫자, ￦w: 단어, ￦D: 숫자가아닌 ￦W: 단어가아닌, ￦s: 공백문자, ￦S: 공백문자가아닌,  
+
+> 수량 문자 
++: 1개 이상
+*: 0개 이상
+?: 0개 또는 1개 
+{횟수}: 횟수
+{최소횟수,최대횟수} : 최소에서 최대 사이 
+{최소횟수, } : 최소 횟수 이상
+
+
+> String 의 정규 표현식 관련 메서드
+- match : 정규 표현식 과 일치하는 부분을 리턴 
+- replace(정규표현식,변경할 문자열): 정규 표현식에 해당하는 부분을 문자열로 치환
+- search(정규 표현식): 정규 표현식 과 일치하는 부분의 인덱스 리턴
+- split(정규 표현식): 정규 표현식 과 일치하는 부분을 찾아서 잘라낸 다음 배열로 리턴     
+
+
+
+```javascript
+
+    //주민등록번호 검사 
+        // 숫자 6개 -숫자 7개 
+        var jumin1 = "123456-1234567"
+        let jumin2 = "123456-123456"
+        let jumin3 = "12r3456-1234567"
+
+        var jumin =/\d{6}-\d{7}/;
+        
+        console.log(jumin.test(jumin1))
+        console.log(jumin.test(jumin2))
+        console.log(jumin.test(jumin3))
+        // true
+        // false
+        // false
+
+
+```

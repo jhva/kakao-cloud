@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var str="JavaScript Reg Exp";
+        // 위의 문자열에 script 가 포함되어 있는지 확인 
+        var regExp = /script/i;
+        // console.log(regExp.test(str));
+
+        //주민등록번호 검사 
+        // 숫자 6개 -숫자 7개 
+        var jumin1 = "123456-1234567"
+        let jumin2 = "123456-123456"
+        let jumin3 = "12r3456-1234567"
+
+        var jumin =/\d{6}-\d{7}/;
+    
+        console.log(jumin.test(jumin1))
+        console.log(jumin.test(jumin2))
+        console.log(jumin.test(jumin3))
+
+
+        let email = "kjh@kakao.com";
+        let email2="kknaver.com";
+
+
+    </script>
+    
+</body>
+</html>
