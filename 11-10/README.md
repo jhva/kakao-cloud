@@ -39,7 +39,7 @@ console.log(`${data} 입니다`);
 - getTime 메서드를 이용하면 1970 년 1월 1일 자정 이후로 지나온 시간을 밀ㄹ리초 단위로 리턴
 
 
-### 예외 (정훈) 
+## 예외 (정훈) 
 - 1000 밀리초 = 1초 
 - 1일은 1000* 60*60* 24
 - 1분은 1000*60 
@@ -356,8 +356,9 @@ console.log(set)
   - 너비 와 높이 속성을 제공 
 
 ## location 객체
-  - 현재 페이지의 URL 관련된 객체
-    - 프로토콜://IP 주소나 도메인: 포트번호/요청경로
+- 현재 페이지의 URL 관련된 객체
+  - 프로토콜://IP 주소나 도메인: 포트번호/요청경로
+  
   - IP 주소 나 도메인 - hostname (컴퓨터를 구분하기 위한 주소 - 하나의 컴퓨터가 여러 개의 IP 나 Domain을 가질 수 있음) -> ex( IP 공유기 
   - 포트번호 - 컴퓨터 내에서 프로세스 (프로그램) 을 구분하기 위한 번호 (0 ~ 65535)
     - 포트번호는 프로토콜의 기본 번호를 사용할 때는 생략 (http -> 80 , https -> 443)
@@ -366,4 +367,46 @@ console.log(set)
   - ? 다음에 이름 = 값 query string 이라고 하는데 클라이언트가 서버에게 전송하는 데이터 
     - #이름이 나오는 경우가 있는 fragment(책갈피 - 문서 내의 특정 위치) 라고 합니다. 
 
-- 
+
+## navigator 객체 
+- 웹 브라우저의 고유 정보를 제공하는 객체
+- userAgent: 클라이언트의 브라우저와 운영체제 정보 리턴
+
+  - apple은 iphone 과 ipad 그리고 ipod 의 운영체제 이름이 다르고 ,android 는 구분이 없음 
+
+```javascript
+var os =['iphone'];
+for(o of os){
+  //os 배열에 있는 문자열이 userAgent 에 포함되어있는지 여부를 확인
+  if(navigator.userAgent.toLowerCase().indexOf(o)>=0){
+    break;
+  }
+}
+```
+
+## history 객체
+- 이전에 접속한  url 에 대한 정보를 가진 객체
+- back이나 forward 같은 메서드를 이용해서 이전 이나 이후로 이동하는 것이 가능
+<br/>
+
+# DOM(Document Object Model)
+
+- HTML Body에 표시되는 태그들을 자바스크립트에서 가져와서 사용하도록 만든 것 
+
+- document 객체
+   - document 는 HTML 내의 Body에 관련된 정보를 제공하고 작업을 수행할 수 있도록 해주는 객체
+
+- referrer: 이곳에 다른곳에서 링크를 선택해서 온 경우 다른 곳의 URL 
+
+
+
+
+
+### DOM 객체의 공통속성 과 메서드
+
+- appendChild()
+- removeChild()
+- createElement(),
+- createTextNode(),
+- getAttribute(),
+- setAttribute()
