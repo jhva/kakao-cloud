@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+    <script>
+        //스크립트에서 body에 작성한 것들을 사용하는경우
+        //body 아래에 작성하거나 위에 작성할때는 아래 이벤트 발생 후 에 동작하는 코드를 작성해야한다.
+        window.addEventListener("load", (e) => {
+            document.getElementById("btn").addEventListener("click", (e) => {
+                const start = Date.now();
+                //동기 
+                //반목문을 10억번 돌렸을때 걸리는 시간을 측정
+                for (let i = 0; i < 100000000; i++) {
+                    const end = Date.now();
+                    console.log("다음작업")
+                    console.log((start - end) + "밀리초")
+                }
+
+                //비동기 - 타이머식 비동기식 처리를 수행
+                // setTimeout(() => {
+                //     for (let i = 0; i < 100000000; i++) {
+                //         const end = Date.now();
+                //         console.log("다음작업")
+                //         console.log((start - end) + "밀리초")
+                //     }
+                // }, 0);
+                
+                // console.log("다음작업")
+
+            })
+        })
+
+    </script>
+</head>
+
+<body>
+    <button id="btn">클릭</button>
+
+</body>
+
+</html>
