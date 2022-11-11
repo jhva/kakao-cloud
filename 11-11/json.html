@@ -11,7 +11,21 @@
     window.addEventListener("load", (e) => {
         let csv = document.getElementById("csv");
         let content = document.getElementById("content");
+        let json2 = document.getElementById("json");
 
+
+        json2.addEventListener("click",(e)=>{
+            let req = new XMLHttpRequest();
+            req.open('GET','data2.json');
+            req.send('');
+            req.addEventListener("load",(e)=>{
+                let data =JSON.parse(req.responseText);
+                let count = data.count;
+                let array1= (data.document).map((item)=>{return item.name;})
+                content.innerHTML+="count"+ count +'<br/>'+array1;
+                                
+            })
+        })
         csv.addEventListener("click", (e) => {
             //ajax 요청 객체 생성
             let req = new XMLHttpRequest();
@@ -19,6 +33,7 @@
             req.open('GET', 'data.json');
             //요청 - 데이터 와 함께 전송해야하는데 지금은 없음.
             req.send('');
+
 
             //요청 받기 위한 콜백 등록
             //정상 응답이 온경우
@@ -43,6 +58,7 @@
 
     <body>
         <button id="csv">json 읽기</button>
+        <button id="json">json2 읽기</button>
         <div id="content">출력 영역</div>
     </body>
 </body>
