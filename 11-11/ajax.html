@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.addEventListener("load",(e)=>{
+            let csv = document.getElementById("csv");
+            let content = document.getElementById("content");
+            
+           csv.addEventListener("click",(e)=>{
+                //ajax 요청 객체 생성
+                let req= new XMLHttpRequest();
+                //연결준비 - 요청 방식,URL
+                req.open('GET','data1.csv');
+                //요청 - 데이터 와 함께 전송해야하는데 지금은 없음.
+                req.send('');
+                
+                //요청 받기 위한 콜백 등록
+                //정상 응답이 온경우
+                req.addEventListener("load",(e)=>{
+                    //XML이외의 경우
+                    alert(req.responseText);
+                })
+                //에러가 발생했을경우
+                req.addEventListener("error",(e)=>{
+                    alert(req.status);
+                })
+           })
+
+        })
+    </script>
+
+</head>
+<body>
+    <button id ="csv">csv 읽기</button>
+    <div id ="content">출력 영역</div>
+</body>
+</html>

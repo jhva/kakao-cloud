@@ -255,3 +255,98 @@ async functioin 함수이름(){
 - 화면전환을 하지 않는 대신 하나의 화면에 2개 이상의 컨텐츠를 보여 줄 수 있어야 한다 .
 
 - 로컬에 저장해서 출력하는 부분에 대해서도 고민을 해야 한다 .
+
+
+
+# ajax (Asynchronous Javascript XML - eXtensible Markup Language)
+> ajax는 비동기적으로 xml 을 주고받기 위한 자바스크립트 기술이다.최근에는 xml뿐 만 아니라 json이나 csv도 데이터 포맷으로 사용된다.<br/>최근에는 자바스크립트를 이용해서 비동기적으로 데이터를 받아오는 것을 ajax라고 한다 .
+
+- 자바스크립트에서는 ajax를 XMLHttpRequest 라는 객체를 이용해서 구현을 한다.
+- ajax는 예전에 나와서 가독성이 떨어지기 때문에  Fetch API가 추가되었다.
+- HTML5에서는 Server Sent Events(Web Push)와 Web Socket API 가 추가 되었다.
+
+  - 기본적으로 클라이언트 와 서버의 통신 방식은 클라이언트가 서버에게 요청을 하면 서버가 응답을 보내는 방식이다 .push 는 클라이언트의ㅏ 요청이 없어도 서버가 클라이언트에게 데이터를 전송하는것
+
+
+- HTTP나 HTTPS 는 데이터 이 외에 헤더 정보를 같이 전송한다. 한 번 응답이 오면 연결이 끊어짐
+  - 짧은 메시지를 보낼 때 HTTP 나 HTTPS를 사용하면 오버헤드가 크다. 
+  - 상태 유지가 안되기 때문에 쿠키와 세션을 이용해서 상태 유지를 했는데 이 문제를 해결하기 위해서 연결형 서비스이고 오버헤드가 적은 Web Socket이 HTML5에서 추가되었다.
+
+> 작업순서
+- XMLHttpRequest 객체 생성
+- 서버에게 보낼 데이터 준비 
+- 서버에게서 응답이 왔을 때 처리할 콜백 함수를 등록하고 그 안에서 처리하는 코드를 작성
+- open 메서드를 호출해서 연결 요청을 준비
+- send 메서드를 호출해서 요청을 전송
+
+> XMLHttpRequest 의 속성
+- readyState: 상태를 나타내는 속성으로 -이면 객체를 생성한 직후이고 1이면 open() 을 호출한 상태이고 2번이면 send()를 호출한 상태이면 3이고 서버에서 응답이 오기 시작한 상태이고 4이면 응답이 완료된 상태 .
+
+
+# status - 서버에서 응답을 보냈을 때 응답의 상태 
+
+- <b> 100번 대이면 처리 중 
+- 200번 대 정상 응답
+- 300번 대 redirect 중 (처리는 끝나고 응답을 전송하고 있는 경우)
+- 400번 대 클라이언트 오류 (401-권한 없음, 404-요청한 URL을 처리할 수 없음)
+- 500번 서버 오류 </b>
+
+
+## response XML 
+>서버가 XML로 전송한 경우 XML 데이터 ,XML 파싱을 해서 사용
+
+
+## responseText 
+>서버가 XML 이외의 형식으로 전송한 경우의 문자열 ,JSON데이터의 경우 JSON파싱을 해서 사용
+
+
+
+## XMLHttpRequest 의 메서드
+- abort(): 요청 취소
+- open(요청 방식,요청 URL,비동기 전송 여부) : 연결 요청 준비
+- send(데이터): 요청 전송
+- setRequestHeader(인자, 값): 헤더 설정하는 것으로 인증에서 중요함
+- sendAsBinary(데이터) : 요청을 전송하는 것으로 파일을 업로드하고자 할 때 사용
+
+## SOP(동일 출처 정책)
+- 동일한 출처(도메인)에서 불러온 데이터만 사용할 수 있도록 하는 브라우저의 보안 정책
+- ajax 와 Fetch API에는 적용이 되고 img,link,script,audio,object,embed 등에는 적용되지 않음.
+  - 다른 출처의 데이터를 ajax와 Fetch API 에서 사용하려면 서버에서 CORS(교차 출처 리소스 공유) 설정을 하거나 클라이언트 쪽에서  <br/> Proxy
+(<b>웹에서 데이터를 받아올 수 있는 언어의 프로그래밍을 이용해야하는데 react나 vue에서는 설정만으로 가능</b>)를 이용해야한다.
+
+> proxy - (자신) 네트워크 -> proxy -> 외부 네트워크
+
+
+> 자기 네트워크 <- fire wall <-외부 네트워크에서  
+ - 방화벽 해제 
+
+ # csv읽어서 파싱하기 
+ -  data.csv 작성
+ 
+ ```javascript 
+       window.addEventListener("load",(e)=>{
+            let csv = document.getElementById("csv");
+            let content = document.getElementById("content");
+            
+           csv.addEventListener("click",(e)=>{
+                //ajax 요청 객체 생성
+                let req= new XMLHttpRequest();
+                //연결준비 - 요청 방식,URL
+                req.open('GET','data1.csv');
+                //요청 - 데이터 와 함께 전송해야하는데 지금은 없음.
+                req.send('');
+                
+                //요청 받기 위한 콜백 등록
+                //정상 응답이 온경우
+                req.addEventListener("load",(e)=>{
+                    //XML이외의 경우
+                    alert(req.responseText);
+                })
+                //에러가 발생했을경우
+                req.addEventListener("error",(e)=>{
+                    alert(req.status);
+                })
+           })
+        })
+
+ ```
