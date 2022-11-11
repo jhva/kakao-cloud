@@ -114,3 +114,29 @@
   *  name = 서버가 처리할 name 
 
 ```
+
+
+
+# 여러종류의 이벤트
+> keydown, keypress, keyup
+- which속성을 이용해서 누른 키의 ASCII 코드 값을 찾아올수있고 code<br/> 로 상수 형태로 가져올 수 있고 key로 문자를 가져올수있다.
+
+  - <b>이벤트 종류 : mousemove, mouseout, mouseover, mouseup</b>
+  <br/>
+
+- click ,dbclick
+  - 누른 좌표는 screenX 와 screenY
+
+- focusin(focus), focusout(blur)
+  - focusout 이벤트에서 유효성 검사를 하기도 한다.
+  - load: 메모리 적재 
+- window에서는 body에 있는 태그를 전부 읽어서 메모리에 적재하면 호출되는 이벤트 
+  - img 나 file 의 경우는 내용을 전부 읽었을 대 호출되는 이벤트
+  - ajax에서는 서버에서 응답을 받았을 때
+
+> beforeunload: 브라우저의 내용이 사라지기 직전
+- 세션을 이용해서 로그인 처리를 하는 경우 로그아웃을 할 때 세션을 초기화하는데 브라우저 창을 닫아 버리면 세션 초기화를 하지 못하는 경우가 있는데 이 이벤트를 이용해서 브라우저가 닫히는 시점을 찾아서 세션을 초기화하면 된다 .
+> chage: 값이 변경될 때 
+- 비밀번호 같은 것을 변경할 때 메시지를 출력하는 형태로 많이 이용한다. 
+
+- 

@@ -13,21 +13,59 @@
 
     </script>
     <form action="login" method="post" id="login_form">
+        <p id="msg"></p>
         <p>
-            아이디 <input type="text" name="id">
+            아이디 <input type="text" id="id" name="id">
         </p>
         <p>
             비밀번호
             <input type="password" name="pw" id="pw">
         </p>
-
-        <input type="submit" value="로그인"/>
+        <p>
+            비밀번호 확인란
+            <input type="password" name="confirmpw" id="confirmpw">
+        </p>
+        <input type="submit" value="로그인" />
     </form>
 
     <script>
-        document.getElementById("login_form").addEventListener("submit",(e)=>{
-            alert("폼전송")
+        document.getElementById("login_form").addEventListener("submit", (e) => {
+           
+            const ID = document.getElementById("id");
+            const PW = document.getElementById("pw");
+            const PW_CONFIRM = document.getElementById('confirmpw');
+            let msg = document.getElementById("msg");
+            msg.style.color = "Red";
+
+            const REGEXP = (data)=>{
+                return /script/.test(data);
+            }
+
+            if (ID.value.trim().length === 0 || PW.value.length === 0 || PW_CONFIRM.value.length===0) {
+
+                msg.innerHTML = ID.value.length === 0 ? '아이디를 입력해주세요' : PW_CONFIRM.value.length === 0 && '비밀번호를 입력해주세요'
+            e.preventDefault();
+
+            }else if (PW_CONFIRM.value !== PW.value){
+
+                msg.innerHTML="비밀번호 확인을 다시해주세요"
+            e.preventDefault();
+
+                
+            }
+             else if (REGEXP(PW)){
+            e.preventDefault();
+                msg.innerHTML="비밀번호 최소 7자는써주셔야함"
+                return;
+            }else{
+            alert("로그인성공")
+        }
+
         })
+        //비밀번호가 비어잉ㅆ으면 전송이 되지않도록
+        // 비밀번호 확인란을 만들어서 비밀벟ㄴ호 와 확인란이 맞지않으면 전송이 안되도고록 작성
+        // 비밀번호의 패턴이 맞지 않으면 전송이 되지 않도록 작성
+        // 비밀번호의 패턴을 보고 강한 비밀번호 인지 아닌지 판별    
     </script>
 </body>
 
