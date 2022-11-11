@@ -341,6 +341,11 @@ async functioin 함수이름(){
                 req.addEventListener("load",(e)=>{
                     //XML이외의 경우
                     alert(req.responseText);
+                    //   let ar =req.responseText.split(",");
+                    // for(name of ar){
+                    //     content.innerHTML+=`<div id="inner">${name}</div>`
+                    // }
+                    // 위 내용은 화면에 출력시
                 })
                 //에러가 발생했을경우
                 req.addEventListener("error",(e)=>{
