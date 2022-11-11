@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+    </script>
+    <form action="login" method="post" id="login_form">
+        <p>
+            아이디 <input type="text" name="id">
+        </p>
+        <p>
+            비밀번호
+            <input type="password" name="pw" id="pw">
+        </p>
+
+        <input type="submit" value="로그인"/>
+    </form>
+
+    <script>
+        document.getElementById("login_form").addEventListener("submit",(e)=>{
+            alert("폼전송")
+        })
+    </script>
+</body>
+
+</html>
