@@ -355,3 +355,25 @@ async functioin 함수이름(){
         })
 
  ```
+
+
+
+
+ ## XML 파싱
+ > RSS(Rich Site Summary) 에 많이 사용 
+ - 신문사 등에서 실시간으로 변경되는 데이터를 제공하는 용도로 주로 이용
+   - 태그 형태로 데이터를 구성
+   - 파싱
+     -  XML데이터 = ajax객체.responseXML;
+     
+   ```javascript
+    //필요한 태그 추출
+    태그들= XML데이터.getElementsByTagName("태그이름");
+
+    //태그를 순회하면서 작업
+    for(var i =0; i<태그들.length; i++){
+      //태그 1개 가져오기
+      var 태그 = 태그들[i].childNodes[0].nodeValue;
+      // 태그 사용 
+    }
+     ```
