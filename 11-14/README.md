@@ -75,3 +75,117 @@ async 함수(){
 ### HTML
 - HTML 은 데이터를 표현하는 것이 아니고 화면을 만드는것이다.
 - 화면에 보여지기는 하지만 Open API 를 제공하지 않는 경우에 HTML을 가져와서 임의로 해석해서 데이터처럼 사용하는 경우가 있다 .
+
+## 웹 클라이언트에서 웹 서버에게 데이터를 전송하는 방법
+
+### URL에 포함시키는 방법 
+> history에 남기 때무에 보완성이 떨어진다. 또한 캐싱이 가능해서 재전송이 가능하고, 데이터의 길이에 제한이있다.
+
+
+- 요청 방식에 따른 데이터 전달 
+  - GET: 데이터 요청할 때 사용하는 방식으로 URL 뒤에 ?를 추가하고 이름 =값 의 형태로 데이터를 전송
+    - 데이터 부분을 parameter 라고 하기도 하고 query string 이라고 하기도 한다.
+  - POST: 삽입,갱신을 할 때 사용하는 방식으로 HTTP Body에 데이터를 넣어서 전송하는 방식,데이터가 body에 포함되어있기때문에 보안성이 우수하고, 데이터의 길이에 제한도없음. 캐싱이 안되기 때문에 자동 재전송이가능
+    - 최근에는 데이터를 삽입할 때 만 사용하고 갱신을 할 때는 PUT같은 방식을 이용하는 것을 권장합니다.
+
+
+## 7. 여러방식을 이용한 ajax 
+
+### Promise를 이용하는 방식
+
+> 콜백을 이용하는 방법보다 가독성이 좋으나,<br/>일반적으로 콜백안에서 콜백을 호출하는 경우에는 Promise를 사용하는것이 좋다.
+
+- promise형태 
+```javascript
+  const promiseajax = (method, url, payload) => {
+            return new Promise((resolve, reject) => {
+                //resolve -  성공시 -then
+                //reject - 실패시 catch 
+                const req = new XMLHttpRequest();
+                req.open(method, url);
+                req.setRequestHeader("Content-type", "application/json");
+
+                req.send(JSON.stringify(payload));
+                req.addEventListener("load", () => {
+                    resolve(req.response);
+                })
+                req.addEventListener("error", () => {
+                    reject(new Error(req.status));
+                })
+            });
+  }
+```
+
+
+### Fetch API
+> 요청과 응답 등의 요소를 JavaScript 에서 접근하고 조작할 수 있는 인터페이스를 제공하는 API
+- fetch()라는 전역 함수를 이용해서 네트워크의 리소르를 비동기적으로 가져올 수 있음 XMLHttpRequest대신사용
+
+```javascript
+ fetch('./data.json')
+            .then((response) => response.json())
+            .then((data) => alert(data.count))
+            .catch((e) => alert(e.message))
+            //fetch(요청,URL,옵션)의 형태로 작성하는데 결과는 Promise객체로 리턴되기때문에 then,catch를 사용 
+```
+
+### 요청에 성공했을때 전달되는 객체 Response
+> Response 속성 - status(상태코드 값),statusText(상태 코드 메시지),ok(성공여부 판단)
+
+
+- 상태코드
+  - 100 번대 :요청 중
+  - 200 번대: 요청 처리 성공하고 응답을 전송받음
+  - 300 번대: 요청을 처리하고 리다이렉트중
+  - 400 번대: 클라이언트 오류(401 - 권한 없음, 404 - 요청 URL이 잘못됨)
+  - 500 번대: 서버오류
+
+> Response 메서드 
+- 메서드
+  - arrayBuffer() : 바이트 배열 - blob와 유사
+  - blob(): 파일의 내용
+  - formData():폼의 데이터 - FORM의 형태로 응답하는 경우
+  - json(): JSON파싱한 결과 - JSON으로 응답하는 경우
+  - text(): 결과 데이터 문자열 - 문자열로 응답하는 경우  
+
+
+# HTML5
+- 추가된태그
+  - section,artice,aside,header,hgroup,footer,nav: 문서 구조와 관련된 태그
+  - figure, audio,video,canvas,source:외부 컨텐츠 사용
+  - keygen,output,progress,meter: 폼 관련 태그
+  - mark,ruby,time,command,details,datalist:텍스트 관련 태그
+
+- 변경된 태그
+  - hr
+  - menu
+  - small
+  - strong
+
+- 태그의 추가된 속성
+  - input - 모바일을 위한 속성 과 유효성 검사 관련 속성이 추가
+
+# API 변화 
+- 로컬 저장소 : 이전에는 Cookie만 사용
+  - Web Storage
+  - Web sql
+  - Indexed DB
+
+- Drag and Drop API
+
+- GeoLocation : 위치 정보
+- Canvas : 그리기 API
+
+- Web Worker: Thread
+
+- Math Ml : 수식을 표현, FIreFox 에서만 적용 가능
+
+- Communication APi
+  - ajax level 2
+  - Server Sent Events(Web push)
+  - Web Socket API
+
+### 권장 사항 
+> Cookie보다는 로컬 스토리지를 이용하는것을 권장
+  - Cookie는 서버에게 요청할 때 마다 전송되고 문자열만 저장 가능
+  - Local Storage 는 자바스크립트 객체를 저장할수있고 필요할 떄 서버에게 전송 가능
