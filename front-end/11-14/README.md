@@ -242,4 +242,4 @@ async 함수(){
 - input type
   - text, password,checkbox,radio,file,button,image,submit,reset,hidden
 - 추가된 type
-  - search, tel 
+  - search, tel
