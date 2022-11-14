@@ -242,4 +242,57 @@ async 함수(){
 - input type
   - text, password,checkbox,radio,file,button,image,submit,reset,hidden
 - 추가된 type
-  - search, tel
+  - search, tel,url ,email,number,range,color,date,month,week,time,datetime-local
+
+
+### IP알아내는 명령 
+
+> 다른 컴퓨터에서 접속이 가능하도록 할 때는 방화벽을 해제
+
+- Window: ipconfig
+- mac: wifi에서 확인 linux는 ifconig
+
+- 포트포워딩 : 사설 ip랑 공용 ip랑 연결시켜줄수있는것 
+  - 예외로 내가 찾아봄 kt https://m.blog.naver.com/zetezz/221224911338
+
+
+## Jquery를 왜 사용했을까 ? 
+- HTML5는 브라우저 별로 지원 범위가 다르다.
+- HTML5 에서 추가된 기능을 사용하게 되면 브라우저 별로 다르게 설정을 해야 동일한 컨텐츠를 사용할 수 있다.
+  - jQuery는 이 부분(cross browsing) 을 쉽게 해주는 자바스크립트 라이브러리 이다.
+- 국내에서는 IE 비중이 많이 낮아졌고 IE 대신에 나온 Edge는 HTML5를 지원하기 때문에 최근에는 jQuery사용을 잘 하지 않는 추세이다.
+- jQuery단점 중의 하나가 렌더링 속도가 느리다는 것이다.
+
+
+## progress 와 meter
+> 진행율을 보여주고자 할 때 사용하는 요소 : javascript를 이용해서 제어함.
+
+- 기본적으로 max value는 100으로 설정되어 있고 value속성을 이용해서 진행율 표시.
+  - 최대값이나 최소값을 변경하고자 하는 경우는 min과 max속성의 값을 변경하면 된다.
+
+
+### Memory Leak
+- <strong>용도가 끝났는데도 작업을 계속 수행하고 있어서 메모리 낭비가 발생하는것</strong>
+  - 입출력 작업을 수행하거나 타이머 같은 자원을 사용할 때 주로 발생
+  - 타이머는 사용이 끝나면 해제해주어야 하고 입출력 작업은 스트림으로 끝나여야한다.
+
+### 추가된 속성
+- file: multiple 속성이 추가되서 속성이 설정하면 한 번에 여러 개의 파일을 선택할 수 있음
+- autocomplete 속성: 자동 완성 기능 사용 여부로 on 과 off로 설정
+- list 속성 과 datalist 속성을 이용하면 입력값을 선택 핤 ㅜ있도록 할 수 있다.
+
+- placeholder : 입력할 때 설명을 위한 텍스트 설정
+- autofocus : 첫번째 포커스 설정
+
+
+### 유효성 검사 (input)
+
+- required : 필수입력
+- maxlength : 최대 길이 
+- max,min : 최소 최대 값 - 숫자나 날짜에 사용
+- pattern: 정규 표현식 설정 가능 
+
+
+## Web Server
+- Web Client 에서 Web Server 전송하기 전에 유효성 검사를 해야 하고 Application Server 가 Web Client 로 부터 Data 를 전송받으면 유효성 검사를 해야 한다 .
+- Web CLient 에서 유효성 검사를 수행해서 조건에 맞지 않는 경우 전송을 하지  않으면 Traffic을 아낄수 있기 때문에 수행해야하고 Application Server 에서 다시 하는 이유는 데이터 전송 중에 변형이 이루어졌을지 모르기 때문에 .
