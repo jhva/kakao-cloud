@@ -189,3 +189,57 @@ async 함수(){
 > Cookie보다는 로컬 스토리지를 이용하는것을 권장
   - Cookie는 서버에게 요청할 때 마다 전송되고 문자열만 저장 가능
   - Local Storage 는 자바스크립트 객체를 저장할수있고 필요할 떄 서버에게 전송 가능
+  - Cache 보다는 로컬 데이터베이스를 사용하는 것을 권장 
+  - 부담을 많이 주는 작업은 웹 워커 사용을 권장
+
+
+### 기본적인 문서 구조 
+- DOCTYPE - DTD
+> <!DOCTYPE Html>
+
+### Mark up
+
+- 추가된 섹션 요소
+  - header,section ,article ,aside,nav,footer
+  - div와 동일한 역할을 수행
+    - 명확한 의미 전달을 위해서 추가
+    - 브라우저의 내용을 인간이 아닌 robot이 읽었을때 명확하게 의미를 전달하기 위해서
+
+  
+### figure,figcaption
+> 이미지 나 그래프 또는 예제 코드 등을 작성할 때 문서 안에 삽입해서 의미를 전달하기 위해서 사용
+```html
+<figure>
+  <img src="이미지 파일의 경로"/>
+  <figcaption> 그림에 대한 설명</figcaption>
+  </figure>
+```
+- 이미지 아래에 그림에 대한 설명이 추가된다
+  - 음성 브라우저에서는 그림에 대한 설명을 읽어준다.
+
+
+## 멀티미디어 
+> 외부 플러그 인 없이 동여상을 제어 할 수 있음 .
+- video
+  - 비디오 재생을 위한 태그 
+  - javascript 객체로 추가됨 
+- 브라우저 별로 코덱이 다르기 때문에 모든 동영상 파일이 전부 재생되는것은 아님
+
+
+### SVG
+- XML을 이용해서 백터 그래픽을 표시하는 API - 웹 표준
+- Canvas는 Pixel 단위로 그림을 그리지만 SVG 벡터 이미지 
+
+
+## FORM
+- 기능 변화 
+  - 여러가지 타입 추가 
+  - 유효성 검사 기능 추가 
+  - 진행 상황을 표시해주는 progress와 meter가 추가 됨.
+
+
+## input type 추가 :모바일 을 위한 속성
+- input type
+  - text, password,checkbox,radio,file,button,image,submit,reset,hidden
+- 추가된 type
+  - search, tel 
