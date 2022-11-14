@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.addEventListener("load", (e) => {
+            let btn = document.getElementById("btn");
+            let display = document.getElementById("display");
+
+            btn.addEventListener("click", (e) => {
+                let req = new XMLHttpRequest();
+                req.open('GET', './data.xml');
+                req.send('');
+                req.addEventListener("load", () => {
+                    //읽어온 데이터 중 name 태그 내용만 추출
+                    let xmldata = req.responseXML;
+                    //태그의 배열
+                    let names = xmldata.getElementsByTagName("name");
+
+                    for(let i=0; i<names.length; i++){
+                        var name = names[i].childNodes[0].nodeValue;
+                        display.innerHTML+="<div>"+name+"</div>"
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <button id="btn">버튼존나누르기</button>
+    <div id="display"></div>
+</body>
+
+</html>
