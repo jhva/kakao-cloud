@@ -108,3 +108,23 @@ img.addEventListener("change",(e)=>{
 - Web Storage: Map 형태로 저장 
 - Web SQL: 관계형 데이터베이스(SQlite3 - <b>외부에서는 접속이 불가능한 저용량 디비</b>) 이용 
 - Indexed DB: 자바스크립트 객체 형태로 저장 - NoSQL 과 유사하다.
+
+
+
+### Web Storage
+> Local Storage :브라우저에서 저장해서 지우지 않는한 절대 삭제가되지않는 저장소
+
+> SessionStorage: 현재 접속중인 브라우저에 해당하는 저장소로 접속이 종료되면 소멸된다.
+
+> Indexed DB: 자바스크립트 객체 형태로 저장 - NoSQL과 유사
+ - 기존에는 Cookie를 사용했는데 Cookie를 사용하게 되면 문자열만 저장할수있고 서버에게 매번 전송된다.
+     - 전송 여부를 클라이언트가 결정할 수 없다.!!
+            
+
+### 데이터 저장 과 가져오기 그리고 삭제
+- 스토리지.키이름 =데이터
+- 저장소에 데이터가 변경되면 window 객체에 storage 이벤트가 발생하고 이벤트 객체에는 key,oldValue,newValue,url,sotrageArea 같은 속성이 만들어진다.
+- Local Storage 는 전역변수 localStorage 로 사용할수있고 Session Storage는 session Storage 로 사용할수있다.
+- 저장된 내용을 확인하는 방법은 브라우저의 검사 창에서 application을 확인하면된다
+- 세션 스토리지 - 브라우저를 종료했을때 내용이 소멸되는지 와 현재 창에서 새창을 출력했을 때 내용이 복제가 되는지 확인
+- 로컬 스토리지 - id 저장을 구현하는데 브라우저를 종료하고 다시 연결했을 때 내용이 존재하는지 여부를 확인
