@@ -16,7 +16,7 @@
 - 대용량 연산 작업을 할 때는 직접 구현하지 않고 AWS의 Lambda 나<br/> Google Cloud Functions 같은 서비스를 이용하기도함.
 
 
-### 웹 서버 이외의 노드 test
+### 웹 서버 이외의 노드 
 - SPA(Single Page Application) : Angular, React, Vue
 - 모바일 앱 프레임워크 : React Native
 - 데스크 톱 애플리케이션 : Eeletron(Atom,slack,VSCode, 블록 체인 애플리케이션)등
