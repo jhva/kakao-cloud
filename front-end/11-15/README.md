@@ -59,3 +59,52 @@
 > File 을 읽고 쓰기 위한 API
 
 - input 타입의 file에 multiple 속성이 추가되서 이 속성의 값을 설정하면 여러 개의 파일을 선택하는것이 가능
+- 텍스트 파일을 읽을 때는 인코딩 설정에 주의해야한다.
+- 일반 파일을 읽을 때는 <strong>FileReader 객체를 생성 후 reader.readAsDataURL</strong> 을 호출후<br/> load 이벤트 와 err이벤트 처리
+    - load 는 전부 읽었을 때 FileReader 객체의 result에 읽은 내용을 저장
+    - error 이벤트는 읽기에 실패했을때 
+
+```javascript
+img.addEventListener("change",(e)=>{
+            //선택된 파일의 내용읽기. 비동기로 수행이됨
+            let render = new FileReader();
+            //파일의 선택여부를확인하고싶으면 
+            if(!img.files[0]){
+                //...
+
+            }
+            
+            render.readAsDataURL(img.files[0]);
+
+            //비동기여서 콜백을해야함 
+            render.addEventListener("load",()=>{
+                display.src=render.result;
+            })
+})
+```
+- javascript 는 0이 아닌 숫자이거나 null 또는 undefined가 아니면 true로 간주 
+
+
+### Drag And Drop API
+> 브라우저 내에서 사용할 수 도 있고 외부 프로그램 과 브리우저 사이에서도 사용할 수 있음
+
+- 외부 프로그램 과 사용할 때는 외부 프로그램에서 드래그를 하고 브라우저에 드랍을 해야한다.
+    - 파일을 첨부할 때 많이 사용
+
+
+
+### 브라우저에 데이터를 저장
+- 브라우저에 데이터를 저장하는 이유
+    - <b>불필요한 트래픽을 줄이기 위해서</b> 
+        - 매일 앱의 경우 매번 서버에 접속해서 서버의 데이터를 받아오는 것은 자원의 낭비가 될 수 있다.
+        - 맨 처음 접속 할 때는 데이터를 다운로드 받고 (파일의 존재 유무) 다음 부터는 마지막 업데이트 된
+        시간을 비교해서 <b> 양쪽의 시간이 다르면</b> 데이터가 수정된 것이므로 다운로드를 받고 양쪽의 시간이 같다면
+        업데이트 된 내용이 없으므로 다운로드를 받지 않도록 구현을 해야한다.
+
+- <b>offline(오프라인)상태에서도 데이터를 사용할 수 있도록 하기 위해서</b>
+
+
+### 브라우저에 데이터를 저장하는 방법
+- Web Storage: Map 형태로 저장 
+- Web SQL: 관계형 데이터베이스(SQlite3 - <b>외부에서는 접속이 불가능한 저용량 디비</b>) 이용 
+- Indexed DB: 자바스크립트 객체 형태로 저장 - NoSQL 과 유사하다.
