@@ -161,7 +161,7 @@ img.addEventListener("change",(e)=>{
 - 동일한 패턴의 데이터가 많은 경우는 로컬 스토리지 보다는 Web SQL 이나 Indexed DB를 권장함.
 
 
-# Web Worker
+# Web Worker - 처음 알게된 내용 (정훈)
 > JavaScript 를 이용해서 백그라운드 처리(스레드)
 - Javascript 에서는 Thread 표현 대신에 Worker 라는 표현을 사용
 - HTML 과 함께 있는 Javascript 코드에서 긴 작업을 수행하게 되면 작업이 끝날때까지 다른 작업을 수행할 수 없음(UI는 아무것도 할 수 없는 상태)
@@ -180,3 +180,84 @@ let 변수 = new Worker("자바스크립트 파일 경로") //워커는 별도�
 data는 data이고 error는 에러가 발생했을 때 에러에 대한 정보를 가진 객체이다.
 
 - 워커는 terminate()를 호출해서 중지가 가능
+
+### 계산작업을 대신수행해주는 워커를 생성
+
+- worker.html에서 1억번이상시 동작이 아무것도 실행이 안되어서 이때 <br/>
+worker.js파일을 하나 파일을 만들어 onmessage 함수로 data를 받은후 계산해서 postMessage<br/>에 인자로 결과를 전송해준다
+- 이후 worker를 호출할 파일을 생성 (맨처음에 만들었던 worker.html)
+
+
+```javascript 
+* worker.html
+
+ let num = document.getElementById("num");
+        let start = document.getElementById("start");
+
+        let worker;
+        start.addEventListener("click", () => {
+          if(worker){
+            //워커가 만들어져있으면 중지 
+            worker.terminate();
+          }
+          //워커 생성 
+          worker = new Worker("worker.js");
+          worker.postMessage(Number(num.value));
+          //워커가 결과전송시 
+
+          worker.onmessage=(e)=>{
+            //워커가 전송한 데이터 출력
+            alert("합계:"+e.data);
+          }
+        })
+
+// ==================================================================
+* worker.js
+
+//html에서 요청이 오면 
+onmessage = (event) => {
+    //html에서 전송한 데이터 받기
+    let num = event.data;
+    let result = 0;
+
+    for(let i =1; i<=num; i++){
+        result+=i;
+    }
+
+    postMessage(result);
+}
+```
+
+# Application Cache
+> 리소스의 일부분을 로컬에 저장하기 위한 기능
+
+- 사용하게되면 오프라인 브라우징이 가능해지고 리소스를 빠르게 로드할수있고 <br/>
+서버에 부하를 감소시킬수있다.
+
+    - css나 js 그리고 이미지파일등을 캐싱(눈으로보여지는 거에는 아무 변화가 없음.)
+
+
+# Communication
+
+### Web Push
+> server sent Events: 클라이언트의 요청 없이 서버가 클라이언트에게 전송하는 것
+- 주로 사용하는 기능 
+    - 알림 
+- Apple Server가 보내는 Push를 APNS(Apple Push Notification Service) 라고 하고 Google Server 가 보내는 Push를 FCM(Firebase Cloud Message)라고 한다.
+
+
+### Web Socket
+
+- 웹에서의 TCP통신 
+- 일반적인 Web 요청의 처리 방식은 Client 가 Server 에게 접속을 한 후<br/> 하나의 reqeust를 전송하고 그 request를 Server가 받으면 처리를 하고 response 를 Client에게 전송하고 접속이 끊어진다 .
+    - 연속되는 작업을 처리하기 위해서 Cookie(클라이언트의 브라우저에 저장) 와 Session(서버에 저장) 이라는 개념을 도입
+
+    - 일반적인 Web요청 (Http 나 Https)은 본문 이외에 헤더 정보를 같이 전송해야한다.
+        - 작은사이즈의 데이터를 보내는 경우 오버헤드가 너무크다.(트래픽이 낭비가 너무심해짐)
+    
+    - Web Socket을 이용하면 헤더가 거의 없기때문에 이러한 오버헤드를 줄일 수 있음
+        - 작은 양의 메시지를 자주 주고 받는 경우는 ajax나 Fetch API 보다는 Web Socket을 사용하는것을 권장
+        
+
+
+
