@@ -290,7 +290,7 @@ async 함수(){
 - required : 필수입력
 - maxlength : 최대 길이 
 - max,min : 최소 최대 값 - 숫자나 날짜에 사용
-- pattern: 정규 표현식 설정 가능 
+- pattern: 정규 표현식 설정 가능.
 
 
 ## Web Server
