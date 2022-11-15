@@ -128,3 +128,55 @@ img.addEventListener("change",(e)=>{
 - 저장된 내용을 확인하는 방법은 브라우저의 검사 창에서 application을 확인하면된다
 - 세션 스토리지 - 브라우저를 종료했을때 내용이 소멸되는지 와 현재 창에서 새창을 출력했을 때 내용이 복제가 되는지 확인
 - 로컬 스토리지 - id 저장을 구현하는데 브라우저를 종료하고 다시 연결했을 때 내용이 존재하는지 여부를 확인
+
+```javascript
+   let loginform = document.getElementById("loginform");
+        let loginId = document.getElementById("id");
+        let pw = document.getElementById("pw");
+        let loginIdSave = document.getElementById("idsave");
+
+        //form 의 데이터를 전송할 때 (submit)
+        loginform.addEventListener("submit", () => {
+            //체크 여부확인
+            if (loginIdSave.checked === true) {
+                // 로컬스토리지에 저장
+                localStorage.loginId = loginId.value;
+            } else {
+                delete localStorage.ids
+                    
+            }
+        })
+          //메모리 로드가 끝나면 ids ㅇ저장되어있으면 가져오기 
+        window.addEventListener("load", () => {
+            if (typeof localStorage.loginId != 'undefined') {
+                loginId.value = localStorage.loginId;
+                loginId.checked = true;
+            }
+        })
+```
+
+- 로컬스토리지는 보안이 중요하지않은 많은 양의 데이터를 저장하는데 용이하다
+    - 예를 들어서 장바구니 구현이나 아이디 저장에 유용하게 사용할 수 있습니다.
+
+- 동일한 패턴의 데이터가 많은 경우는 로컬 스토리지 보다는 Web SQL 이나 Indexed DB를 권장함.
+
+
+# Web Worker
+> JavaScript 를 이용해서 백그라운드 처리(스레드)
+- Javascript 에서는 Thread 표현 대신에 Worker 라는 표현을 사용
+- HTML 과 함께 있는 Javascript 코드에서 긴 작업을 수행하게 되면 작업이 끝날때까지 다른 작업을 수행할 수 없음(UI는 아무것도 할 수 없는 상태)
+- Web Worker 는 UI변경을 하지 못하고 DOM 객체 제어를 할 수 없지만 localStorage 와 XMLHttpRequest(ajax) 사용은가능 
+- 사용방법 
+```javascript
+//web worker 생성
+let 변수 = new Worker("자바스크립트 파일 경로") //워커는 별도의 스크립트 파일에 만들어야함.
+
+//worker 와 브라우저 사이의 메시지 전송
+워커변수.postMessage("메시지")=> 워커에서는 MESSAGE이벤트가 발생함
+워커 파일에서는 postMessage("메시지")=> 워커 변수에 message가 발생함
+```
+- sendMessage는 바로 처리해달라는 요청이고 postMessage는 다른 작업이 없으면 처리해달라고 하는 요청입니다.
+- message이벤트가 발생하게되면 매개변수에 data와 err를 가진 객체가 전달됨.<br/>
+data는 data이고 error는 에러가 발생했을 때 에러에 대한 정보를 가진 객체이다.
+
+- 워커는 terminate()를 호출해서 중지가 가능
