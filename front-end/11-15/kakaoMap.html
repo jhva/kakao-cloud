@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+</head>
+
+<body>
+    <!-- cbbf1a10c1b628ba2a8f1b0486d1e4ec -->
+    <div id="map" style="width:500px;height:400px;"></div>
+
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cbbf1a10c1b628ba2a8f1b0486d1e4ec"></script>
+    <script>
+
+        navigator.geolocation.getCurrentPosition((pos) => {
+            //위치정보
+            var container = document.getElementById('map');
+
+            var options = {
+                center: new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+                level: 2
+            };
+            var map = new kakao.maps.Map(container, options);
+            var markerPosition = new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+
+            // 마커가 지도 위에 표시되도록 설정합니다
+            marker.setMap(map);
+        }, (err) => {
+            //error
+        }, {
+            //options
+        });
+
+
+
+
+    </script>
+
+</body>
+
+</html>

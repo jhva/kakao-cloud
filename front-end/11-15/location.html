@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        navigator.geolocation.watchPosition((pos) => {
+                //위도 경도 출력 
+            alert("위도쓰:"+pos.coords.latitude+"\n"+"경도쓰:"+pos.coords.longitude);
+        }, (err) => {
+            //실패했을때
+            alert(err.code);
+         })
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
