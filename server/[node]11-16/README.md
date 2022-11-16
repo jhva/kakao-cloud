@@ -343,7 +343,8 @@ for (let i = 0; i < 1000000; i++) {
 file.end();
 ```
 
-### 비교 stream 쓸때와 안쓸때 
+### 파일의 크기만큼 필요(비교) stream 쓸때와 안쓸때 
+> 스트림을 사용한 복사는 : 파일의 내용을 잘라서 읽기 때문에 파일의 크기만큼의 메모리가 추가로 필요하지않다.
 - chunk :짤라서 처리한다라고생각하자
 - stream: 나눠서 처리한다고 생각하자
 
@@ -386,4 +387,46 @@ readStream.on('end', () => {
 //복사하기 후 메모리 사용량:38461440
 ```
 
+### 기타 함수 
+> 아래와 같은 함수들의 콜백은 에러 객체를 넘겨받고 , <br/>
+에러 객체가 존재하면 에러가 발생한 것이고 그렇지 않으면 에러가 발생하지 않은것
 
+- access(경로,옵션,콜백) : 디렉토리나 파일에 접근할 수 있는지를 확인
+- mkdir(경로,콜백) : 경로를 생성
+- open (경로,옵션,콜백) : 경로의 파일을 열고 아이디를 리턴하는데 파일이 없으면 생성
+- rename(기존 경로,새 경로, 콜백): 이름 변경    
+- unlink (경로,콜백) : 파일 지우기 
+- rmdir(경로,콜백) : 디렉토리 삭제
+
+
+```javascript
+* 기타 함수 사용
+
+let today = new Date();
+
+console.log(today)//오늘날짜
+console.log(today.getFullYear());
+console.log(today.getMonth() + 1); //월은 꼭 찍어야함 결과가 10월이기때문에 +1을꼭해주자
+console.log(today.getDate());
+
+let year = String(today.getFullYear());
+let month = String(today.getMonth() + 1);
+let day = String(today.getDate());
+
+const completeToday = year + month + day; // result : 20221116
+
+//오늘 날짜로 된 디렉토리가 없으면 생성
+const fs = require('fs');
+
+fs.access(completeToday, (err) => {
+    if (err) {
+        console.log("디렉토리 없다")
+        fs.mkdir(completeToday, (err) => {
+            if (err) { console.log("디렉토리 만들기 실패") }
+            else { console.log("디렉토리 만들기 성공") }
+        })
+    } else {
+        console.log("디렉토리 존재");
+    }
+})
+```
