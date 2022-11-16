@@ -134,3 +134,49 @@ console.log(path.join(__dirname,"public"))
 - createHash(알고리즘) : 사용할 알고리즘 설정
 - update(문자열) : 변환할 문자열을 설정
 - digest(인코딩 방식): 인코딩할 알고리즘을 설정하는데 주로 base64를 많이사용 
+- createCipheriv(알고리즘,키,초기화벡터) : 양방향 암호화 객체 생성
+    - 암호화 객체.update(암호화 할 문자열 ,문자 인코딩 방식(utf-8), 출력 인코딩 방식(base64)):문자열이 리턴
+    - 암호화 객체.final(출력 인코딩 방식): 암호화완료
+
+- createDeccipheriv(알고리즘,키,초기화 벡터) : 양방향 복호화 객체 생성
+    - 암호화 할 때 사용한 것을 그대로 대입
+
+```javascript
+//암호화모듈
+const crypto = require("crypto");
+//단방향
+let pw = "1234";
+
+let result1 = crypto.createHash("sha256")
+    .update(pw).digest('base64');
+
+console.log(result1);
+
+
+
+//암호화 모듈 가져오기 
+
+const algorithm = "aes-256-cbc";
+//node의 crypto 모듈에서는 key는 32자리 iv는 16자리
+const key = "12345678901234567890123";
+const iv = "1234123412341234";
+
+
+//암호화 객체 생성
+
+let cipher = crypto.createCipheriv(algorithm,key,iv);
+let rst = cipher.update('01047978158','utf8','base64');
+rst +=cipher.final('base64');
+console.log(rst);
+//rst = 암호화 
+
+//복호화 
+let decipher = crypto.createDecipheriv(algorithm,key,iv);
+let decipherResult = decipher.update(rst,'base64','utf8');
+decipherResult+=decipher.final('utf8');
+console.log(decipherResult,"원본");
+//decipherResult = 01047978158
+
+```
+
+갔다와서 미러링해보기 
