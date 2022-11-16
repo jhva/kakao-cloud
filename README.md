@@ -9,7 +9,7 @@
 
 
 
-# 메모 
+# 정훈 메모 
 
 
 ## 클라우드 컴퓨팅 ?
@@ -25,7 +25,6 @@
 ### Sass(software as a service) 사스란 ?
 > 클라우드를 통해 제공되는 소프트웨어로 별도의 설치나 전환 과정 없이 퍼블릭 클라우드에 설치되어 있는 애플리케이션, 서비스를 인터넷을 통해 제공받는 것을 말한다. 구글, 마이크로소프트, 어도비 등 과거 설치형 서비스가 Saas 서비스로 변화하고 있다. 참고
 
-# 정훈 메모 
 
 ### vscode 단축기 찾아본것들 
 - https://inpa.tistory.com/entry/VS-Code-%E2%8F%B1%EF%B8%8F-%EC%9C%A0%EC%9A%A9%ED%95%9C-%EB%8B%A8%EC%B6%95%ED%82%A4-%EC%A0%95%EB%A6%AC
@@ -38,6 +37,9 @@
 ### 깃헙 토큰 저장하기 
 - https://velog.io/@jini_eun/Github-2021%EB%85%84-8%EC%9B%94-13%EC%9D%BC%EB%B6%80%ED%84%B0-%ED%86%A0%ED%81%B0-%EC%9D%B8%EC%A6%9D-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%B3%80%ED%99%94 참고함
 
+### git mirror 해보기 (정훈)
+- git remote set-url --push origin 신규 URL 적기 
+- git push --mirror 
 
 ## Cookie 
 

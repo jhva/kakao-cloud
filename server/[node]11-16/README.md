@@ -176,7 +176,92 @@ let decipherResult = decipher.update(rst,'base64','utf8');
 decipherResult+=decipher.final('utf8');
 console.log(decipherResult,"원본");
 //decipherResult = 01047978158
-
 ```
 
-갔다와서 미러링해보기 
+### util 모듈
+> 여러가지 편의 기능을 모아둔 모듈
+- util.promisify : 콜백 패턴을 Promise 패턴으로 변경
+
+### worker_threads 모듈
+- html5 에서 Web Worker 라는 스레드 관련 API가 추가됨 
+    - Web Worker 를 사용하기 쉽도록 해주는모듈
+- Node는 14버전까지는 싱글 스레드 기반 
+    - 하나의 스레드만 만들어서 사용자의 요청을 순서대로 처리
+
+- 14버전 이후 멀티스레드 를 지원
+    - express 모듈이나 웹 서버를 만들면 멀티 스레드 형식으로 사용자의 요청을 처리해준다.
+
+- child_process 모듈
+    - 다른 프로세스 를 실행하는모듈
+
+
+```javascript 
+const os = require('os');
+let pos = os.type().toLocaleLowerCase().indexOf("linux")
+if(pos>=0){
+    console.log("linux")
+}else{
+    console.log("windows아님")
+}
+
+console.log(os.type());
+//운영체제 확인
+
+//========================================================================
+
+//다른 프로세스를 실행할 수 있는 모듈을 가져오기
+const exec = require('child_process').exec;
+const os =require("os");
+console.log(os.platform());
+
+//프로세스 준비
+//widows에서는 dir 이 디렉토리의 목록을 확인하는 것이다
+// notepade.exe 는 메모장  
+// let process = exec('notepad.exe cryption.js');
+let process = exec('ls');
+
+
+// 프로세스가 정상적으로 수행되면
+process.stdout.on('data', function (data) {
+    console.log(data.toString());
+})
+
+//수행되지 않으면
+process.stderr.on('data', function (data) {
+    console.log(data.toString());
+})
+```
+
+- 문자열을 비교할 때는 일치하는 것을 찾는 경우보다는 포함된 경우를 찾는경우가 많다
+    -<b> 이런경우에 indexOf 를 이용할수 있는 indexOf는 포함된 경우에는 시작 위치를 그렇지 않은경우엔 음수를리턴</b>
+
+
+## 파일 시스템 
+- 파일 읽고 쓰기
+- 파일을 읽고 쓰기 위한 모듈은 fs
+
+### 파일읽기
+- fs.readFile('파일경로',[options],콜백함수): 비동기 방식으로 읽음
+    - 콜백함수는 매개변수가 두개인데 첫번째 매개변수는 에러가 발생했을때 에러 내용을 가지고 있고 <br/>
+    두번째 매개변수가 읽기에 성공했을 때 읽어낸 데이터
+
+- fs.readFileSync('파일경로',[options]): 동기식으로 읽어내고 읽어낸 데이터를 리턴
+
+### Buffer
+- buffer: 데이터를 저장하기 위한 메모리
+- buffering: 데이터를 한꺼번에 처리하기 위해서 데이터를 모으는 작업
+- readfile: 이라는 함수는 읽어내고 난 후 Buffer 객체를 리턴
+    - Buffer 객체에는 크기를 알려주는 length속성 그리고 문자열을 buffer<br/>
+    로 변경하는 from 함수 나 Buffer 의 내용을<br/> 문자열로 변환하는 toString 함수등이 포함되어있다.
+
+### 동기적으로 읽기
+> 변경 가능하거나 변하지 않는 중요한 문자열은 파일이나 데이터베이스에 저장하고 읽는 방식을 사용
+
+- 텍스트파일을 추가하고 샘플 데이터를 작성 -textRead.txt
+
+
+
+
+- 운영 환경과 개발 환경이 다른 경우 소스 코드를 수정하게 되면 <br/> 컴파일을 다시하고 빌드를 다시해야한다.
+
+- 클라이언트에 배포하는 프로그램을 만든 경우라면 대부분의 언어는 역 어셈블이 가능(자바)
