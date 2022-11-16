@@ -265,3 +265,125 @@ process.stderr.on('data', function (data) {
 - 운영 환경과 개발 환경이 다른 경우 소스 코드를 수정하게 되면 <br/> 컴파일을 다시하고 빌드를 다시해야한다.
 
 - 클라이언트에 배포하는 프로그램을 만든 경우라면 대부분의 언어는 역 어셈블이 가능(자바)
+
+
+### 비동기적 파일읽기
+
+```javascript
+fs.readFile('./textRead.txt', (error, data) => {
+    console.log(data.toString());
+    if(error){
+        console.log(error.message)
+    }
+})
+console.log("파일읽기 ")
+
+//result ::
+// 파일읽기
+// ...data.toString() <= 결과
+
+```
+
+## Stream
+> 데이터의 흐름
+- 데이터를 일정한 크기로 잘라서 여러 번에 나누어서 처리
+    - 용량이 큰 파일을 한 번에 읽어낼려고 하면 버퍼의 크기가<br/>
+    커져서 메모리 부담이 생기게되므로  작게 잘라서 처리하는 것을 <br/>
+    chunk라고 함.
+        - <b>로그 파일을 읽을 때 이런방식을사용함.</b>
+- 스트리밍 : 일정한 크기의 데이터를 지속적으로 전달하는 작업
+    - fs모듈 :createReadStream 메서드나 <br/> createWriteStream 메서드를 이용해서 스트림을생성
+        - 파일 경로 와 highWaterMark 옵션을 이용해서 버퍼의 크기를 설정
+    - 읽기 스트림의 경우는 <br/>data(하나의 버퍼를 읽었을 때 발생),end(읽기 끝났을 때 발생) error(에러발생) 이벤트를 처리
+
+    - 쓰기 스트림의 경우는 drain,finish,error 이벤트를 처리.
+
+### Stream을 이용한 읽기
+
+```javascript
+//스트림을 이용한 읽기방법
+const readStream = fs.createReadStream("./textRead.txt", { highWaterMark: 16 });
+
+// 데이터를 저장하기 위한 객체를 생성
+const streamData = [];
+
+//읽는 동안 발생하는 이벤트를 처리
+readStream.on('data', (chunk) => {
+    //읽는 동안에는 읽어온 데이터를 추가
+    streamData.push(chunk);
+
+})
+
+//읽기 끝나면 발생하는 이벤트를 처리
+readStream.on('end', () => {
+    //지금 까지 읽은 내용을 하나로 만들기 
+    let endData = Buffer.concat(streamData);
+    console.log(endData.toString())
+
+})
+
+//에러가  발생하는 이벤트를 처리
+readStream.on('error', (err) => {
+    console.log(err.message);
+})
+```
+
+
+### 용량이 큰 Stream 파일을 생성
+
+```javascript
+const fs = require('fs');
+// 여ㅛㅇ량이 큰 파일을 생성
+
+const file = fs.createWriteStream('./data.txt');
+
+for (let i = 0; i < 1000000; i++) {
+    file.write("용량이 큰 파일 만들기 \n")
+}
+file.end();
+```
+
+### 비교 stream 쓸때와 안쓸때 
+- chunk :짤라서 처리한다라고생각하자
+- stream: 나눠서 처리한다고 생각하자
+
+```javascript 
+
+//스트림을 사용하지 않고 읽어서쓰기
+
+const fs = require('fs');
+
+console.log("복사하기 전 메모리 사용량"+process.memoryUsage().rss);
+
+const detail1 = fs.readFileSync('./data.txt');
+fs.writeFileSync('./normal.txt',detail1);
+
+
+console.log('복사하기 후 메모리 사용량:'+process.memoryUsage().rss);
+
+//복사하기 전 메모리 사용량17940480
+//복사하기 후 메모리 사용량:50483200
+
+//====================================================================================
+
+// 스트림을 이용한 복사
+
+
+const fs = require('fs');
+
+console.log("복사하기 전 메모리 사용량" + process.memoryUsage().rss);
+
+const readStream = fs.createReadStream('./data.txt');
+const writeStream = fs.createWriteStream('./asdf.txt');
+
+//읽고 쓰삼
+readStream.pipe(writeStream);
+readStream.on('end', () => {
+    console.log('복사하기 후 메모리 사용량:' + process.memoryUsage().rss);
+})
+
+//복사하기 전 메모리 사용량17940480
+//복사하기 후 메모리 사용량:38461440
+```
+
+
