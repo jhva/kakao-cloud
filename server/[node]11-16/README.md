@@ -430,3 +430,155 @@ fs.access(completeToday, (err) => {
     }
 })
 ```
+
+
+## ThreadPool
+>pool: 만들어서 모아 놓은 것
+- pool은 서버에서 사용
+
+- server : 요청을 처리하고 응답을 전송하는 쪽, 속도 나 효율을 중요시
+    - 자주 사용되는 것들은 미리 만들어두고 사용을 바로 할 수 있도록 해야한다.
+- client : 요청을 전송하고 응답을 출력하는 쪽, 신뢰성이나 가용성을 중요시함.
+    - 신뢰성 이나 가용성을 중요시, 메모리 효율을 높여야 하기 때문에<br/> 사용하기 직전에 만드는 것을 권장함
+
+### Thread
+> 작업 도중 다른 작업을 할 수 있도록 하는 작업의 단위
+
+- 독자적으로 실행할 수 없음
+     - 독자적으로 실행이 가능한 단위는 Process
+     - Thread는 Process안에 존재하는 실행 단위
+
+- nodejs 에서는 몇몇 작업에 한해서는 ThreadPool을 이용해서 처리
+    - fs,crypto,zlib,dns,lookup 등 
+    
+- 비동기 나 스레드 형태로 처리를 하는 작업들은 일반적으로 오랜시간이 걸린 작업들
+    - 노드에서는 4개의 스레드를 만들어두고 활용을 한다.
+    - 노드에서 파일을 비동기적으로 읽거나 암호화를 하게되면 순서대로 처리가 안되는 경우가많다.
+
+```javascript
+const crypto = require('crypto');
+
+const pass = 'pass';
+const salt = 'salt';
+
+const start = Date.now();
+
+crypto.pbkdf2(pass, salt, 1000000, 128, 'sha512', () => {
+        console.log("1", Date.now() - start);
+
+})
+
+crypto.pbkdf2(pass, salt, 1000000, 128, 'sha512', () => {
+    console.log("2", Date.now() - start);
+
+})
+
+crypto.pbkdf2(pass, salt, 1000000, 128, 'sha512', () => {
+    console.log("3", Date.now() - start);
+
+})
+
+crypto.pbkdf2(pass, salt, 1000000, 128, 'sha512', () => {
+    console.log("4", Date.now() - start);
+
+})
+
+crypto.pbkdf2(pass, salt, 1000000, 128, 'sha512', () => {
+    console.log("5", Date.now() - start);
+
+})
+
+crypto.pbkdf2(pass, salt, 1000000, 128, 'sha512', () => {
+    console.log("6", Date.now() - start);
+
+})
+crypto.pbkdf2(pass, salt, 1000000, 128, 'sha512', () => {
+    console.log("7", Date.now() - start);
+
+})
+crypto.pbkdf2(pass, salt, 1000000, 128, 'sha512', () => {
+    console.log("8", Date.now() - start);
+
+})
+//다찍었을때 
+//nodejs 는 쓰레드를 4개밖에 사용을못하는데 
+// 8개를 다 찍었을경우 4개찍히고 시간이 걸린후 4개가 찍힌다.
+```
+
+
+## Node 이벤트 처리 
+
+### 이벤트 연결
+
+- 객체.on
+- 객체.once
+
+### 이벤트 삭제
+- 객체.removeEventListener("이벤트일므",함수)
+- 객체.removeAllEventListener
+
+### 이벤트 강제 발생
+- 객체.emit("이벤트이름")
+
+### 이벤트에 10개 이상이 함수를 연결하고자 하는 경우
+- 기본적으로 에러인데 객체.setMaxListeners(개수)를 호출하면 개수만큼 연결이 가능
+
+```javascript
+//javascript 기존 이벤트 발생
+객체.addEventListener("이벤트이름",함수);
+
+//node 기본 ? 
+객체.on("이벤트이름",함수);
+
+//이벤트가 처음 발생할 때 만 함수를 수행하고 다음부터는 함수를 수행하지않음.
+객체.once("이벤트이름",함수);
+
+
+//함수만제거 
+객체.removeEventListener("이벤트일므",함수)
+
+//모든 함수가 제거되는것
+객체.removeAllEventListener("이벤트이름");
+
+//이벤트 강제 발생
+객체.emit("이벤트이름")
+
+//이벤트에 10개 이상이 함수를 연결하고자 하는 경우
+기본적으로 에러인데 객체.setMaxListeners(개수)를 호출하면 개수만큼 연결이 가능
+```
+
+### 예외처리 
+> 예외가 발생하게 되면 프로그램이 중단되지만,<br/> <b>서버는 아주 중요한 예외가 아니라면 프로그램이 중단되면 안된다.</b>
+
+- 서버프로그래밍에서는 대다수의 코드를 예외 처리 구문 안에 삽입을 해서 <br/>
+예외가 발생하면 예외를 기록하고 계속 작업을 수행해야함.
+
+- 학습을 할 때는 catch 블럭에서 예외를 확인하는 코드를 작성하지만 실무에서는 예외를 기록하고 알림을 준다.
+
+```javascript
+try{
+    //예외 발생 가능성이 있는 코드
+}catch(예외 객체){
+    //예외가 발생했을 때 수행할 내용
+}finally{
+    //예외 발생 여부에 상관없이 수행할 동장
+}
+//catch 와 finally 중 하나는 생략 가능합니다.
+```
+
+### 예외처리의 목적 
+- 예외가 발생하더라도 계속 동작하기 위해서
+- 예외를 로깅하기 위해서 
+
+### 예외 객체의 멤버 
+- name: 예외이름
+- message: 예외에 대한 설명
+
+### 강제로 예외 발생
+- throw new Error("예외 메시지");
+
+### 노드에서 예외가 발생해도 예외처리를 하지 않아도 되는 경우
+- <b>콜백 함수의 매개변수가 예외 객체 인 경우는 예외처리를 하지 않아도 된다.</b>
+    - 이유는 이미 예외처리 구문으로 감싸져있고 예외 객체를 넘겨주기때문에 <br/>
+    예외 객체의 존재여부를 가지고 예외 발생 여부를 판단해서 작업을 시도하기때문에
+ 
