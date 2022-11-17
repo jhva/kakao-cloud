@@ -13,5 +13,5 @@
 
 ## 참고 정훈 
 
-
-- https://asource.tistory.com/5
+### package.json 에대한내용
+- https://asource.tistory.com/5 

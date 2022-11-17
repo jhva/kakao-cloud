@@ -390,3 +390,127 @@ app.get('/index',(req,res)=>{
 })
 
 ```
+
+
+### 응답 객체 - response 객체
+
+- response.cookie(키,값,옵션) : 쿠키생성
+- response.clearCookie(키,값,옵션): 쿠키 삭제
+- response.end() :데이터 없이 응답을 보냄 
+- response.json(JSON 문자열) : JSON 형식으로 보냄
+- response.redirect(URL): 리다이렉트할 URL
+- response.render(뷰이름,데이터) : 템플릿 엔진을 이용해서 서버의 데이터를 html 에 출력하고자 할때 사용 
+    - 이를 서버렌더링이라고 한다.
+- response.send(메시지) : 메시지를 화면에 출력
+- response.sendFile(파일 경로): 파일을 읽어서 화면에 출력
+- response.set(헤더이름, 값) : 헤더를 설정
+- response.status(코드) : 응답 코드 설정
+
+
+### Forwarding
+> 현재 흐름을 유지한채 이동한 것으로 URL이 변경되지 않는다.node에서 html을 출력할때 기본
+- forwarding은 조회 작업에 사용하고 그 이외의 작업은 redirect를 해야한다.
+- 새로고침을 했을때 작업이 다시 이루어진다.
+
+### Redirect
+> 현재 흐름을 끊어 버리고 이동하는 것으로 URL이 변경된다.
+- 새로고침 할 때 결과만 새로 고침이 된다.
+
+
+# Forwarding 와 Redirect
+> 서버에서 화면을 만들 때만 의미를 갖음, API server를 만드는 경우에는 해당 사항 없음
+- 새로 고침을 가지고 판단하는 것이 좋다
+    - 대부분의 경우 조회는 forwarding을 해야 하지만 트래픽을 줄이고자 할때는 조회도 redirect하기도한다. 
+        - 삽입, 삭제, 갱신은 반드시 redirect를해줘라
+
+### dotenv(.env)
+> .env 파일을 읽어서 process.env 로 생성해주는 패키지입니당
+- .env 파일에 작성한 내용을 소스 코드에서 process.env 객체를 이용해서 사용가능하도록 하는 패키지
+
+- 프로젝트를 만들게 되면 프로젝트 내의 파일은 2가지로 분류된다
+    - 하나는 소스 코드고 다른하나는 소스코드 이외의 자원이다
+    - 자원을 읽어서 사용하는 것이 소스 코드를 실행을 위한 코드이다.
+
+- 코드가 실행되는 과정
+    - 1.소스코드 
+    - 2.컴파일해서 운영체제나 Virtual Machine이 이해할 수 있는 코드로 변경(이상황에서 에러가 발생하면 문법오류)
+    - 3.컴파일이 끝나고 나면 번역된 파일들을 실행할 수 있도록 작업을 한다. 이 작업을 build라고 함.
+    (이 과정에서 에러가 발생하면 구조를 잘못만든것)
+    - 실행
+    - 실제 배포를 할 때는 소스 코드를 배포하는 것이 아니고 빌드 된 내용을 배포한다.
+    - 소스 코드를 수정하면 컴파일 과 빌드를 다시 해야한다.
+    - 소스 코드를 되도록 수정하지 않고 업데이트 하거나 환경을 변경하는 것이 가능하도록 
+    프로그램을 제작하는 것이 바람직하다.
+- 환경의 변화(개발 환경, 운영 환경, 테스트 환경) 
+    - 변경되는 설정을 별도의 텍스트 파일에 만들어두면 환경이 변경될 때 텍스트 파일의 내용만
+    변경하면 되기 때문에 컴파일이나 빌드를 다시 할 필요가 없어진다.
+
+## Middle Ware
+> <b>사용자의 요청이 발생하고 서버가 요청을 처리하고 응답을 전송하는 시스템에서<br/> 요청을 처리하기 전이나 후에 동작할 내용을 수행하는 객체를 Middle Ware라고 부른다 </b>
+
+- 일반적으로 요청을 처리하기 전에 수행하는 일은 필터링
+    - 필터링을 할 때는 유효성 검사 작업 과 로그인 확인 작업이 대표적이다.
+
+- 요청을 처리한 후 수행하는 일은 변환이다.(래핑한다라고 부름)
+
+- node에서는 app.use(미들웨어) 형태로 장착을함.
+
+```javascript
+app.use(미들웨어) : 모든 요청에서 미들웨어가 동작
+app.use(url,미들웨어): url에서만 미들웨어가 동작
+```
+- 현재 미들웨어에서 다음 미들웨어로 넘어가는 함수 
+    - next()
+
+### morgan
+> 로그를 기록해주는 미들웨어
+- morgan(format,options) 로 사용
+    - format 
+        - dev - 개발용 ,배포를 할땐 모두 삭제됨.
+        - tiny 
+        - short
+        - common
+        - combined
+    - options
+        - immediate: response에 기록하는 것이 아니고 request 에서 기록(에러가 발생해도 기록됨)
+        - skip :로깅을 스킵하기 위한 조건을 설정
+        - stream () : 기본적으로 로그는 화면에 출력되지만 파일에 출력하고자 할 때 사용
+- 로그 파일을 생성해주는 패키지 
+
+```
+npm install file-stream-rotator
+```
+- 위 패키지를 이용하면 주기적으로 파일을 생성해서 로그를 기록하는 것이 가능
+
+- 로그형식 
+    - HTTP 요청방식 요청 URL 상태코드, 응답속도 트래픽
+        - 조금 ㅡ더 자세한 로그를 원하는 경우에는 winston 패키지를 사용
+
+## 날짜 별로 로그 파일에 로그를 기록
+- 패키지 설치 : morgan, file-stream-rotator
+- app.js 파일에 추가
+
+```javascript
+//일단위 로그 기록을 위한 설정
+const morgan = require('morgan');
+const FileStreamRotator = require('file-stream-rotator');
+
+// 내장 모듈
+const fs = require('fs');
+
+//로그 파일을 저장할 디렉토리 생성
+const logDirectory = path.join(__dirname, 'log')
+//디렉토리 존쟁 ㅕ부를 확인하고 없으면 생성
+//항상 or 는 앞에있는게 true면 하고 false면 뒤에껄한다.
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+
+//일단위 로그 기록 설정
+const acessLogStream = FileStreamRotator.getStream({
+    date_format: 'YYYY-MM-DD',
+    filename: path.join(logDirectory, 'access-%DATE%.log'),
+    frequency: 'daily', //일별로 만들어주는것 일별 주별 월별 시간별로 다만들수있다고함.
+    verbose: true
+})
+
+app.use(morgan('combined', { stream: acessLogStream }));
+```
