@@ -269,3 +269,124 @@ response.writeHead(코드,{'set-Cookie':'쿠키이름=값'})의 형태로
 > CPU 코어를 전부 사용할 수 있도록 해주는 모듈
 - 여러 개의 연산을 동시에 수행할 수 있도록 해주는 모듈
     - 직접 서버 설정을 한다면 사용을 하지만 최근처럼 Cloud를 사용하는 경우엔 직접 설정하지않는다.
+
+### Express 모듈을 이용한 웹 서버 생성 및 실행
+
+- express 모듈
+    - 내장 모듈이 아님 : 설치가 필요
+    - http 모듈을 가지고 웹 서버를 만들 수 있는데 가독성이 떨어지고 확장성이 떨어짐.
+    - http 모듈 보다는 코드 관리가 용이하고 편의성이 높은 모듈
+
+
+### Express 패키지 설치 
+- express(웹 서버 제작을 위한 모듈), nodemon(소스 코드를 수정하면 자동으로 재시작되도록 해주는 모듈)
+```
+npm install express
+npm install --save-dev nodemon
+```
+
+### pcakge.json 파일의 설정을 수정
+- package.json main 시작파일의 이름을 설정
+- scripts 속성에 "start":"nodemon app"이라는 태그를 추가
+
+```
+ "start":"nodemon app", 
+
+main 파일이름이 app 이면 start 맨끝에도 app
+index 라하면 nodemon index
+```
+
+### Express web server 의 기본틀 
+```javascript
+const express = require('express') //모듈 가져오기
+
+const app = express(); //웹 서버 인스턴스 생성
+
+// 사용자의 요청을 처리하는 코드 작성 
+
+app.set('port',포트번호); //포트 설정
+app.listen(app.get('port'),()=>{
+    //서버가 정상적으로 구동되었을 때 수행할 내용 
+    //일반적으로는 콘솔에 메시지를 출력
+})
+
+```
+
+### 사용자의 요청을 처리하는 함수의 종류
+> 요청 방식에 맞게 함수를 적용
+- app.get
+- app.post
+- app.delete
+- app.put
+- app.patch
+- app.options
+
+
+### 함수의 매개변수
+
+- 첫번째는 url
+- 두번째는 2개의 매개변수를 갖는 콜백 함수인데, 콜백 함수로 이 함수가 url 요청이 왔을때 호출.
+    - 첫번째 매개변수는 사용자의 요청 객체(request)
+    - 두번째 매개변수는 사용자에게 응답을 하기 위한 (response)
+
+### 사용자에게 응답
+
+- 직접 작성: response.send(문자열)
+    - <b>html파일을 출력하고자할땐 response.sendFile('html파일경로')</b>
+
+### 웹 서버 만들기 
+- 출력할 html 파일을 1개 생성
+- https://p-iknow.netlify.app/node-js/path-moudle/ 참고하자 __dirname
+
+```javascript
+const express = require('express') //모듈 가져오기
+
+const path = require('path');//현재 디렉토리에 대한 절대 경로를 알아내기 위한 내장 모듈
+
+const app = express(); //웹 서버 인스턴스 생성
+
+// 사용자의 요청을 처리하는 코드 작성 
+
+app.set('port', 8000); //포트 설정
+
+
+app.get('/',(req,res)=>{
+    res.sendFile(path.join(__dirname,'/mypage.html'));
+    //__dirname -> 현재 디렉토리에 있는 main.html을 출력
+})
+
+app.listen(app.get('port'), () => {
+    console.log(app.get('port')+`이 연결되었습니다`)
+    //서버가 정상적으로 구동되었을 때 수행할 내용 
+    //일반적으로는 콘솔에 메시지를 출력
+})
+```
+
+### 요청 객체 - request 객체
+> 클라이언트의 요청 정보를 저장하고 있는 객체
+    - request.app : app 객체에 접근
+
+- request.body : body-parser 미들웨어가 만드는 요청의 본문을 해석한 객체
+    - post 나 put요청이 왔을 때 파라미터 읽기
+- request.cookies: 쿠키 정보를 가지는 객체
+- request.ip : 요청을 전송한 클라이언트의 ip 정보 
+    - <b>ip를 알면 접속한 국가를 알 수 있다 </b>
+    - 어떤 컴퓨터에서 접속했는지 알 수 있음 .
+
+- request.params : 라우터 매개변수에 담긴 정보
+- request.query: query string - get이나 delete 요청에서 파라미터 읽기
+- reqeust.get(헤더이름) : 헤더의 값 가져오기, 인증에서 많이 사용 
+    - 최근에는 API 사용 권한을 토큰을 이용해서 발급하고 토큰의 값을<br/>
+    헤더에 저장해서 전송하도록 만드는 경우가 많다.
+- request.signedCookies: 서명된 쿠키 정보
+- request.session: 세션 객체
+
+```javascript
+app.get('/index',(req,res)=>{
+    console.log(req.ip);//결과->   ::1  이건 루프백이라고 부르고 자기자신의 ip라는걸호출
+    console.log(req.query); 
+    // http://localhost:8000/index?name=adam
+    // 이라고했을경우 //  { name: 'adam' }
+})
+
+```
