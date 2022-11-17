@@ -45,6 +45,9 @@ npm init 명령만 다시 수행하면 패키지들이 전부 설치 된당.
 
 ### Express 
 > 웹 애플리케이션 서버를 만들어주는 패키지  (npm install express)
+```
+npm install express 서버를 만들어주는 패키지 
+```
 
 - Web Server :다른곳에서 URL을 이용해서 사용할 수 있도록 해주는 서버
     
@@ -53,4 +56,216 @@ npm init 명령만 다시 수행하면 패키지들이 전부 설치 된당.
 - Application Server: 작업을 해주는 서버 
 
 
+### 패키지 버전 
+> 3자리로 구성
+- Major Version 
+    - <b>변경된 경우엔</b> 하위 버전과 호환이 안될 수 있음
+- Minor Version
+    - <b>기능이 변경된 경우</b>
+- Patch
+    - <b>오류를 수정했을 때 변경</b>
 
+
+### npm 관련 명령어
+- npm uninstall 삭제할패키지이름
+    - 패키지 삭제
+- npm search  검색어 :패키지 검색
+- npm publish: 패키지 배포
+- npm unpublish: 배포 취소 
+    - 배포 한 후 24시간 이내에 해야함
+
+
+### node 를 이용한 웹 서버만들기
+
+> express 모듈을 이용하는 경우가 많음 
+
+- web3.0
+    - Semantic Web 개념 등장: 로봇이 정보 자원의 뜻을 이해하고 논리적 추론까지 가능<br/>
+    명확한 의미 전달이 중요 Rest API 속도의 변화 
+    
+- WOA( Web Oriented Architecture)
+    - 사용자의 요구 사항 변경 : 여러 디바이스를 사용하고 디바이스 끼리 <br/>끊어짐이 없는 서비스 요구가 증대되면서 이를구현하기 위한 방법으로 웹 기술이 각광받음
+
+    - 기술의 변화 : 인프라 측면에서는 클라우드 나 가상화 기술이 각광을 받고,<br/>
+    소프트웨어 측면에서는 WOA(전체 시스템 아키텍쳐를 웹을 중심으로 설계)
+- Framework 를 이용한 애플리케이션 개발
+
+### 웹 서비스 구축 방식
+- 정적 웹 서비스 
+    - 요청이 오면 요청에 해당하는 HTML페이지를 찾아서 출력하는 방식
+- CGI(Common Gateway Interface)
+    - 클라이언트의 요청이 오면 서버가 작업을 수행해서<br/> 결과를 전송하거나 화면을 전송하는 방식
+    - perl 이 시초
+    - 이 방식은 사용자의 요청을 별도의 프로세스로 만들어서 처리
+        - 하나의 요청을 전부 처리하기 전까지는 다른 요청을 처리할 수 없음
+    - Perl 이나 ASP 가 이런 형태로 동작
+
+### Application Server 방식
+- 사용자의 요청을 Thread 를 만들어서 처리 
+- 여러 사용자의 요청을 한꺼번에 처리하는 것 처럼 처리
+    - Java -> Servlet(JSP) -> Spring Framework
+    - C# -> ASP.net 
+    - Javascript -> node.js framework
+    - PHP -> laravel Framework
+    - Python -> Flask 나 Django Framework
+    - Ruby -> Rails
+
+### 웹 프로그래밍의 구조 
+- 웹 브라우저 <-> 웹 서버 <-> 애플리케이션 서버 <->데이터 저장소
+- 언어 나 프레임워크 애플리케이션 서버를 만들기 위한 기술
+- Serverless
+    - 서버가 없는 것이 아니고 서버를 직접 구현 할 필요가 없는 것
+- 웹 브라우저에서 서버에게 요청하는 것을 request 라고 하고 <br/>
+서버가 웹 브라우저에게 대답을 하는 것을 response라고 한다.
+
+### http 모듈
+- 내장 모듈이므로 별도로 설치할 필요없음.
+
+```javascript
+* 서버 생성
+
+http.모듈.createServer((request,response)=>{
+    내용
+})
+
+*서버 실행
+
+javascript
+서버객체.listen(포트번호,아이피주소); //아이피주소는 현재 컴퓨터에 여러 개의ip가 존재하는경우 작성
+
+
+* 서버 종료
+서버객체.close();
+```
+### 서버에 발생하는 이벤트
+- request: 클라이언트의 요청이있을때 
+- connection : 클라이언트가 접속했을 때 
+- clientError : 클라이언트 오류가 발생했을 때 
+
+### request 객체
+- url : 요청한 url
+- method :요청 방식(GET,POST,PUT,PATCH,DELETE,OPTION)
+
+### 웹 서버 만들고 직접 응답을 생성하기
+- js 파일을 추가 후 작성하고 실행
+- 포트번호는 일반적으로 1024번까지 예약되어 있으므로 사용하지않음
+- 1521,3306,27017 번은 데이터베이스가 사용
+- 8080은 톰캣 같은 WebContainer 가 사용
+- 80을 사용하게 되면 http 의 경우 포트번호 생략 가능
+- 443을 사용하게되면 https의 경우 포트번호 생략 가능
+
+```javascript
+// http모듈
+
+//모듈 가져오기 
+const http = require('http');
+const PORT= 8000;
+//서버 생성
+http.createServer((req, res) => {
+    //응답 생성
+    res.writeHead(200,{'Content-Type': 'text/html;charset=utf-8'});
+    res.write('<h1>연결완료 처음만든 웹서버</h1>')
+    res.end('<p>http 모듈을 사용한 연동</p>')
+}).listen(PORT,()=>{
+    console.log(`${PORT} 연결 완룡`)
+})
+```
+
+- requrest 객체
+    - url : 클라이언트의 요청 경로
+        - 요청 경로를 만들 때는 이해하기 쉬운 경로를 만들어야함<br/> _사용은 하지 않는 것을 권장
+    - method : 요청방식
+        - GET :서버 자원을 가져올 때 사용(조회 -READ)
+        - POST : 서버 자원을 등록하고자 할때 사용
+        - PUT: 서버의 자원을 수정하고자 할 때 사용(수정- UPDATE)
+        - PATCH : 서버 자원의 일부분만 수정하고자 할 때 사용
+            - 수정-UPDATE => 권장하지 않는다고함 
+        - DELETE: 서버 자원을 삭제하고자 할때 사용
+        - OPTIONS: 요청을 하기 전에 통신 옵션을 설명하기 위해서
+
+- REST(Representational State Transfer) API
+    - 서버의 자원을 정의하고 자원에 대한 URL을 지정하는 방법
+    - URL 과 Method 만으로 작업을 예측할 수 있도록 하는것
+        - URL은 /member 이고 method는 POST라면 회원가입
+    - 클라이언트 종류에 상관없이 동일한 작업은 동일한 URL로처리
+        - 클라이언트 어플리케이션 서버 애플리케이션 과 분리해서 <br/>구현하고 서버는 클라이언트의 뷰를 만들지 않고 데이터를 전송.
+        - 클라이언트 애플리케이션 과 서버 애플리케이션을 하나의 프로젝트로 구현하면 모바일 기기의 Native Application 과 Web Browser의 요청에 응답하는 부분을 동일한 URL로 처리 할 수 없다.
+        - 아이폰에서 회원가입은 URL이고 /member 이고 Method는 
+        POST 라면 안드로이드에서 동일해야 하고 Web Browser에서도 동일한 URL로 처리되어야한다.
+            - 위와 같이 만들어진 서버를 RESTful 하다라고함
+
+- axios 라이브러리 
+    - 브라우저나 Node.js에서 Promise API를 이용해서<br/>HTTP 비동기 통신을 할 수 있도록 해주는 API
+    - 자바스크립트의 fetch api 를 사용하기 쉽도록 해주는 라이브러리
+
+    - XSRF(Cross-Site Request Forgery): 쿠키만으로 인증하는 서비스의 취약점을 이용해서 <br/> 사용자가 모르게 서비스에 특정명령을 요청하는것
+        - 브라우저에서 삽입하겠다고 요청을 하기 위해서 폼을 조회했는데 이 폼의 URL을 복사해서 다른 기기에서 데이터를 삽입하는 작업을 수행하는 것이 대표적 
+- Promise 를 이용한 사용
+
+```javascript
+const axios = require('axios')
+axios.요청메서드(url)
+     .then((res)=>{
+        //가져오는데 성공했을 수행할 내용
+        //res는 가져온 데이터를 파싱한 결과
+     })
+     .catch((err)=>{
+        //에러 발생했을경우
+        //err 는 에러에대한 내용을 저장한 객체.
+     })
+     ...
+     ... 
+     .then(()=>{
+        //성공과 실패 여부에 상관없이 수행할 내용
+     })
+```
+
+## 쿠키(Cookie)와 Session
+- Http나 Https는 상태가 없음
+    - 상태가 없다라는 말은 <b> 클라이언트가 요청을 할 때 일시적으로<br/> 연결이 된 후 서버가 응답을 하고 나면 연결이 해제되버리기 <br/>때문에 다음 연결이 될 때는 이전에 어떤 상태였는지 알 수 없음</b>
+    - 클라이언트와 서버가 이전에 어떤 상태 였는지 알수 있도록 하기위해서 Cookie와 Session의 개념을 사용
+
+### 쿠키
+> 클라이언트에 저장해서 클라이언트가 서버에게 요청할 때 마다 전송되는 객체
+
+- 쿠키는 http 나 https 요청의 헤더에 저장하고 이름 과 값의 구조
+
+```javascript
+//node의 http모듈
+response.writeHead(코드,{'set-Cookie':'쿠키이름=값'})의 형태로
+//쿠키가 여러 개이면 ;을 하고 추가
+```
+- 쿠키의 옵션 
+    - expires(만료시간) : 날짜 (단위)
+    - Max-age(만료시간) : 초 (단위) 
+    - Domain(도메인): Path(URL),Secure(HTTPS 인경우만 전송),HttpOnly(잦바스크립트에서 수정을 못하도록 하는 경우 사용)
+
+### 세션
+
+> 클라이언트의 정보를 서버에 저장하는 기술
+- 사용하는이유 : 클라이언트에 저장하게 되면 노출이되고 이를 수정할 수 있기 때문에 보안에 취약하므로 <br/>노출이 되면 안되는 데이터를 서버에 저장하고 클라이언트에서는 이정보를 구별할 수 있는 세션 키 만 저장
+    - 클라이언트 와 서버가 동일한 도메인 경우만 가능함.<br/>
+    쿠키를 이용하면 클라이언트 와 서버의 도메인이 달라도 가능
+    - 주로 로그인 정보를 저장하는데 많이 이용을함.
+        - JWT(Json Web Token)를 이용하는것을 권장함.
+
+
+### Cookie의 대안
+- Web Storage, Web SQL, Indexed DB 같은 HTML5 API를 이용하기도함.
+
+### https 모듈
+- http 서버를 https 로 변경하기 위한 모듈
+    - https는 암호화를 위한 인증서가 필요  
+        - 무료나 유료로 인증서를 발급받아야 이 모듈을 사용하는것이 가능하다
+- https 는 데이터가 암호화되서 전송되기 때문에 중간에 가로채도 변경을 할 수 없다.
+
+- https를 사용하면 데이터 전송 간에는 암호화를 할 필요가 없는데<br/> 개발자들은 혹시 모르니 해야 한다고 함 .
+    - 최근 브라우저에서는 https 서버가 아니면 접속을 못하도록 하기도함.
+    - 스마트폰에서는 https 에 접속할려면 별도의 설정을 추가해야함.
+- https모듈의 속도를 개선한 http2 모듈도 있다.
+
+### cluster (클러스터)
+
+> CPU 코어를 전부 사용할 수 있도록 해주는 모듈
+- 여러 개의 연산을 동시에 수행할 수 있도록 해주는 모듈
+    - 직접 서버 설정을 한다면 사용을 하지만 최근처럼 Cloud를 사용하는 경우엔 직접 설정하지않는다.
