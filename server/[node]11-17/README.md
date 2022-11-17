@@ -30,4 +30,4 @@
     패키지 이름 앞에 -g 를 추가하면 된다 
         - mac이나 linux에서 global 로 설치할 때는 맨앞에 관리자 모드를 의미하는 sudo 를 추가해야한다
             - sudo npm install --location =global 패키지이름의 형태롤 설치해야 한다.
-- 설치 된 패키지는 프로젝트 내의 node_modules 라는 디렉토리에 저장이 된다.
+- 설치 된 패키지는 프로젝트 내의 node_modules 라는 디렉토리에 저장이 된다
