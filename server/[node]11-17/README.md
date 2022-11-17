@@ -31,3 +31,26 @@
         - mac이나 linux에서 global 로 설치할 때는 맨앞에 관리자 모드를 의미하는 sudo 를 추가해야한다
             - sudo npm install --location =global 패키지이름의 형태롤 설치해야 한다.
 - 설치 된 패키지는 프로젝트 내의 node_modules 라는 디렉토리에 저장이 된다
+- 여러개 설치할 때
+    - npm install morgan cookie-parser express-session
+
+- nodemon 패키지 설치 : nodemon 패키지는 소스코드를 수정하면 자동으로 재실행되게<br/> 해주는 패키지로 개발 과정에서만사용
+- rimraf 패키지 설치 : rimraf 패키지는 윈도우에서 터미널에서 rm  명령을 사용하기 위해서 설치 
+    - npm install --location=g rimraf
+
+### 패키지 재설치 
+- 모든 패키지는 node_modules 에 다운로드 받아서 저장하게 되는데 <br/> 배포를 하거나 코드를 가지고 갈때 node_module를 포함시키면
+크기가 너무커지는데 이런 경우에는 node_module 는 복사하지 않고 package.json 만 가져간후 새로운곳에서<br/>
+npm init 명령만 다시 수행하면 패키지들이 전부 설치 된당.
+
+### Express 
+> 웹 애플리케이션 서버를 만들어주는 패키지  (npm install express)
+
+- Web Server :다른곳에서 URL을 이용해서 사용할 수 있도록 해주는 서버
+    
+- Web Application Server : URL 과 작업을 매핑해서 URL 을 호출하면 작업을 수행하도록 해주는 서버
+
+- Application Server: 작업을 해주는 서버 
+
+
+
