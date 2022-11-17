@@ -514,3 +514,100 @@ const acessLogStream = FileStreamRotator.getStream({
 
 app.use(morgan('combined', { stream: acessLogStream }));
 ```
+### 클라이언트 <-> 서버 프로그래밍
+
+- 클라이언트가 요청을 보내면 서버가 처리를 하고 결과 또는 화면을 클라이언트에게 전송
+- 클라이언트에서 서버에게 적절하게 요청을 하면 서버가 그요청을 받는데 <br/>
+이 때 클라이언트가 데이터를 같이 보내는 경우가 있는데 그러면 <br/> 서버는 그 데이터를 읽어서 작업을 수행(비지니스 로직을 처리하는것 과 데이터를 반 영구적을 ㅗ저장하고 읽어오는것)<br/>하고 결과 나 화면을 만들어서 전송을 한다.
+
+### static (정적 - 내용이 변하지 않는)
+> 정적인 파일의 경로를 설정하는 미들웨어 
+- 사용하는 방식
+```javascript
+app.use(url,express.static(실제경로));
+//url 요청이 오면 실제 경로에 있는 파일을 출력
+
+//ex
+app.use('/',express.static(path.join(__dirname,'public')));
+//index 라고 요청을 하면 프로젝트 안에 있는 public 디렉토리의 index라는 파일을 출력함
+// 요청 경로 와 실제 파일의 경로를 일치하지 않도록 하기위해서
+```
+
+## body-parser
+> 요청의 본문을 해석해주는 미들웨어로 별도로 설치할 필요는 없음
+- express 를 설치하면 자동으로 설치가 된다.
+    - 클라이언트에서 post방식이나 put(patch) 방식으로 데이터를 전송할 떄<br/>
+    그 데이터를 읽기 위한 미들웨어.
+
+- 설정 
+```javascript
+//파일전송이 아닌경우
+app.use(express.json())
+app.use(express.urlencoded({extended:false}))
+
+//파일 전송시 다른 미들웨어를 사용해야함 
+```
+### compression
+> 데이터를 압축해서 전송하기 위한 미들웨어
+- <b>클라이언트에게 결과를 전송할 때 압축을 해서 전송하기 때문에 트래픽이 줄어든다.</b>
+
+- 외부 모듈이라서 설치해야한다.
+```
+npm install compression
+...
+
+app.use(compression());
+```
+
+### 쿠키를 해석할 수 있도록 해주는 미들웨어
+```javascript
+// 작성하면 서버에서 쿠키를 읽을 수 있다.
+app.use(cookieParser(키)); 
+
+request객체.cookies
+//하게 되면 모든 쿠키가 넘어오게 된다
+```
+
+### express-session
+> 세션(사용자의 정보를 서버에 저장) 관리를 위한 미들웨어
+- 클라이언트 측에서 이전 작업에 이어서 다른 작업을 하고자 할 때 세션을 이용한다.
+- 세션은 <b>서버의 메모리를 사용하기 때문에</b> 세션이 너무 크거나 많아지면 서버의 성능이 저하됨.
+    - 이런 경우에는 세션을 파일이나 데이터베이스에 유지하는 것이 좋다
+
+## 세션을 사용하는 예제 
+> 새로고침을 하면 이전 내용에 +1 을 해서 출력하기
+- express-session 
+
+```javascript
+
+const session = require('express-session')
+
+// 세션은 클라이언트에 키를 만들어서 매핑을 한다.
+// 이 때 키값을 알아보기 어렵게 하기위 해서 연산을 수행할 값을준다 <- secret
+
+app.use(session({
+    secret:"session-key",
+    resave:false,
+    saveUninitialized:true
+}))
+
+
+app.get('/session', (req, res) => {
+    //세션의 num의 값이 없으면 1로 초기화 하고 있으면 1증가
+    if (!req.session.num) {
+        req.session.num = 1;
+    } else {
+        req.session.num += 1;
+    }
+
+
+    //send 
+    res.send("num:" + num+"<br/>"+"session num:" + req.session.num);
+    num = num + 1;
+})
+```
+- 브라우저에서 접속을 하고 새로 고침을 한 후 다른 브라우저에서 동일한 url로 접속해서 
+session number를 보았을때 서로 다른 값이나오는걸 볼수있다. 
+
+- business logic : 업무처리
+- common concern : 공통 관심사항
