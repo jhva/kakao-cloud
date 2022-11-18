@@ -1,0 +1,20 @@
+{
+  "name": "118",
+  "version": "1.0.0",
+  "description": "> Node 라이브러리 중에서 웹 애플리케이션 서버를 만드는 가장 많이 이용하는 라이브러리",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "kjh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
