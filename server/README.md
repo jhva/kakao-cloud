@@ -15,3 +15,7 @@
 
 ### package.json 에대한내용
 - https://asource.tistory.com/5 
+
+
+### package.json 
+- 이패키지가있으면 npm init install 등으로 하자 쓰잘데기없는 node_modules다삭제

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- action이 없으면 요청 url이 action이된다. -->
+    <!-- 파일이있을땐 enctype이 있어야함. 
+    대신에 method는 post나 put이 될 수 있다.-->
+    <form  method="post" id="form" enctype="multipart/form-data">
+        <div>
+            <p>이름:</p>
+            <input type="text" name="title" id="title" />
+        </div>
+        <div>
+            <p>파일:</p>
+            <input type="file" name="image" accept="image/*" id="image" />
+        </div>
+        <input type="submit" value="전송" />
+    </form>
+</body>
+
+</html>
