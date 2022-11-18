@@ -68,7 +68,8 @@ app.use(session({
 
 
 //post 방식의 파라미터를 읽을 수 있도록 설정
-app.use(express, urlencoded({ extended: false }))
+//참고:https://reload1bronze.tistory.com/m/252
+app.use(express.urlencoded({ extended: false }))
 
 //쿠키 사용이 가능하도록 설정
 const cookieParser = require('cookie-parser');
@@ -135,3 +136,21 @@ const upload = multer({
 - 처리하는 URL 을 설정할 때 경로/:변수명 의 형태로 작성한 후 내부에서 req.params.변수명 을 사용하면된다 
 ```javascript
 ```
+
+
+### 템플릿 엔진 
+- 서버의 데이터를 HTML과 합쳐서 출력할 수 있도록 해주는 라이브러리
+- 거의 모든 웹 프레임워크들이 가지고 있고 종류는 다양하다.
+- 서버에서 뷰를 만들어서 클라이언트에게 제공하겠다.라는의미
+
+#### 설치
+```
+npm install pug
+```
+- 설정
+    - app.set('views',path.join(__dirname,'출력할 html'))
+    - app.set('view engine','pug');
+
+- 처리
+    -res.render('html경로',데이터)
+- html파일ㅇ레서 데이터를 pug문법에맞춰출력

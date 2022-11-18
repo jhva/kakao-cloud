@@ -109,8 +109,7 @@ const fs = require('fs');
 const indexRouter = require('./router/index');
 const userRouter= require('./router/user');
 const boardRouter= require('./router/board');
-const { urlencoded } = require('express');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
 dotenv.config();
@@ -121,7 +120,7 @@ const app = express();
 app.set('port', process.env.PORT);
 
 
-app.use(express, urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }))
 // app.use(cookieParser(process.env.COOKIE))
 app.use('/',indexRouter);
 app.use('/user',userRouter);

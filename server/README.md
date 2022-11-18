@@ -19,3 +19,9 @@
 
 ### package.json 
 - 이패키지가있으면 npm init install 등으로 하자 쓰잘데기없는 node_modules다삭제
+
+### 1118이슈 
+```javascript
+app.use(express.urlencoded({ extended: false }))
+//express.urlencoded 확인하자.....
+```
