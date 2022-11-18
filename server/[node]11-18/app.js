@@ -102,13 +102,13 @@
 
 
 const express = require('express');
-const path = require('path'); 
+const path = require('path');
 
 const dotenv = require('dotenv');
 const fs = require('fs');
 const indexRouter = require('./router/index');
-const userRouter= require('./router/user');
-const boardRouter= require('./router/board');
+const userRouter = require('./router/user');
+const boardRouter = require('./router/board');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
@@ -118,16 +118,23 @@ const app = express();
 
 
 app.set('port', process.env.PORT);
+//res.render 로 출력 할 때 사용할 디렉토리를 설정한거다.
+app.set('views', path.join(__dirname, 'views'))
+//템플릿 엔진은 pug를 사용하겠다고 설정
+app.set('view engine' , 'pug');
 
 
 app.use(express.urlencoded({ extended: false }))
 // app.use(cookieParser(process.env.COOKIE))
-app.use('/',indexRouter);
-app.use('/user',userRouter);
-app.use('/board',boardRouter);
-
+// app.use('/', indexRouter);
+app.use('/user', userRouter);
+app.use('/board', boardRouter);
 app.use(morgan('dev'));
-
+app.use("/", (req, res) => {
+    //템플릿 엔진으로 출력
+    //views/pug.html출력
+    res.render('index', { 'title': '제목', 'asd': ['김정훈', '시발', '오타주의'] })
+})
 
 
 

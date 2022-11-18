@@ -146,7 +146,7 @@ const upload = multer({
 #### 설치
 ```
 npm install pug
-```
+````
 - 설정
     - app.set('views',path.join(__dirname,'출력할 html'))
     - app.set('view engine','pug');
@@ -154,3 +154,4 @@ npm install pug
 - 처리
     -res.render('html경로',데이터)
 - html파일ㅇ레서 데이터를 pug문법에맞춰출력
+    - each 안의 문장은 반드시 들여쓰기가 되어야함.
