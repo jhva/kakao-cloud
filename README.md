@@ -3,7 +3,8 @@
 - 11-01 ~ 11-04 : [Html,Css]
 - 11-07 ~ 11/15 : [JavaScript]
     - 웹 브라우저에 무엇인가를 출력하고 제어하기 위한 기본 기술
-- [node(express) 시작] 11-15 ~ :[Node(express)]
+- [node(express) 시작] 11-15 ~ :[Node(express)] 17일 로 일시정지  
+- 11-17~:[DB]
 <br/>
 
 
