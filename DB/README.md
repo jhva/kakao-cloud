@@ -30,4 +30,4 @@
         - apt update
         - apt upgrade
         - apt install vim
-    - vim /etc/mysql/mariadb.conf.d/50-server.cnf 명령을  수정
+    - vim /etc/mysql/mariadb.conf.d/50-server.cnf 명령을  수정한다.
