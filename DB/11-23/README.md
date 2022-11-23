@@ -406,8 +406,287 @@ B 유저에게 10000원 삭감
 
 
 # 트랜잭션 모드 
-- Manual
+- Manual Commit
     - 사용자가 직접 COMMIT 과  ROLLBACK 을 하도록하는 모드 
 - Auto
     - 하나의 명령어가 성공적으로 수행되면 자동으로 COMMit을 하는 모드
     - 프로그래밍 언어에서 데이터베이스를 연결하거나 접속 도구 등에서 데이터베이스 서버에 접속해서 작업을 수행하는 경우 Auto 로 설정되는 경우가 있다.
+
+### 트랜잭션 생성 시점
+- DML 문장이 성공적으로 완료되면 생성
+
+### 트랜잭션 종료 시점 
+- COMMIT 이나 ROLLBACK을 수행한 경우
+- DDL 문장을 수행하면 트랜잭션은 종료 
+
+### AUTO COMMIT 
+> 자동으로 COMMIT 이 되는 경우 
+- DDL 
+    - CREATE,ALTER,DROP,TRUNCATE
+- DCL
+    - GRANT, REVOKE
+- 접속 프로그램을 정상적으로 종료된 경우
+
+### AUTO ROLLBACK
+> 자동으로 ROLLBACK 되는 경우
+- 접속이 비정상적으로 종료된 경우
+
+
+```
+# DEPT 테이블의 모든 내용을 가지고 DEPT01 테이블 생성
+
+create table DEPT01
+as select * from DEPT;
+
+
+# delete 문장을 성공적으로 수행하므로 TRANSACTIOIN이 생성됨
+delete from DEPT01;
+
+
+
+
+# DEPTNO 가 20 인 데이터를 삭제
+delete from DEPT01
+where DEPTNO =40; - 삭제된 시점에서 트랝ㄳ생성
+
+select * from DEPT01; - 40없어짐
+ROLLBACK;  - 40 이있었을때로 돌아감
+commit;   - 트랜잭션 종료 
+
+# 메뉴얼 커밋을 누르고 해야함
+```
+
+- ROLLBACK;
+    - 테이블을 생성한지점으로 롤백 
+    -  만든 savepoint 다제거 
+- ROLLBACK to s1;
+    - savepoint s1 지점으로 ㄷ돌아감
+
+```
+delete from DEPT01 where DEPTNO =40;
+
+savepoint s1;
+
+delete from DEPT01 where DEPTNO =10;
+savepoint s2;
+delete from DEPT01 where DEPTNO =30;
+savepoint s3;
+```
+
+
+- s1 으로 돌아갔기때문에 s2는 사라짐.
+```
+rollback to s1;
+select * from DEPT01;
+
+rollback to s2 # error
+```
+
+### LOCK
+- 2가지 LOCK이 존재
+- Shared LOCK 이고 Exclusive LOCK 2가지 종류인데 Shared LOCK은 공유 가능한 LOCK 이고 Exclusive LOCk 은 공유가 불가능한 LOCK이다
+- 읽기 작업
+    - Shared LOCK이 설정됨 
+        - 이 외는 Exclusive Lock이 걸리게됨, 이 경우는 트랜잭션이 종료되어야만 LOCK이 해제된다
+### TRANSACTION MODE  (MAUAL 로사용하는경우)
+- 하나의 컴퓨터에서 DML 작업을 수행하고 COMMIT 이나 ROLLBACK을 하지 않은 상태에서 다른 컴퓨터에서 SELECT를 하는 것은 아무런 문제가 없지만 DML 작업이나 DDL 작어븡ㄹ 수행하는 것은 안되는데 무한 루프에 빠지게된다 .
+- LOCK 의 기본 단위는 테이블 
+- 읽기쓰기 수정이 안되면 묶였다고생각하셈 
+    - mysql은 껏다키면 되지만 oracle 은안된다고함 .
+
+
+## 테이블 이외의 객체
+> view 나 PROCEDURE , TRIGGER , index 가 데이터베이스 사용 성능을 향상시키기 위한 개체인데 최근의 프로그래밍에서는 IN MEMORY DB 개념의 형태를 사용하기때문에 이 개체들을 사용하는 이점이 별로없다.
+
+### VIEW
+- 자주 사용하는 select 구문을 하나의 테이블의 형태로 사용하기 위한 개체
+
+- <b>장점</b> 
+    - select 구문을 메모리에 적재하기 때문에 속도가 향상
+    - 필요한 부분만 노출하면 되기 떄문에 보안이 향상
+
+- Inline View
+    - FROM 절에 사용한 SELECT 구문
+    - SELECT 구문이 리턴하는 결과는 하나의 테이블 처럼 사용이 가능 하기 때문에 
+    FROM 절에 사용하는 것이 가능
+    - select 구문의 결과는 이름이 없어서 다른 절에서 사용할 수  없기 때문에 반드시 이름을 새로 만들어주어야한다.
+    - ORACLE 에서 OFFSET FETCH 가 적용되기 전에는 Inline View를 이용해서 TOP-N을 구현 했기 때문에 오라클에서는 매우 중요
+```
+select *
+from (select * from tStaff where grade='과장' OR grade ='부장')
+where IMSI.score >=70;
+```
+
+### 정훈참조  VIEW
+- https://reeme.tistory.com/54
+
+### VIEW 생성
+```
+create [OR REPLACE] VIEW 뷰이름 
+as select 구문 
+[WITH CHECK OPTION]
+[WITH READ ONLY]
+```
+- VIEW 는 ALTER로 수정이 불가능하다.
+    - 수정이 불가능 하기때문에 OR REPLACE 사용
+- VIEW는 테이블처럼 사용할 수 있기 때문에 읽기 와 쓰기 작업이 가능
+- WITH CHECK OPTION 은 뷰를 만들 때 사용한 조건과 일치하는 데이터만 수정하거나 삭제 또는 삽입 할 수 있도록 해주는 옵션 
+
+### view 삭제
+```
+drop view 뷰이름;
+```
+
+## 실습 
+> DEPT 테이블에서 DEPTNO 가 30인 데이터를 자주 사용
+
+- 이제부터는 DEPTVIEW 가 select * from DEPT where DEPTNO=30 의 역할을 수행
+    - 한번 컴파일이 되면 SQL에 메모리에 상주하기 때문 에 빠름
+```
+select *from DEPT where DEPTNO =30;
+
+
+create VIEW DEPTVIEW
+as select *from DEPT where DEPTNO =30;
+```
+
+
+
+```
+# DEPTCOPY 테이블에서 DEPTNO 가 20이 넘는 데이터를 가지고 DEPTVIEW 라는 VIEW를 생성
+
+create or replace view DEPTVIEW
+as 
+select *
+from DEPTCOPY
+where DEPTNO>20;
+
+select * from DEPTVIEW;
+```
+
+- <b>VIEW 는 SQL을 가지고 있는 것이지 실제 데이터를 가지고 있는 것이 아님</b>
+
+- VIEW 에 데이터 삽입시
+    - <b>원본 테이블에 삽입</b>
+### 뷰삭제
+```
+drop view DEPTVIEW;
+```
+
+# 절차적 프로그램잉
+> SQL 은 비절차적 (작성한 순서대로 동작하지 않는다)
+```
+select 
+from 
+이렇게 작성하지만 실제 실행 순서는 FROM -> SELECT 가 수행됨
+```
+- 관계형 데이터베이스에서도 절차적 프로그래밍이 가능
+- 문법은 관계형 데이터베이스 종류마다 다름
+
+
+
+### stored Procedure
+- 자주 SQL 구문을 함수처럼 미리 만들어두고 이름만으로 실행하도록 해주는 객체
+- 함수 와 다른 점은  함수는 리턴을 하짐나 리턴을 하지 않음
+- 장점 
+    - 한번 실행하고 나면 메모리에 상주를 하기 때문에 성능이 향상
+    - 테이블의 구조를 몰라도 작업이 가능하기 때문에 보안이 향상
+
+- 생성방법
+```
+DELIMITER 기호 2개
+CREATE [or replace] PROCEDURE 이름 (매개변수)
+BEGIN
+    필요한 Sql 프로그래밍
+END 기호 2개
+DELEMITER;
+```
+
+- 생성을 할때는 하나의 SQL 구문이 아니기 때문에 스크립트 실행의 형태로 수행
+
+### 호출 
+- call 프로시저이름(매개변수 나열);
+
+
+### 삭제
+- DROP PROCEDURE 이름;
+
+- ORM 이 아닌 SQL Mapper를 이용하는 경우 필수적으로 한 개 이상
+
+```
+DELIMITER //
+create or replace PROCEDURE  myproc(
+vdeptno int(2),
+vdname varchar(14)
+, vloc varchar(13))
+begin 
+	INSERT INTO DEPT (DEPTNO,DNAME,LOC)
+	values(vdeptno,vdname,vloc);
+end //
+DELIMITER ;
+
+call myproc(3,'2','3'); # 프로시저 만든거 실행 
+
+select * 
+from DEPT;
+
+# call 프로시저로 인하여 데이터가 들어가는게 보임
+
+```
+
+## TRIGGER
+> 어떤 사건 (INSERT ,UPDATE,DELETE)이 발생했을 때 절차적프로그래밍 부분을 자동으로 수행하기 위한 개체
+- 유효성 검사를 해서 SQL 을 실행하지 않도록 하거나 DML 작업을 수행했을 때 로그를 기록하거나 다른 DML 작업을 연쇄적으로 실행하는 등의 작업을 주로 수행
+- 애플리케이션 개발자 입장에서는 프로그래밍으로 처리할려고 하기 때문에 잘 사용하지 않지만 보안을 위해서는 사용하는 것도 나쁘지않음
+
+### 삽입 트리거 
+> 하나의 테이블에 데이터를 삽입하면 다른 테이블에 데이터가 자동으로 삽입되도록 하는 트리거 
+#### 사용 예시 
+> 블로그 같은 곳에서 ㅗ히원가입을 하면 가입한 회원의 데이터를 관리할 수 있는 테이블을 별도로 생성하는 경우가 있다.)
+
+
+```
+# 데이터를 삽입할 테이블
+create table EMP01(
+    EMPNO INT PRIMARY KEY,
+    ENAME VARCHAR(100),
+    JOB VARCHAR(30)
+);
+
+
+# 트리거로 데이터를 삽입할 테입르
+
+create table SAL01(
+    SALNO INT PRIMARY KEY AUTO_INCREMENT,
+    SAL FLOAT(7,2),
+    EMPNO INT REFERENCES EMP01(EMPNO) ON DELETE CASCADE
+);
+
+
+# 삽입 트리거
+DELIMITER //
+create or replace TRIGGER TRG_01
+AFTER INSERT 
+ON EMP01
+FOR EACH ROW
+BEGIN 
+	# EMP01에 삽입할때 요구문을 실행하겠다.
+	INSERT  INTO  SAL01(SAL,EMPNO) values(100,NEW.EMPNO);
+END //
+DELIMITER ;
+```
+
+```
+# 확인결과
+select * from EMP01;
+select * from SAL01;
+insert into EMP01 values(1,'adam','singer');
+
+# SAL01에는 넣어준적이없는데 확인해보면 넣어져있다. 그 이유는 
+# 삽입 트리거 때문이다.
+```
+
+
+# 최적화 
+
+<img src="./images/인덱스.jpg"/>

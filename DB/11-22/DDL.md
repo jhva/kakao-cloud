@@ -18,7 +18,7 @@ create  테이블이름(
     - FLOAT,DOUBLE
 - 문자
     - CHAR(길이 - 길이가 고정)
-        - 고정적인부분은 char를 쓰자 .
+        - 고정적인부분은 char를 쓰자 
     - VARCHAR(길이 - 길이가 가변)
     - TEXT 
     - BLOB(파일의 내용 저장) - 파일을 데이터베이스에 저장하는 방법
