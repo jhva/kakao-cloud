@@ -1,0 +1,27 @@
+{
+  "name": "11-24",
+  "version": "1.0.0",
+  "description": "> 프로그래밍 언어에서 관계형 데이터베이스를 사용하는 방법\r - 데이터베이스 제조업체에서 제공하는 드라이버를 사용하거나 SQL MAPPER Framework를 사용하는 방식",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-mysql-session": "^2.1.8",
+    "express-session": "^1.17.3",
+    "file-stream-rotator": "^1.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
