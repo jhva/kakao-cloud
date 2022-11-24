@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" href="/css/common.css" />
+</head>
+
+<body>
+    <h1>mariadb</h1>
+    <input type="button" value="데이터 가져오기" id="allData_btn" />
+
+
+    <div id="content"></div>
+
+
+
+    <script>
+
+        let btn = document.getElementById('allData_btn');
+
+        let content = document.getElementById('content');
+
+        btn.addEventListener("click", (e) => {
+            //ajax 로 데이터 가져오기 
+
+            let req = new XMLHttpRequest();
+
+            req.open('GET', '/data/all');
+            //요청
+            req.send('');
+            //데이터 전송 
+            req.addEventListener("load", () => {
+                //json 문자열 확인
+                // alert(req.responseText);
+
+                //출력을 하기 위해서는 json 문자열을 
+                // 자바스크립트 객체로 변환
+                let data = JSON.parse(req.responseText);
+                if (data.result) {
+                    content.innerHTML = "<h2>데이타됴착</h2>"
+
+                    let arr = data.list;
+                    console.log(arr)
+                    for (let item of arr) {
+
+
+
+                        content.innerHTML += "<table border='1'>";
+                        content.innerHTML += "<tr><td><a href='/img/" + item.pictureurl + "'>" +
+                            "<img src='/img/" + item.pictureurl + "'></a></td>";
+
+                        content.innerHTML += "<td width='160'>" + item.itemname + "</td>";
+                        content.innerHTML += "</tr><tr height='50'><td width='80'>가격</td>";
+                        content.innerHTML += "<td width='160'>" + item.price + "원</td></tr>";
+                        content.innerHTML += "<tr height='50'><td width='80'>비고</td>";
+                        content.innerHTML += "<td width='160'>" + item.description + "</td></tr>";
+                        content.innerHTML += "<tr><td colspan='2' align='center' width='240'>";
+                        content.innerHTML += "<a href='#' id='mainbtn'>■ 목록으로돌아가기"
+
+
+                    }
+                 
+                } else {
+                    content.innerHTML += "데이터 가져오기 실패";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
