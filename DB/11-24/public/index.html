@@ -210,8 +210,25 @@
                         display += "<td width ='160'>" + item.description + "</td>";
 
                         display += "<tr><td colspan='2' align='center' width='240'>" + "<a href='#' id='deletebtn'>데이터삭제</a>" + "</td></tr>";
+                        display += "<tr><td colspan='2' align='center' width='240'>" + "<a href='#' id='updatebtn'>데이터수정</a>" + "</td></tr>";
+
                         display += "</table></td></tr></table>";
                         content.innerHTML = display;
+                        //데이터 수정 눌렀을때 
+                        let updatebtn = document.getElementById("updatebtn");
+                        if (updatebtn != undefined) {
+                            updatebtn.addEventListener("click", (e) => {
+                                let req = new XMLHttpRequest();
+                                req.open("GET", "/item/update")
+                                req.send('');
+                                req.addEventListener('load', () => {
+                                    let html = req.responseText;
+                                    content.innerHTML = html;
+
+                                })
+                            })
+                        }
+
 
                         //데이터 삭제를 눌렀을 때 처리 
 
@@ -229,10 +246,10 @@
                                 req.send(params);
                                 req.addEventListener("load", () => {
                                     let data = JSON.parse(req.responseText);
-                                    if(data.results){
+                                    if (data.results) {
                                         document.getElementById("list_btn").click();
                                         alert("삭제성공")
-                                    }else{
+                                    } else {
                                         alert("삭제실패")
                                     }
                                 })

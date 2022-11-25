@@ -177,7 +177,7 @@ app.get('/data/item/:itemid', (req, res) => {
 //이미지 다운로드  ????????? 
 app.get('/img/:pictureurl', (req, res) => {
     let pictureurl = req.params.pictureurl;
-    let file = '"C:\Users\\user\\Documents\kakaoCloudSchool\DB\11-24\public\img' + '/' + pictureurl;
+    let file = '/mnt/c/Users/user/Documents/kakaoCloudSchool/DB/11-24/public/img' + '/' + pictureurl;
     console.log("file:" + file);
     mimetype = mime.lookup(pictureurl);
     console.log("file:" + mimetype);
@@ -282,6 +282,13 @@ app.post('/item/delete', (req, res) => {
         }
     })
 
+})
+
+app.get("/item/update", (req, res) => {
+    //public/ 디렉토리의 update.html 을 읽어내서 리턴 
+    fs.readFile('./public/update.html', (err, data) => {
+        res.end(data);
+    });
 })
 
 app.use((err, req, res, next) => {
