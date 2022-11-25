@@ -90,22 +90,51 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'))
 });
 
-//여기까지함
 app.get('/data/all', (req, res) => {
     let pageno = req.query.pageno;
     if (pageno == undefined) {
         pageno = 1;
     }
     console.log(pageno);
+    //성공과 여실패여부를 저장
+    let result = true;
+    //성공했을때 데이터를 저장
+    let list;
 
-    connection.query("select * from goods order by itemid desc limit ?, 5", [(parseInt(pageno - 1)) * 5], (err, results, fields) => {
-        if (err) {
-            res.json({ 'results': false })
-            console.log(err)
-        } else {
-            res.json({ 'results': true, 'list': results });
-        }
-    })
+
+    //데이터목록가져오기
+    connection.query("select * from goods order by itemid desc limit ?, 5",
+        [(parseInt(pageno - 1)) * 5], (err, results, fields) => {
+            if (err) {
+                // res.json({ 'results': false })
+                console.log(err);
+                result = false;
+            } else {
+                // res.json({ 'results': true, 'list': results });
+                list = results;
+            }
+
+            //데이터개수가져오기
+            let cnt = 0;
+            connection.query("select count(*) cnt from goods", [], (err, results, fields) => {
+                if (err) {
+                    console.log(err);
+                    result = false;
+
+                } else {
+                    //하나의 행만 리턴되므로 0 번째 데이터를 읽어내면 된다 .
+                    cnt = results[0].cnt;
+
+                }
+                if (result === false) {
+                    res.json({ "result": false })
+                } else {
+                    res.json({ "result": true, 'list': list, "count": cnt })
+                }
+            })
+
+
+        })
 
 
     // connection.query("select * from goods order by itemid desc", [], (err, results, fields) => {
@@ -127,6 +156,133 @@ app.get('/data/all/:page', (req, res) => {
     console.log(page);
 });
 
+//데이터 상세보기
+app.get('/data/item/:itemid', (req, res) => {
+    //파라미터 읽기
+    let itemid = req.params.itemid;
+    console.log(itemid);
+
+    // itemid를 이용해서 1개의 데이터를 찾아오는 sql 실행 
+    connection.query("select * from goods where itemid=?", itemid, (err, results, fields) => {
+        if (err) {
+            console.log(err);
+            res.json({ "result": false });
+        } else {
+            res.json({ "result": true, "item": results[0] });
+        }
+    })
+});
+
+
+//이미지 다운로드  ????????? 
+app.get('/img/:pictureurl', (req, res) => {
+    let pictureurl = req.params.pictureurl;
+    let file = '"C:\Users\\user\\Documents\kakaoCloudSchool\DB\11-24\public\img' + '/' + pictureurl;
+    console.log("file:" + file);
+    mimetype = mime.lookup(pictureurl);
+    console.log("file:" + mimetype);
+    res.setHeader('Content-disposition', 'attachment; filename=' + pictureurl);
+    res.setHeader('Content-type', mimetype);
+    let filestream = fs.createReadStream(file);
+    filestream.pipe(res);
+    // let pictureurl = req.params.pictureurl;
+
+    // let file = "C:\Users\\user\\Documents\kakaoCloudSchool\DB\11-24\public\img" + "/" + pictureurl;
+    // console.log(__dirname);
+    // console.log(file);
+
+    // //파일이름을 가지고 타입을 생성
+    // let mimetype = mime.lookup(pictureurl);
+
+    // res.setHeader('Content-disposition', 'attachment; filename=' + pictureurl);
+    // res.setHeader('Content-type', mimetype);
+
+    // let filestream = fs.createReadStream(file);
+    // filestream.pipe(res);
+
+})
+
+
+const getDate = () => {
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    month = month >= 10 ? month : '0' + month;
+    day = day >= 10 ? day : '0' + day;
+
+    return year + "-" + month + "-" + day;
+}
+//날짜 와 시간을 리턴하는 함수
+const getTime = () => {
+    let date = new Date();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+
+    hour >= 10 ? hour : '0' + hour;
+    minute >= 10 ? minute : '0' + minute;
+    second >= 10 ? second : '0' + second;
+
+    return getDate() + " " + hour + ":" + minute + ":" + second;
+}
+
+app.post('/data/post', upload.single('pictureurl'), (req, res) => {
+    //파라미터 읽어오기
+    const itemname = req.body.itemname;
+    const description = req.body.description;
+    const price = req.body.price;
+    console.log(req.file);
+    //파일이름 - 업로드하는 파일이 없으면 default.png
+    let pictureurl;
+    if (req.file) {
+        pictureurl = req.file.originalname
+    } else {
+        pictureurl = 'default.png';
+    }
+    let itemid;
+
+    connection.query("select max(itemid) maxid from goods",
+        [], (err, results, fields) => {
+
+            //최대값이 있으면 +1 하고 없으면 1로설정
+            if (results.length > 0) {
+
+                itemid = results[0].maxid + 1;
+            } else {
+                itemid = 1;
+            }
+            connection.query('insert into goods(itemid,itemname,price,description,pictureurl,updatedate) values(?,?,?,?,?,?);',
+                [itemid, itemname, price, description, pictureurl, getDate()], (err, results, fields) => {
+                    if (err) {
+                        console.log(err);
+                        res.json({ "results": false });
+                    } else {
+                        //현재 날짜 및 시간을 update.txtdp rlfhr
+                        const writeStream = fs.createWriteStream('./update.txt');
+                        writeStream.write(getTime());
+                        writeStream.end();
+                        res.json({ "results": true });
+                    }
+                }
+            )
+        })
+
+})
+app.post('/item/delete', (req, res) => {
+    let itemid = req.body.itemid;
+
+    connection.query("delete from goods where itemid=? ", [itemid], (err, results, fields) => {
+        if (err) {
+            console.log(err);
+            res.json({ "results:": false })
+        } else {
+            res.json({ "results": true });
+        }
+    })
+
+})
 
 app.use((err, req, res, next) => {
     console.log(err);
