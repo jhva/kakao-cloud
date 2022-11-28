@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
+const { Good } = require('./models');
+
 //세션을 저장하기 위한 MYSQL 데이터베이스 저장소생성
 
 const morgan = require('morgan');
@@ -20,6 +22,7 @@ let logDirectory = path.join(__dirname, 'log');
 let FileStreamRotator = require('file-stream-rotator');
 //로그를 기록할 디렉토리 경로설정
 
+const { sequelize } = require("./models");
 
 
 dotenv.config();
@@ -63,15 +66,21 @@ let options = {
 
 
 
-let connection = mysql.createConnection(options);
-connection.connect((err) => {
-    if (err) {
-        console.log(err);
-        throw err;
-    } else {
-        console.log("db도연결완료")
-    }
-})
+// let connection = mysql.createConnection(options);
+// connection.connect((err) => {
+//     if (err) {
+//         console.log(err);
+//         throw err;
+//     } else {
+//         console.log("db도연결완료")
+//     }
+// })
+
+//sequelize 를 이용한 데이터베이스 연결
+sequelize.sync({ force: false })//false면 기존 테이블은 건들지 않습니다.
+    .then(() => { console.log("데이터베이스 연결완료 sequelize") })
+    .catch((err) => { console.log(err, "데이터베이스 연결실패 sequelize") })
+
 
 
 app.use('/', express.static('public'));
@@ -90,51 +99,64 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'))
 });
 
-app.get('/data/all', (req, res) => {
+app.get('/data/all', async (req, res) => {
+
     let pageno = req.query.pageno;
     if (pageno == undefined) {
         pageno = 1;
     }
     console.log(pageno);
-    //성공과 여실패여부를 저장
-    let result = true;
-    //성공했을때 데이터를 저장
-    let list;
+    // //성공과 여실패여부를 저장
+    // let result = true;
+    // //성공했을때 데이터를 저장
+    // let list;
 
-
-    //데이터목록가져오기
-    connection.query("select * from goods order by itemid desc limit ?, 5",
-        [(parseInt(pageno - 1)) * 5], (err, results, fields) => {
-            if (err) {
-                // res.json({ 'results': false })
-                console.log(err);
-                result = false;
-            } else {
-                // res.json({ 'results': true, 'list': results });
-                list = results;
+    try {
+        let cnt = await Good.count();
+        let list = await Good.findAll(
+            {
+                offset: (parseInt(pageno - 1)) * 5,
+                limit: 5
             }
+        )
+        res.json({ "result": true, "count": cnt, "list": list })
+    } catch (err) {
+        console.log(err)
+        res.json({ "result": false })
+    }
+    // //데이터목록가져오기
+    // connection.query("select * from goods order by itemid desc limit ?, 5",
+    //     [(parseInt(pageno - 1)) * 5], (err, results, fields) => {
+    //         if (err) {
+    //             // res.json({ 'results': false })
+    //             console.log(err);
+    //             result = false;
+    //         } else {
+    //             // res.json({ 'results': true, 'list': results });
+    //             list = results;
+    //         }
 
-            //데이터개수가져오기
-            let cnt = 0;
-            connection.query("select count(*) cnt from goods", [], (err, results, fields) => {
-                if (err) {
-                    console.log(err);
-                    result = false;
+    //         //데이터개수가져오기
+    //         let cnt = 0;
+    //         connection.query("select count(*) cnt from goods", [], (err, results, fields) => {
+    //             if (err) {
+    //                 console.log(err);
+    //                 result = false;
 
-                } else {
-                    //하나의 행만 리턴되므로 0 번째 데이터를 읽어내면 된다 .
-                    cnt = results[0].cnt;
+    //             } else {
+    //                 //하나의 행만 리턴되므로 0 번째 데이터를 읽어내면 된다 .
+    //                 cnt = results[0].cnt;
 
-                }
-                if (result === false) {
-                    res.json({ "result": false })
-                } else {
-                    res.json({ "result": true, 'list': list, "count": cnt })
-                }
-            })
+    //             }
+    //             if (result === false) {
+    //                 res.json({ "result": false })
+    //             } else {
+    //                 res.json({ "result": true, 'list': list, "count": cnt })
+    //             }
+    //         })
 
 
-        })
+    //     })
 
 
     // connection.query("select * from goods order by itemid desc", [], (err, results, fields) => {
@@ -148,6 +170,18 @@ app.get('/data/all', (req, res) => {
     //         //정상 응답을 한 경우
     //     }
     // })
+
+    //전체 데이터 가져오기 
+    // try {
+    //     let list = await Good.findAll();
+
+    //     res.json({ "result": true, "list": list })
+
+    // } catch (error) {
+    //     console.log(error);
+    //     res.json({ "result": false })
+
+    // }
 });
 
 
@@ -157,20 +191,32 @@ app.get('/data/all/:page', (req, res) => {
 });
 
 //데이터 상세보기
-app.get('/data/item/:itemid', (req, res) => {
+app.get('/data/item/:itemid', async (req, res) => {
     //파라미터 읽기
     let itemid = req.params.itemid;
     console.log(itemid);
+    try {
+        let item = await Good.findOne({
+            where: {
+                itemid: itemid
+            }
+        })
+        res.json({ "result": true, "item": item })
 
-    // itemid를 이용해서 1개의 데이터를 찾아오는 sql 실행 
-    connection.query("select * from goods where itemid=?", itemid, (err, results, fields) => {
-        if (err) {
-            console.log(err);
-            res.json({ "result": false });
-        } else {
-            res.json({ "result": true, "item": results[0] });
-        }
-    })
+    } catch (error) {
+        console.log(error)
+        res.json({ "result": false })
+    }
+
+    // // itemid를 이용해서 1개의 데이터를 찾아오는 sql 실행 
+    // connection.query("select * from goods where itemid=?", itemid, (err, results, fields) => {
+    //     if (err) {
+    //         console.log(err);
+    //         res.json({ "result": false });
+    //     } else {
+    //         res.json({ "result": true, "item": results[0] });
+    //     }
+    // })
 });
 
 
@@ -228,12 +274,11 @@ const getTime = () => {
     return getDate() + " " + hour + ":" + minute + ":" + second;
 }
 
-app.post('/data/post', upload.single('pictureurl'), (req, res) => {
+app.post('/data/post', upload.single('pictureurl'), async (req, res) => {
     //파라미터 읽어오기
     const itemname = req.body.itemname;
     const description = req.body.description;
     const price = req.body.price;
-    console.log(req.file);
     //파일이름 - 업로드하는 파일이 없으면 default.png
     let pictureurl;
     if (req.file) {
@@ -241,46 +286,83 @@ app.post('/data/post', upload.single('pictureurl'), (req, res) => {
     } else {
         pictureurl = 'default.png';
     }
-    let itemid;
+    // let itemid;
 
-    connection.query("select max(itemid) maxid from goods",
-        [], (err, results, fields) => {
+    // connection.query("select max(itemid) maxid from goods",
+    //     [], (err, results, fields) => {
 
-            //최대값이 있으면 +1 하고 없으면 1로설정
-            if (results.length > 0) {
+    //         //최대값이 있으면 +1 하고 없으면 1로설정
+    //         if (results.length > 0) {
 
-                itemid = results[0].maxid + 1;
-            } else {
-                itemid = 1;
-            }
-            connection.query('insert into goods(itemid,itemname,price,description,pictureurl,updatedate) values(?,?,?,?,?,?);',
-                [itemid, itemname, price, description, pictureurl, getDate()], (err, results, fields) => {
-                    if (err) {
-                        console.log(err);
-                        res.json({ "results": false });
-                    } else {
-                        //현재 날짜 및 시간을 update.txtdp rlfhr
-                        const writeStream = fs.createWriteStream('./update.txt');
-                        writeStream.write(getTime());
-                        writeStream.end();
-                        res.json({ "results": true });
-                    }
-                }
-            )
-        })
+    //             itemid = results[0].maxid + 1;
+    //         } else {
+    //             itemid = 1;
+    //         }
+    //         connection.query('insert into goods(itemid,itemname,price,description,pictureurl,updatedate) values(?,?,?,?,?,?);',
+    //             [itemid, itemname, price, description, pictureurl, getDate()], (err, results, fields) => {
+    //                 if (err) {
+    //                     console.log(err);
+    //                     res.json({ "results": false });
+    //                 } else {
+    //                     //현재 날짜 및 시간을 update.txtdp rlfhr
+    //                     const writeStream = fs.createWriteStream('./update.txt');
+    //                     writeStream.write(getTime());
+    //                     writeStream.end();
+    //                     res.json({ "results": true });
+    //                 }
+    //             }
+    //         )
+    //     })
+
+    //가장 큰 itemid를 이용해서 itemid 생성
+
+    let itemid = 1;
+    try {
+        let x = await Good.max('itemid');
+        itemid = x + 1;
+
+    } catch (err) {
+        console.log(err, "데이터 삽입 실패")
+    }
+    //데이터 삽입
+    Good.create({
+        itemid: itemid,
+        itemname: itemname,
+        price: price,
+        description: description,
+        pictureurl: pictureurl,
+        updatedate: getDate()
+    })
+    const writeStream = fs.createWriteStream('./update.txt');
+    writeStream.write(getTime());
+    writeStream.end();
+    res.json({ "results": true });
 
 })
-app.post('/item/delete', (req, res) => {
+app.post('/item/delete', async (req, res) => {
     let itemid = req.body.itemid;
 
-    connection.query("delete from goods where itemid=? ", [itemid], (err, results, fields) => {
-        if (err) {
-            console.log(err);
-            res.json({ "results:": false })
-        } else {
-            res.json({ "results": true });
-        }
-    })
+    // connection.query("delete from goods where itemid=? ", [itemid], (err, results, fields) => {
+    //     if (err) {
+    //         console.log(err);
+    //         res.json({ "results:": false })
+    //     } else {
+    //         res.json({ "results": true });
+    //     }
+    // })
+    try {
+        let item = await Good.destroy({
+            where: {
+                itemid: itemid
+            }
+        })
+        console.log(item);
+        res.json({ "result": true })
+
+    } catch (error) {
+        console.log(error);
+        res.json({ "result": false })
+    }
 
 })
 
@@ -289,6 +371,62 @@ app.get("/item/update", (req, res) => {
     fs.readFile('./public/update.html', (err, data) => {
         res.end(data);
     });
+})
+
+
+app.post("/item/update", upload.single('pictureurl'), async (req, res) => {
+    //파라미터 가져오기
+    const itemid = req.body.itemid;
+    const itemname = req.body.itemname;
+    const price = req.body.price;
+    const description = req.body.description;
+    //예전 파일 이름
+
+    const oldpictureurl = req.body.oldpictureurl;
+
+
+    let pictureurl;
+    //수정할 파일 이름 ㅁ만들기 
+    if (req.file) {
+        pictureurl = req.file.filename;
+    } else {
+        pictureurl = oldpictureurl;
+    }
+    // //db 작업 
+    // connection.query("update goods set itemname=?,price=?", +"description=?,pictureurl=?,updatedate=? where=itemid=?", [itemname, price, description, pictureurl, getDate(), itemid], (err, results, fields) => {
+    //     if (err) {
+    //         console.log(err);
+    //         res.json({ "result": false })
+    //     } else {
+    //         const writeStream = fs.createWriteStream("./update.txt");
+    //         writeStream.write(getTime())
+    //         writeStream.end()
+    //         res.json({ "result": true })
+    //     }
+    // })
+
+    try {
+        await Good.update({
+            itemname: itemname,
+            price: price,
+            description: description,
+            pictureurl: pictureurl,
+            updateddate: getDate()
+        }, { where: { itemid: itemid } })
+        res.json({ "result": true })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ "result": false })
+    }
+})
+// 1 2 3 4 5 
+// 1 2 3 4 5 
+// 1 3 6
+app.get("/item/updatedate", (req, res) => {
+    fs.readFile("./update.txt", (err, data) => {
+        res.json({ "result": data.toString() });
+    })
 })
 
 app.use((err, req, res, next) => {

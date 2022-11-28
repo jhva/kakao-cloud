@@ -71,7 +71,7 @@
         });
         let listBtn = document.getElementById('list_btn');
 
-//test
+        //test
         //현재 페이지 번호를 저장할 변수를 선언
         let pageno = 1;
         listBtn.addEventListener("click", (e) => {
@@ -109,7 +109,7 @@
                     //데이터 목록 출력
                     for (item of list) {
                         display += "<tr class='record'>";
-                        display += "<td align='center'>" + item.itemid + "</td>";
+                        display += "<td align='center' >" + item.itemid + "</td>";
                         display += "<td align='left'>" + "<a href='#' id='item" + item.itemid + "'>" + item.itemname + "</a></td>";
                         display += "<td align='right'>" + item.price + "원" + "</td>";
                         display += "</tr>";
@@ -224,6 +224,39 @@
                                 req.addEventListener('load', () => {
                                     let html = req.responseText;
                                     content.innerHTML = html;
+                                    //수정은 수정하기 위한 원본데이터를 화면에 출력 
+                                    document.getElementById("itemid").value = item.itemid;
+                                    document.getElementById("itemid").readOnly = true;
+                                    document.getElementById("itemname").value = item.itemname;
+                                    document.getElementById("price").value = item.price;
+                                    document.getElementById("description").value = item.description;
+                                    document.getElementById("oldpictureurl").value = item.pictureurl;
+
+                                    document.getElementById("picture").src = "/img/" + item.pictureurl;
+
+                                    //수정 폼을 찾아오기
+                                    let updateform = document.getElementById("updateform");
+                                    if (updateform != undefined) {
+                                        updateform.addEventListener("submit", (e) => {
+                                            e.preventDefault();
+
+                                            const formData = new FormData(updateform);
+
+                                            //서버에게 요청
+                                            let req = new XMLHttpRequest();
+                                            req.open("POST", "/item/update");
+                                            req.send(formData);
+                                            req.addEventListener("load", () => {
+                                                let data = JSON.parse(req.responseText);
+                                                if (data.result === true) {
+                                                    document.getElementById("list_btn").click();
+                                                    alert("성공");
+                                                } else {
+                                                    alert("데이터수정실패")
+                                                }
+                                            })
+                                        })
+                                    }
 
                                 })
                             })

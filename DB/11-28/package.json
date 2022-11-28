@@ -1,0 +1,22 @@
+{
+  "name": "11-28",
+  "version": "1.0.0",
+  "description": "- 객체 지향 패러다임을 관계형 데이터베이스에 적용하는 기술\r - 관계형 데이터베이스의 Table은 객체 지향 프로그래밍의 클래스와 유사한데 table에서는 여러 개의 컬럼을 만들지만 class에서는 속성을 만들어서 저장하는 것이 유사\r     - 이런 이유 때문에 instance 와 Row 가 유사\r - node에서는 <b>sequelize</b>모듈이 이러한 작업을 수행할 수 있다.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.8",
+    "sequelize-cli": "^6.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
