@@ -222,3 +222,116 @@ db.examples.find({$in:["adam","matt"]})
 ```
 db.users.find({name:{$in[/^b/]}})
 ```
+### 논리연산자
+> not을 제외하고는 조건을 배열의 형태로 설정
+- $not
+- $or
+- $and
+- $nor (not or)
+```
+// inventory 에서 qty가 100보다 크거나 qty가 10 보다 작은 데이터 조회
+
+db.inventory.find({$or:[{qty:{$gt:100},{qty:{$lt:10}}}]})
+```
+
+### 문자열 검색 - 값에 정규식 사용 가능
+> 샘플 데이터 삽입
+- db.users.insert({name:'김구라'})
+
+- a가 포함된 데이터 조회 
+```
+db.users.find({name:/a/})
+```
+
+- pa로 시작하는 데이터 조회 
+```
+db.users.find({name:/^pa/})
+```
+- ro로 끝나는 데이터 조회
+```
+db.users.find({name:/ro$/})
+```
+
+### 데이터 개수 제한 limit함수
+```
+//테이블에서 데이터 2개만 조회
+
+db.users.find().limit(2)
+```
+
+### 데이터 건너뛸때 함수 skip
+```
+db.users.find().skip(1)
+```
+- <b> 1개만 조회시에는 findOne 함수를 이용해도 됨<b>
+
+### 데이터 정렬
+```
+//sort함수 
+
+sort({속성이름 :1 이나 -1})
+
+//1은 오름차순이고 -1은 내림차순
+```
+- 속성 이름 대신에 natural 을 이용하면 삽입한 순서대로 조회가 가능하다
+
+
+### Cursor
+- find함수의 결과로 리턴되는 자료형으로 도큐먼트를 순서대로 접근할 수 있도록 해주는 포인터
+    - Enumeration(Enumerator)나 iterator 와 유사한 개념
+    - hasNext() 함수 와 next() 가 존재하는데 다음 데이터의 존재 여부를 리턴하고 뒤의 함수는 다음 데이터를 리턴한다.
+
+### 수정
+> 함수
+- update
+    - update({조건},{수정할 형식})
+```
+{$set:{속성이름:수정할 데이터 , ... ... ...}}
+
+db.users.update({name:"adam"},{$set:{score:100}})
+```
+- updateOne
+
+- updateMany
+- replaceOne
+
+### 삭제
+
+```
+db.users.remove({name:"김정훈"})
+```
+
+### 트랜잭션 처리 
+- monogo DB는 느슨한 트랜잭션을 지원
+- 트랜잭션 처리가 중요한 업무에서는 MongoDB를 잘 사용하지않음
+
+
+### 트랜잭션 시작
+```
+session = db.getMongo().startSession()
+session.startTransaction();
+```
+
+- 작업수행
+```
+session.commitTransaction이나 session.abortTransaction()
+```
+
+# Node + MongoDB
+> mongoose(Node 의 ODM)
+
+- 연결코드 
+
+```javascript
+let MongoClient = require('mongodb').MongoClient
+
+MonClient.connect('mongodb://아이디:비밀번호@ip:포트번호',(err,database)=>{
+    if(err){
+        //err 발생시 처리 
+    }else{
+        //정상적으로 처리 되었을때 처리 
+    let db= database.db('데이터베이스이름');
+
+    }
+})
+```
