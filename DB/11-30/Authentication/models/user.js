@@ -29,7 +29,7 @@ module.exports = class User extends Sequelize.Model {
             sequelize,
             timestamps: true,
             underscored: false,
-            modelName: User,
+            modelName: 'User',
             tableName: 'snsuser',
             paranoid: true,
             charset: 'utf8',
@@ -38,7 +38,7 @@ module.exports = class User extends Sequelize.Model {
     }
 
     static associate(db) {
-        db.User.hasManay(db.Post);
+        db.User.hasMany(db.Post);
         db.User.belongsToMany(db.User, {
             foreignKey: 'followingId',
             as: 'Followers',

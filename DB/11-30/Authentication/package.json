@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
@@ -23,6 +24,9 @@
     "mysql2": "^2.3.3",
     "npm": "^9.1.2",
     "nunjucks": "^3.2.3",
+    "passport": "^0.6.0",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
     "sequelize": "^6.26.0",
     "sequelize-cli": "^6.5.2"
   },

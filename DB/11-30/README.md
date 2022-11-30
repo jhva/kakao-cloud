@@ -96,4 +96,265 @@ views add
             as: 'Followings',
             through: 'Follow'
         })
+
+* post.js
+
+
+  //다대다 관계는 테이블이 생성되는데 through 가 테이블이름
+        db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' })
 ```
+
+- 디비 연결
+
+```javascript
+const {sequelize} =require('./models');
+sequelize.sync({force:false})
+    .then(()=>{
+        console.log("디비 접속 성공!")
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+
+```
+
+- 데이터베이스가 존재하지 않는 경우는 아래명어를 한 번 수행
+```
+npx sequelize-cli db:create
+```
+
+
+### Passport 모듈 
+- node 에서 인증 작업을 도와주는 모듈
+- 세션이나 쿠키 처리를 직접하지 않고 이 모듈의 도움을 받으면 쉽게 구현이 가능하다
+- Social 로그인 작업을 쉽게 처리할 수 있도록 해준다.(Oauth)
+
+- 인증작업
+    - 로그인에 성공하면 세션을 생성해서 세션에 아이디 나 기타 정보를 저장하고 다음부터 로그인을 확인할 때는 세션의 정보가 있는지를 확인해서 로그인 여부를 판단하고 로그아웃을 하면 세션의 정보를 삭제한다.
+
+
+### 로컬 로그인 구현
+> 필요한 모듈 설치 
+- passport,passport-local,bcrypt(암호화를 해서 비교는 가능하지만 복호화는 안되는 암호화모듈)
+- app.js 파일에 Passport 모듈을 사용할 수 있는 설정을 추가
+
+
+### Passport 모듈 사용 설정
+- passport 디렉토리만들기
+
+```javascript
+module.exports = () => {
+    //로그인 성공했을 때 정보를 deserializeUser 함수에게 넘기는 함수 
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
+    })
+
+    // 넘어온 id 에 해당하는 데이터가 있으면 데이터베이스에서 찾아서 
+    // 세션에 저장함 
+
+    passport.deserializeUser((id, done) => {
+        User.findeOne({ where: { id } })
+            .then(user => done(null, user))
+            .catch(err => done(err));
+    })
+    local()
+}
+```
+- 위 처럼 하게되면 로그인 여부를 request 객체의 <b>isAuthenticated()</b>함수로 할 수 있게 된다.
+
+
+### 로그인 여부 판단
+- 웹 어플리케이션을 구현하게 되면 로그인 여불를 판단해서 작업을 해야 하는 경우가 발생하는데 이는 비지니스 로직과는 상관이 없음
+- 이런 부분은 별도로 처리해야한다.
+- node는 이런 로직을 middleware로 처리하고 java web에서는 filter 로 처리하고 spring 에서는 AOP나 Interceptor 를 이용해서 처리한다.
+
+### 로그인 여부를 판단할 수 있는 함수를 routes 디렉토리의 middlewares.js 파일을 추가하고 작성
+```javascript
+* middlewares.js
+
+exports.isLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        console.log("로그인 되어있음")
+        next();
+    } else {
+        res.status(403).send("로그인 필요해 바보야")
+    }
+}
+
+exports.isNotLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        console.log("로그인 안되어있음")
+        next();
+    } else {
+        const message = encodeURIComponent("로그인 한 상태입니다")
+        res.redirect(`/?error=${message}`)
+    }
+}
+```
+
+### routes 디렉토리의 page.js를 수정한다.
+```javascript
+//메인화면 
+router.get("/", (req, res, next) => {
+
+    const twits = [];
+    //res.render('뷰이름',데이터)
+    res.render('main', { title: "Node Authentication", twits })
+})
+
+// 회원가입  
+// 로그인이 되어있지 않은 경우에만 수행
+router.get('/join', isNotLoggedIn, (req, res, next) => {
+
+    res.render('join',
+        { title: '회원가입 - Node Authentication' })
+})
+
+
+// 프로필 화면처리 
+
+// 로그인 되어있는경우에만
+router.get('/profile', isLoggedIn, (req, res, next) => {
+    res.render('profile',
+        { title: '나의 정보 - Node Authentication' })
+})
+```
+
+### 회원가입, 로그인 ,로그아웃 처리를 위한 내용을 routes 디렉토리에 auth.js 파일을 만들고 작성
+- page.js 는 화면을 보여주는 역할을 하고 auth.js 는 처리하는 역할을 하도록 분리하는 것이다.
+```javascript
+const express = require('express');
+
+const passport = require('passport'); // 로그인 및 로그아웃 처리를 위해서 가져오기
+const bcrypt = require('bcrypt'); // 회원 가입을 위해서 가져오기
+
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+
+const User = require('../models/user');
+
+const router = express.Router();
+
+
+//회원 가입 처리 
+
+router.post('/join', isNotLoggedIn, async (req, res, next) => {
+    // 데이터 찾아오기 
+    const { email, nick, password } = req.body;
+    try {
+        const exUser = await User.findOne({ where: { email } });
+        if (exUser) {//이메일 존재여부 
+
+            //회원가입페이지로 리다이렉트  
+            // err 키에 메시지를 가지고 이동
+            return res.redirect('/join?error=exist');
+        } else {
+            //비밀번호 해싱
+            const hash = await bcrypt.hash(password, 12);
+            // 저장 
+            await User.create({ email, nick, password: hash })
+
+            // success 
+            return res.redirect('/');
+        }
+    } catch (err) {
+        console.log(err)
+        return next();
+    }
+
+})
+
+//로그인 처리 
+
+router.post('/login', isNotLoggedIn, (req, res, next) => {
+    //passport 모듈을 이용해서 로그인 
+    passport.authenticate('local', (authErr, user, info) => {
+        if (authErr) {
+            console.error(authErr);
+            return next(authErr);
+        }
+        // 일치하는 User 가 없을때 
+        if (!user) {
+            return res.redirect(`/?loginError=${info.message}`);
+        }
+        return req.login(user, (logginErr) => {
+            if (logginErr) {
+                console.error(logginErr);
+                return next(logginErr);
+            }
+            //로그인 성공하면 메인페이지로 이동
+            return res.redirect('/')
+        })
+
+    })(req, res, next)
+})
+
+
+//로그아웃 처리 
+router.get('/logout', isLoggedIn, (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        //세션 초기화 
+        res.session.destroy();
+        res.redirect('/');
+    })
+})
+
+module.exports = router;
+```
+
+### passport 를 이용한 모듈  로컬스토리지  
+
+```javascript
+//로컬 로그인 관련된 기능 구현 
+
+const passport = require('passport');
+
+const LocalStrategy = require('passport-local');
+const bcrypt = require('bcrypt');
+
+const User = require('../models/user');
+
+
+
+module.exports = () => {
+    passport.use(new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password'
+    }, async (email, password, done) => {
+        try {
+            const exUser = await User.findOne({ where: { email } });
+            if (exUser) {
+                //비밀번호 비교 
+                const result = await bcrypt.compare(password, exUser.password);
+                if (result) {
+                    done(null, exUser);
+                } else {
+                    done(null, false, { message: "비밀번호가 틀립니다" })
+                }
+            } else {
+                done(null, false, { message: "회원정보가 없습니다" })
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }))
+}
+```
+
+### app.js 파일에 로그인  관련 라우터 등록
+
+
+### 카카오로그인 passport 
+
+```
+npm install passport-kakao
+```
+
+- RestAPI 키 복사 
+- 플래폼 등록
+    - web 에 자신의 도메인 과 포트번호 등록
+- 로그인 활성화
+    - 로그인 활성화 on 
+    - Redirect URI 활성화 

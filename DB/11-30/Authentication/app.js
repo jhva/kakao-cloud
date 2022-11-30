@@ -73,14 +73,37 @@ app.use(
     })
 );
 
+const { sequelize } = require('./models');
+sequelize.sync({ force: false })
+    .then(() => {
+        console.log("디비 접속 성공!")
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+
+const passport = require('passport');
+const passportConfig = require('./passport');
+
+passportConfig();
+
+app.use(passport.initialize());
+//세션 기능은 passport 모듈이 알아서 사용
+app.use(passport.session());
 
 //라우터 설정
 const pageRouter = require('./routes/page');
+const authRouter = require('./routes/auth');
 //여기 설정 한 URL 과 page.js 에 설정된 URL 의 조합으로 
 // URL을 결정
 app.use('/', pageRouter);
 
-//에러가 발생한 경우 처리
+//여기 설정 한 URL 과 page.js 에 설정된 URL 의 조합으로 
+// URL을 결정
+app.use('/auth', authRouter);
+
+//404 에러가 발생한 경우 처리
 app.use((req, res, next) => {
     const err = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
     err.status = 404;
