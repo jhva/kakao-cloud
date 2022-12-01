@@ -95,9 +95,15 @@ app.use(passport.session());
 //라우터 설정
 const pageRouter = require('./routes/page');
 const authRouter = require('./routes/auth');
+const postRouter = require('./routes/post');
+const userRouter = require('./routes/users');
+
 //여기 설정 한 URL 과 page.js 에 설정된 URL 의 조합으로 
 // URL을 결정
 app.use('/', pageRouter);
+app.use('/user', userRouter);
+app.use('/post', postRouter);
+
 
 //여기 설정 한 URL 과 page.js 에 설정된 URL 의 조합으로 
 // URL을 결정
