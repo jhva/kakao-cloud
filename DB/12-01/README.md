@@ -1,3 +1,57 @@
+# API Server 
+> API (Application Programming Interface)
+- 프로그램과 프로그램을 연결시켜주는 매개체
+- 다른 애플리케이션을 개발할 수 있도록 도와주는 프로그램(Software,Development kit)
+- SDK 
+- win API 
+    - windows application을 만들기위한 함수의 집합
+- 프로그램 개발에 도움을 주도록 또는 여러프로그램에서 공통으로 사용되어야하는 데이터가 있는경우에는 프로그램이 아니라 데이터를 제공
+
+- 누구나 등록만 할수있도록해주는것을 <b>Open API</b>라고 한다.
+- 데이터를 제공할 때는 데이터베이스에 직접 접근하도록 하는 것이 아니고 애플레키에션 서버를 통해서 제공
+
+### API Server 가 제공하는 데이터 포맷
+- txt 또는 csv
+    - csv: 일반 텍스트로 구분 기호를 포함하는 경우가 있음
+    - 변하지 않는 데이터를 제공하는데 주로 이용
+    - 가끔 txt나 csv대신에 excel 이나 hwp 또는 pdf 로 제공하는 경우가 있음
+- xml
+    - eXtensible Markup Language
+        - 태그의 해석을 브라우저가 아닌 개발자 또는 개발자가 만든 라이브러리가 하는 형태로 문법이 HTML 보다는 엄격
+    - HTML은 데이터로 사용하기에는 부적합 
+        - HTML은 구조적이지 못하기 때문에 
+    - 아직도 설정 파일 이나 데이터를 제공하는 용도로 많이 사용
+- json
+    - 자바스크립트 객체 형태로 표현하는 방식
+    - XML 보다 가볍기 때문에 데이터 전송에 유리 
+    - 자바스크립트 객체 표현법으로 데이터를 표현하기 때문에 Javascript나 Python에서는 파싱하는것이 쉬움
+        - 설정 보다는 데이터를 제공하는 용도로 많이 사용 
+    - Apple , Google ,Twitter 등은 데이터 전송에는 json 만 사용
+- yaml
+    - email 표기 형식으로 표현하는 방식
+    - 계층 구조를 가진 데이터 표현에 유리
+    - 구글의 프로그램들이 설정을 할 때 yaml 많이 이용 
+
+
+### API Server 를 만들기 위한 기본 설정 
+
+```
+npm install express dotenv compression morgan file-stream-rotator multer cookie-parser express-session express-mysql-session mysql2 sequelize sequelize-cli nunjucks passport passport-kakao passport-local bcrypt uuid
+
+
+npm install --save-dev nodemon
+
+* bcrypt => 복호화가 불가능한 암호화를 위한 모듈
+```
+
+- free,premium 두가지만 구분하고자 하는 경우 자료형
+```
+boolean : true 와 false 이용해서 구분
+int : free 와 premium을 0과 1 또는 1과 2 형태로 구분 
+string : free와 premium을 문자열로 저장해서 구분
+```
+
+
 # session
 > 서버에 저장하는 방법을 세션에 저장한다고 한다.
 
@@ -48,19 +102,22 @@ module.exports = () => {
                 //이전에 로그인 한 적이 없으면 데이터를 저장 
                 const newUser = await User.create({
                     email:profile._json.kakao_account.email,
-                    nick: profile.displayName,
-                    snsId: profile.id,
-                    provider: 'kakao'
-                })
-                done(null, newUser);
-            }
+                        nick: profile.displayName,
+                        snsId: profile.id,
+                        provider: 'kakao'
+                    })
+                    done(null, newUser);
+                }
 
-        } catch (error) {
-            console.error(error);
-            done(error);
+            } catch (error) {
+                console.error(error);
+                done(error);
         }
     }))
 }
 ```
+
+
+
 
 
