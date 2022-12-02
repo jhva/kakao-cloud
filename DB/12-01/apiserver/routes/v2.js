@@ -4,6 +4,24 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { Domain, User, Post, Hashtag } = require('../models');
 
+const cors = require('cors');
+const url = require('url');
+
+//무조건 CORS 를 허용 
+// router.use(cors({ credentials: true }))
+router.use(async (req, res, next) => {
+    const domain = await Domain.findOne({
+        where: { host: url.parse(req.get('origin')).host },
+    });
+    if (domain) {
+        cors({
+            origin: req.get('origin'),
+            credentials: true,
+        })(req, res, next);
+    } else {
+        next();
+    }
+});
 
 
 //데이터를 리턴하는 요청 처리 
@@ -26,7 +44,7 @@ router.get('/posts/my', apiLimiter, verifyToken, (req, res) => {
 
 
 //토큰ㅁ발급
-router.post('/token', apiLimiter,async (req, res) => {
+router.post('/token', apiLimiter, async (req, res) => {
     const { clientSecret } = req.body;
     console.log(clientSecret, "!23")
     try {
@@ -71,7 +89,7 @@ router.post('/token', apiLimiter,async (req, res) => {
 
 
 //토큰을 확인하기 위한 처리 
-router.get('/test',apiLimiter, verifyToken, (req, res) => {
+router.get('/test', apiLimiter, verifyToken, (req, res) => {
     res.json(req.decoded);
 })
 
