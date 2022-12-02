@@ -3,10 +3,10 @@
 - 11-01 ~ 11-04 : [Html,Css]
 - 11-07 ~ 11/15 : [JavaScript]
     - 웹 브라우저에 무엇인가를 출력하고 제어하기 위한 기본 기술
-- [node(express) 시작] 11-15 ~ :[Node(express)] 17일 로 일시정지  
+- [node(express) 시작] 11-15 ~ :[Node(express)] 24일 부터 다시시작 
 - 11-17~:11-23[mariaDB] :관계형데이터베이스
 - 11-24 : 데이터베이스 node 와 연결 및 첫 실습 (?) DB/11-24 (sequelize 포함 )~ 11/28
-- 11-29 : [mongoDB] 
+- 11-29~12/1 : [mongoDB,Node_Authentication] 
 <br/>
 
 

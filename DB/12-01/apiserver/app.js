@@ -85,6 +85,15 @@ app.use(passport.session());
 
 const indexRouter = require('./routes');
 app.use('/', indexRouter);
+
+
+const v1 = require('./routes/v1');
+app.use('/v1', v1);
+
+
+const v2 = require('./routes/v2');
+app.use('/v2', v2);
+
 const authRouter = require('./routes/auth');
 app.use('/auth', authRouter);
 app.use('/img', express.static(path.join(__dirname, 'uploads')));

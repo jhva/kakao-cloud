@@ -43,3 +43,28 @@ exports.verifyToken = (req, res, next) => {
     })
   }
 }
+
+///사용량 제한을 위한 미들웨어 
+
+const RateLimit = require('express-rate-limit');
+
+exports.apiLimiter = RateLimit({
+  windowMs: 60 * 1000, //1분,
+  max: 10,// 1분안에 10번이상못함
+  delayMs: 0,
+  handler(req, res) {
+    res.status(this.statusCode).json({
+      code: this.statusCode,
+      message: '1분 단위로 요청을 해야함여'
+    })
+  }
+});
+
+//구버전 api 요청시 동작할 미들웨어 
+
+exports.deprecated = (req, res) => {
+  res.status(410).json({
+    code: 410,// 더이상없다 ,
+    message: '새로운 버전이 나왔다. 새버전을 사용하셈'
+  })
+}
