@@ -251,6 +251,8 @@ const copyObj = { ...obj, name: "군계" };
 
 ### babel 형식을 transform을 쓰게되면 굳이 바인딩을하지않아도 된다
 
+- https://1995-dev.tistory.com/71 참조
+
 ```javascript
 ...
 ...
@@ -329,3 +331,96 @@ this.state={
     });
   };
 ```
+
+### onKeyPress
+
+> 키보드를 누를 때 발생하는 이벤트
+
+- 리액트에서는 키보드 이벤트에서 이벤트 객체의 key라는 속성에 누른 키값을 전달하는데 문자열 형태로 전달한다.
+- input에서 enter를 누르면 버튼 클릭한 것 과 동일한 효과를 나타내도록 수정해보기
+
+```javascript
+...
+...
+
+if (e.key === "Enter") {
+  this.handleClick();
+} else {
+  alert("아니에요");
+}
+```
+
+### 함수형컴포넌트에서 여러 이벤트처리
+
+```javascript
+...
+...
+  const handleChage = (e) => {
+    //form 을 복제해서 e.target.name 에 해당하는 속성만
+    // e.target.value로 수정
+    // react에서는 state를 수정할때 복제해서 수정해야함
+    //하나의 항목으로 만들어진 데이터는 바로 수정하면 되지만
+    //여러 항목으로 구성된 객체 나 배열은 복제해서 수정한다.
+    const newForm = {
+      ...form,
+      [e.target.name]: e.target.value,
+    };
+    setForm(newForm);
+  };
+```
+
+## ref
+
+> react는 직접 DOM을 찾아와서 사용하는 작업을 거의하지 않는데 id 대신 ref라는 개념을 가지고 DOM을 찾아서 핸들링
+
+- ref를 설정하는방법
+  - 콜백함수를 이용하는 방법
+
+```javascript
+<태그 ref={(ref)=>{this.?=ref}}>
+```
+
+- createRef()함수를 이용하는 방법
+
+```javascript
+//ref임포트후
+이름 = React.createRef();
+<태그 ref={this.이름}>
+```
+
+- 사용해보기
+
+```javascript
+//class형에서
+...
+...
+input = React.createRef();
+ <input
+  ref={(ref) => {
+  this.input = ref; //방법2
+ }}/>
+
+
+  ref={this.input} //방법1
+```
+
+- 방법1을 사용할때 함수를 호출하는방법
+
+```javascript
+this.input.current.focus();
+```
+
+- 방법2을 사용할때 함수를 호출하는방법
+
+```javascript
+this.input.focus();
+```
+
+### Component 에 Ref설정
+
+> 컴포넌트 내의 변수 나 메서드에 접근이 가능
+
+- 다른 컴포넌트에서 Ref속성을 이용해서 접근이 가능
+- 컴포넌트를 다른 곳에서 조작하고자 할 때 Ref를 적절히 활용하면 된다 .
+
+- scroll 이 가능한 컴포넌트를 생성

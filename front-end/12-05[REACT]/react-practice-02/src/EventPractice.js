@@ -6,7 +6,7 @@ class EventPractice extends Component {
     message: "",
   };
   handleClick = (e) => {
-    alert(this.state.name + "" + this.state.message);
+    alert(this.state.message + "" + this.state.name);
     this.setState({
       name: "",
       message: "",
@@ -19,6 +19,13 @@ class EventPractice extends Component {
       [e.target.name]: e.target.value,
     });
   };
+  haddleKeypress = (e) => {
+    if (e.key === "Enter") {
+      this.handleClick();
+    } else {
+      alert("아니에요");
+    }
+  };
   render() {
     return (
       <div>
@@ -29,6 +36,7 @@ class EventPractice extends Component {
           name="message"
           placeholder="메세지 입력하세요"
           onChange={this.handleChange}
+          onKeyPress={this.haddleKeypress}
         />
         <input
           value={this.state.name}
