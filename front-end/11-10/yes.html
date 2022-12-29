@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        function Book(name,price,date){
+            this.name=name;
+            this.price=price;
+            this.date=date;
+            
+
+            this.toString = function(){
+                return this.name +":"+this.price +":"+this.date;
+            }
+        }
+
+        //book 배열 생성
+        let books = [new Book("오페라",30000,new Date(2002,10,11))
+        ,new Book("ㄱ",3232,new Date(2002,10.3))
+        ,new Book("ㄷ",12345,new Date(2021,1,2))];
+        console.log(books);
+        //
+        // console.log(books.sort((a,b)=>{
+        //     // return a.date.getTime() - b.date.getTime();
+        //     // return   b.name - a.name
+        // }))
+        //1이면 name의 오름차순 2이면 name 의 내림차순 
+        //3이면 price의 오름차순 4이면 price의 내림차순
+        //5이면 date의 오름차순 6이면 date의 내림차순
+        var promptMenu  = prompt("정렬 방법을 선택하셈");
+        let result;
+        
+            switch (promptMenu) {
+                case "1":
+                    result =books.sort((a,b)=> {
+                        if(a.name>b.name){
+                            return 1;
+                        }else{
+                            return 0;
+                        }
+                    })
+                    break;
+                case "2":
+                    result = books.sort((a,b)=> {
+                        if(a.name<b.name){
+                            return 1;
+                        }else{
+                            return 0;
+                        }
+                    })
+                    break;
+                case "3":
+                  result = books.sort((a,b)=> {
+                    return a.price - b.price
+                    })
+                    break;
+                case "4":
+                  result = books.sort((a,b)=> {
+                    return b.price - a.price
+                    })
+                    break;
+                default:
+                    break;
+                    //문자열은 부등호의 방향만 정해주면댐
+
+            }
+            console.log(result)
+
+
+    </script>
+    
+</body>
+</html>

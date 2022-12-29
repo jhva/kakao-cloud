@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 이미지 파일만 선택할 수있는 file 객체 -->
+    <input id="img" type="file" accept="image/*">
+
+    <!-- 이미지 미리보기  -->
+    <img id="display" width="500" height="500">
+
+    <script>
+        //필요한 DOM객체 찾기
+        let img = document.getElementById("img");
+        let display = document.getElementById("display");
+
+
+        //ImgInput의 선택이 변경되면
+        img.addEventListener("change", (e) => {
+            //선택된 파일의 내용읽기. 비동기로 수행이됨
+            let render = new FileReader();
+            if (!(img.files && img.files[0])) {
+                //...
+                alert("파일 선택이 취소되었습니다")
+                return;
+            }
+
+
+            render.readAsDataURL(img.files[0]);
+
+            //비동기여서 콜백을해야함 
+            render.addEventListener("load", () => {
+                display.src = render.result;
+            })
+        })
+    </script>
+</body>
+
+</html>

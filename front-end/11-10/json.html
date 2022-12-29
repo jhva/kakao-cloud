@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let jsonText = '{"name":"rlawjdgns","age":42}';
+    let result = JSON.parse(jsonText);
+    console.log(result);
+    //배여ㅛㄹ 문자열 
+    let arrJsonValue = "[123,124,55,135]";
+    let data = JSON.parse(arrJsonValue).filter(element => {
+      return element === 123
+    });
+    console.log(data)
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    key <input type="text" id="keyinput" />
+    value <input type="text" id="valueinput" />
+    <input type="button" value="삽입" id="insertBtn" />
+    <button id="removebtn">삭제0</button>
+    <button id="addwindowbtn">윈도우추가</button>
+    <fieldset>
+        <legend>세션 스토리지 데이터</legend>
+        <select id="list" size=10 onchange="onListSelected()">
+        </select> <input type="button" value="재출력" onclick="showData()" />
+        </fieldset>
+
+    <script>
+        let keyInput = document.getElementById("keyinput");
+        let valueInput = document.getElementById("valueInput");
+        let insertBtn = document.getElementById("insertBtn");
+        let removebtn = document.getElementById("removebtn");
+        let addwindowbtn = document.getElementById("addwindowbtn");
+        let list = document.getElementById("list");
+        // 세션스토리의 내용을 읽어서 list 에 출력하는 함수
+        //처음 접속할때 그리고삽입 이나 삭제를 할때 
+        // 매번 데이터를 다시 출력할 생각이라서 코드를 여러번작성
+        //하지 않도록 하기위햇 ㅓ
+        function showData() {
+            list.innerHTML = "";
+            for (var i = 0; i < sessionStorage.length; i++) {
+                var temp = sessionStorage.key(i);
+                list.options[list.options.length] =
+                    new Option(temp + ":" + sessionStorage[temp], temp);
+            }
+        }
+        function addData() {
+            sessionStorage[keyInput.value] = valueInput.value;
+            showData();
+        }
+        function removeData() {
+            delete sessionStorage[keyInput.value];
+            showData();
+        }
+        function onListSelected() {
+            var selectData = list.options[list.selectedIndex];
+            keyInput.value = selectData.value;
+            valueInput.value = sessionStorage[selectData.value];
+        }
+
+    </script>
+</body>
+
+</html>

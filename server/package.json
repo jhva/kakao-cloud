@@ -1,0 +1,17 @@
+{
+  "name": "modules",
+  "version": "1.0.0",
+  "description": "11~15 node 시작",
+  "main": "index.js",
+  "scripts": {
+    "test": "test npm init"
+  },
+  "keywords": [
+    "npm",
+    "init",
+    "test",
+    "project"
+  ],
+  "author": "KJH",
+  "license": "ISC"
+}

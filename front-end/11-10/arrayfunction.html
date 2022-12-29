@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var ar = [10,20,30,13,55,32,3,6];
+        const dataFunction =ar.forEach((item)=>console.log(item));
+        //함수의 매개변수 자리에 배열의 데이터를 순서대로 대입해서 함수를 호출함 .
+        //내부 반복자를 사용하기때문에 실행 속도가 빠름 . forEach
+
+        let data =[10,20,30].map((v)=>{return v*5})
+
+        let dataFilter = [2,4,6,13,17,19].filter((item)=>{return item%2!==0});
+        console.log(dataFilter)
+        console.log(data)   
+        console.log(dataFunction);
+
+
+        var br = ["KOrea","china","kOrean"];
+
+        let data123 =br.filter((e)=>{
+            //0 , -1 ,0 있으면 0 없으면 -1 
+           return e.toLowerCase().indexOf("ko")>=0;
+        })
+        console.log(data123)
+    </script>
+</body>
+</html>

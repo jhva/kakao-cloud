@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>function</title>
+</head>
+<body>
+    <script>
+        // abc() // 함수를 선언하기도전에 호출해도 호출이 된다 Hoisting
+        // function abc(){
+        //     document.write("대통령풍산갠")
+        // }
+
+
+        // abc()
+        //let 선언하여 변수 함수를 만들경우엔 hoisting 이 안됨 
+
+        let fun_3=()=>{
+            console.log("ㅁㄴㅇㄹ")
+        }
+        fun_3()
+        
+        let fun5=(n,name)=>{
+            console.log(name)
+            for(var i=0; i<n; i++){
+                console.log(i*2+n);
+            }
+        }
+        fun5(4,"123")
+
+        let data1= 1;
+        let data2 = [1,2,3,4,5,6];
+        let data3="문자열";
+
+        let f1 =(arg)=>{
+            console.log("arg",arg)
+            arg=20;
+        }
+
+        f1(data1);
+        // console,log(data1);
+        //*******^******
+        //******^**^******
+        //*****^****^******
+        //****^******^******
+
+        // for(let i=0; i<6; i++){
+        //     for(let j=0; j<3; j++){
+        
+               
+
+        //     }
+        //     document.write('<br/>');
+
+        //     }
+        
+        function f0(){
+            for(let i=1; i<10; i++){
+                if(i%3==0){
+                    break;
+                }
+                console.log(i,"123")
+            }
+        }
+        f0();
+
+        function f13(num1,num2){
+            return num1+num2;
+        }
+      var test=  f13(3,4);
+      console.log(test)
+        //리턴된 결과를 다른 함수의 매개변수로사용 
+        test=f13(f13(3000,4000),2000);
+        console.log(test)
+        
+
+    </script>
+</body>
+</html>

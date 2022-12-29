@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>web Worker</h1>
+    숫자입력 <input type="number" id="num" />
+    <button id="start">합계 구하기</button>
+
+    <script>
+        let num = document.getElementById("num");
+        let start = document.getElementById("start");
+
+        let worker;
+        start.addEventListener("click", () => {
+          if(worker){
+            //워커가 만들어져있으면 중지 
+            worker.terminate();
+          }
+          //워커 생성 
+          worker = new Worker("worker.js");
+          worker.postMessage(Number(num.value));
+          //워커가 결과전송시 
+
+          worker.onmessage=(e)=>{
+            //워커가 전송한 데이터 출력
+            alert("합계:"+e.data);
+          }
+        })
+    </script>
+</body>
+
+</html>

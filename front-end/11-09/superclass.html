@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Animal{
+            constructor(name){
+                this.name=name;
+            }
+            getName(){
+                return this.name;
+            }
+            run(){
+                console.log("달린다")
+            }
+        }
+        class Cat extends Animal{
+          constructor(name="",demage=1){
+            //부모 에서 생성자 호출하는것 super
+            super(name);
+            this.demage=demage;
+          }
+          //상위클래스에 있는 메서드를 다시정의하는것 -overriding
+          run(){
+            super.run();
+            console.log(`${this.name}`+'달린다');
+          }
+
+            getName(){
+            return  this.name;
+            }
+            setName(name){
+            this.name=name;
+            }
+        }
+            // let prettycat = new Cat("1213123");
+          let  prettycat=new Animal("어떤동물")
+          prettycat=new Cat("!23")
+            console.log(
+            prettycat.getName()
+            )
+            
+            prettycat.run();
+
+    </script>
+    
+</body>
+</html>

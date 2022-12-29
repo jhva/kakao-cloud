@@ -1,0 +1,21 @@
+{
+    "keepSettings": {
+        "type": 2,
+        "amount": 10
+    },
+    "auditFilename": "audit.json",
+    "hashType": "md5",
+    "extension": "",
+    "files": [
+        {
+            "date": 1668668521816,
+            "name": "/mnt/c/Users/user/Documents/kakaoCloudSchool/server/[node]11-17/log/access-2022-11-17.log",
+            "hash": "ba4e9bdca84f7d39464c0e83b56ac767"
+        },
+        {
+            "date": 1668668749714,
+            "name": "/mnt/c/Users/user/Documents/kakaoCloudSchool/server/[node]11-17/log/access-2022-11-17.log.11",
+            "hash": "88dfc2181d624a6550b8370bdc8d7e6d"
+        }
+    ]
+}

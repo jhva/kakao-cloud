@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const Person = class{
+            constructor(num=1,name='',tel=''){
+                this.num=num;
+                this.name=name;
+                this.tel=tel;
+            }
+            setName(name){
+                this.name=name;
+            }
+            getName(){
+                return this.name;
+            }
+            static disp(){
+                return "static";
+            }
+
+        }
+        const Person1 = new Person(1);
+       
+        console.log(Person.disp())
+        // const Person21 = new Person(5,"123","!241245");
+        //this를 이용해서 생성했으므로 속성 직접 호출이 안된다 .
+        
+    </script>
+</body>
+</html>

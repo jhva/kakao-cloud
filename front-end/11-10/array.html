@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let ar=["바보","똥깨","똥"];
+        let av = ["니","나","씨빨롬"];
+        let data = ar.concat(av);
+
+        console.log(data)
+
+        //배열의 데이터를 순서대로 순회
+        for (dat1a of data){
+            console.log(dat1a)
+        }
+
+        //처음에 데이터를 추가하고 처음에 삽입한 데이터를 제거 - Queque(FIFO)
+        data.unshift("");
+        // data.shift();
+        console.log(data);
+        
+
+        //마지막에 데이터를 추가하고 마지막에데이터를 삽입한 데이터를 제거 
+        data.push("!23");
+        console.log(data);
+        data.pop();
+        console.log(data)
+    </script>
+
+    
+</body>
+</html>

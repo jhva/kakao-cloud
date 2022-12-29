@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>table</title>
+</head>
+<body>
+    <baseball>
+    
+    <data>
+        <team>팀1</team>
+        <director>박진만</director>
+    </data>
+    <data>
+        <team>팀2</team>
+        <director>팀2선수</director>
+    </data>
+    <data>
+        <team>팀3</team>
+        <director>팀3 선수</director>
+    </data></baseball>
+</body>
+<style>
+    baseball{
+        display:table;
+        border-collapse: separate;
+    }
+    data{
+          display:table-row-group;
+    }
+    team,director{
+        display:table-cell;
+        border:3px double black;
+        padding:10px;
+    }
+</style>
+</html>

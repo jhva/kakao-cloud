@@ -1,0 +1,17 @@
+{
+    "count": 3,
+    "document": [
+        {
+            "name": "김정훈",
+            "company": "kakao"
+        },
+        {
+            "name": "김은지",
+            "company": "teacher"
+        },
+        {
+            "name": "school",
+            "company": "kakao"
+        }
+    ]
+}
