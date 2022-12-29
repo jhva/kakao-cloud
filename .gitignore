@@ -4,3 +4,9 @@ node_modules
 log
 *.env
 *.idea
+*.out
+out
+*.DS_Store
+*.i
+*.bin
+*.dat

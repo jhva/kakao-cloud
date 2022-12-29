@@ -2,17 +2,20 @@
   Created by IntelliJ IDEA.
   User: kimjeounghoun
   Date: 2022/12/29
-  Time: 12:18 PM
+  Time: 3:17 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>요청실습</title>
+    <title>결과출력</title>
 </head>
 <body>
-<a href="res.jsp?name=park">Get 요청 </a>
-<form method ="post" action = "">보내기</form>
-
+request 객체 : <%=request.getAttribute("result")%>
+<br/>
+session 객체 : <%=session.getAttribute("result")%>
+<br/>
+application 객체 : <%=application.getAttribute("result")%>
+<br/>
 </body>
 </html>
