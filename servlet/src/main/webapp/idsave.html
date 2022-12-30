@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 저장</title>
+</head>
+<body>
+
+<form action="Login.jsp" id="loginform">
+    아이디 <input type="text" id="id" name="id" required="required"/>
+    <br/>
+    <input type="checkbox" value="check" id="idsave"/>아이디 저장 <br/>
+
+    <input type="submit" value="로그인"/>
+
+</form>
+</body>
+<script>
+    let idsave = document.getElementById("idsave");
+    let id = document.getElementById("id");
+    let loginform = document.getElementById("loginform")
+
+    //처음 로딩될 때 ids 존재 여부 를 확인해서 작업
+    window.addEventListener("load", (e) => {
+        if (typeof localStorage.ids !== 'undefined') {
+            ids.value = localStorage.ids;
+            idsave.checked = true;
+        }
+    })
+    //폼의 데이터 전송할 때 idsave 를 확인해서 아이디를 저장
+    loginform.addEventListener("submit", (e) => {
+        if (idsave.checked === true) {
+            localStorage.ids = ids.value;
+        } else {
+            localStorage.clear();
+
+        }
+    })
+</script>
+</html>
