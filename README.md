@@ -8,7 +8,8 @@
 - 11-24 : 데이터베이스 node 와 연결 및 첫 실습,DB/11-24 (sequelize 포함 )~ 11/28
 - 11-29~12/02 : [mongoDB,Node_Authentication,12/02폴더까지진행]
 - 12/02 ~12/12: [front/12-02/REACT,REACT]
-- Java 시작 12/12: [JAVA]
+- Java ~ jsp 12/12 ~12/29: [JAVA]
+- spring 1/3 시작
   <br/>
 
 # 정훈 메모
