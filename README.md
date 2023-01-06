@@ -9,8 +9,10 @@
 - 11-29~12/02 : [mongoDB,Node_Authentication,12/02폴더까지진행]
 - 12/02 ~12/12: [front/12-02/REACT,REACT]
 - Java ~ jsp 12/12 ~12/29: [JAVA]
-- spring 1/3 시작
-  <br/>
+- spring 1/3 ~ 1/6 :[SPRING LEGACY] 
+  - 1-6 폴더 
+- spring 1/9 ~ 스프링부트 시작  
+<br/>
 
 # 정훈 메모
 

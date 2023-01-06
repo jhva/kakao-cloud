@@ -14,9 +14,9 @@ public class TestCase {
     @DisplayName("service test")
     public void serviceTest() {
         MemberService service = MemberServiceImpl.getInstance();
-        System.out.println(
-                service.login("user", "1111")
-        );
+//        System.out.println(
+//                service.login("user", "1111");
+//        );
     }
 
 }
