@@ -1,0 +1,19 @@
+#spring:
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
+#  thymeleaf:
+#    cache: false
+#    prefix: classpath:templates/
+#    suffix: .html
+#    view-names: thymeleaf/*
+server:
+  port: 8090
+thymeleaf:
+  cache: false
+#spring:
+#  mvc:view.suffix=.jsp
+#spring:thymeleaf.prefix=classpath:/templates/
+#spring:thymeleaf.cache=false
+#spring:thymeleaf.view-names=thymeleaf/*
