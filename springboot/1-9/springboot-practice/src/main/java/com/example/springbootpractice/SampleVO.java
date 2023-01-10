@@ -1,4 +1,4 @@
-package com.example.springbootpractice.domain;
+package com.example.springbootpractice;
 
 import lombok.Builder;
 import lombok.Data;

@@ -17,3 +17,23 @@ thymeleaf:
 #spring:thymeleaf.prefix=classpath:/templates/
 #spring:thymeleaf.cache=false
 #spring:thymeleaf.view-names=thymeleaf/*
+
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/jpapractice # jpaparactice 는 ㅇ데이터베이스
+    username: root
+    password: 12345678
+
+  jpa:
+    hibernate:
+      ddl-auto: update # 테이블이 업데이트되면 자동적으로 수정해달라는 얘기
+    properties:
+      hibernate:
+        format_sql: true # format을 맞춰서 sql 을 보여달라
+        show_sql: true # sql구문이 어떻게나가는 지 보여지게하는설정
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace

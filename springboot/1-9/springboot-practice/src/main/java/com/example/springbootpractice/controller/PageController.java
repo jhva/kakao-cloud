@@ -1,6 +1,6 @@
 package com.example.springbootpractice.controller;
 
-import com.example.springbootpractice.domain.SampleVO;
+import com.example.springbootpractice.SampleVO;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,5 +64,8 @@ public class PageController {
         }).collect(Collectors.toList());
         model.addAttribute("list", list);
     }
+
+    @GetMapping("/exlink")
+    public void exlink(Model model) {}
 
 }
