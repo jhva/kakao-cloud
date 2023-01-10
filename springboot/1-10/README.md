@@ -470,3 +470,144 @@ public class test {
     }
 }
 ```
+
+### query methods
+
+- find + (Entity 이름) + by + 컬럼이름
+- itemEntity에서 name을 가지고 조회하는 메서드 : findByName(String name)
+- or 나 And 사용 가능
+    - 매개변수는 자신이 설정하는 select 형태에 따라서 설정을 하고 pageable 과 sort를 추가할 수있다
+- Pageable이 없으면 리턴 타입은 list이고 존재하면 Page이다
+
+```java
+
+public interface interfaceClass extends JpaRepository<Memo, Long> {
+
+    Page<Memo> findByIdBetweenOrderByIdDesc(Long from, Long to, Pageable pageable);
+    //페이징으로 리턴
+}
+
+public class Test {
+    @Test
+    public void queryMethod1() {
+//        List<Memo> list = memoRepository.findByIdBetweenOrderByIdDesc(30L,40L);
+//
+//        for(Memo memo : list){
+//            System.out.println(memo);
+//        }
+
+        //페이징을 하고싶을땐 page를 ㄹ레포지토리에서 리턴값정해주고 매개변수에 넣어줘야함 
+        Pageable pageable = PageRequest.of(1, 5);
+        Page<Memo> result = memoRepository.findByIdBetweenOrderByIdDesc(0L, 50L, pageable);
+        //0~50번중에서
+
+        for (Memo memo : result.getContent()) {
+            System.out.println(memo);
+        }
+    }
+}
+```
+
+### 정해진 Id기준으로 그 이하 데이터들은 지워지는 메서드
+
+```java
+
+public class Test {
+    @Test
+    //특정한 작업에서는 트랜잭션을 적용하지않으면 예외가 발생
+    @Transactional
+    //트랜잭션이 적용되면 자동 COmmit 되지 않으므로 Commit을 호출해야
+    //실제 작업이 완성된다.
+    @Commit
+    public void deleteMehotdTest() {
+        //10번이하는 다 삭제된다 
+        memoRepository.deleteByIdLessThen(10L);
+    }
+}
+```
+
+### SQL 실행 => @Query
+
+- JPQL 이라고 해서 JPA 에서 제공하는 쿼리 문법을 이용할 수 있고 Native SQL (데이터베이스에서 실제 사용하는 SQL)을 이용하는 것이 가능합니다.
+
+- select 가 아닌 경우는 @Modifying 과 같이 사용해야한다.
+- JPQL은 SQL 과 거의 유사하기 때문에 별도의 학습이 필요없이 사용이 가능
+- MemoRepository 인터페이스에 수정하는 메서드를 선언
+
+```java
+public interface testinterface {
+
+    @Transactional
+    @Modifying
+    //Native sql 이 아니기때문에 Table 이름을 적는 것이 아니고 
+    //Entity 클래스의 이름을 사용해야한다 .
+    @Query("update Memo m set m.memoText = :memoText where m.id = :id")
+    public void updateQueryMemoText(@Param("id") int id, @Param("memoText") String memoText);
+
+    //객체를 가져와서사용할때 
+    @Query("update Memo m set m.memoText = :#{#param.memoText} where m.id = #{#param.id}")
+    public void updateQueryMemoText(@Param("param") Memo memo);
+}
+```
+
+### 페이징 처리 JPQL
+
+```java
+
+public interface testInterface {
+    @Query("select m from Memo where m.id > :id")
+    Page<Memo> getListWithQuery(@Param("id") Long id, Pageable pageable);
+
+}
+
+public class Test {
+    @Test
+    public void testSelectQuerty() {
+        //0번 페이지 10개의 데이터를 가져오고 내리참순으로 정렬해서
+
+        //pageable객체
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+        Page<Memo> result = memoRepository.getListWithQuery(50L, pageable);
+
+        for (Memo memo : result.getContent()) {
+            System.out.println(memo);
+        }
+    }
+}
+```
+
+### Object [] 리턴하는 메서드
+
+- select 구문을 보낼 때 제공되는 기본 메서드나 Query 메서드를 이용하면 Entity 타입으로 리턴원하는 데이터만 추출할 수 없다
+- JOIN 이나 GROUP BY 같은 SQL을 실행하면 이에 맞는 Entity 가 존재하지 않을 가능성이 높다
+    - 이런 경우 원하는 내용만 추출하고자 할때 Object [] 을 리턴하는 메서드를 사용할 수 있다.
+
+- id 와 memoText 와 그리고 현재시간(CURRENT_DATE) 를 조회하고자 하는 경우에 적당한 Entity 가 존재하지 않는다.(이때 Object [] 로 받는ㄷ )
+
+```java
+public interface testInterface {
+    @Query("select m.id, m.memoText, CURRENT_DATE from Memo m where m.id > :id")
+    Page<Object[]> getObjectWithQuery(@Param("id") Long id, Pageable pageable);
+}
+
+public class Test {
+    @Test
+    public void tesetObj() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+        Page<Object[]> result = memoRepository.getObjectWithQuery(50L, pageable);
+        for (Object[] memo : result.getContent()) {
+            System.out.println(Arrays.toString(memo));
+        }
+    }
+}
+```
+
+### NativeSQL 실행
+
+```java
+@Query(value = "sql작성" , nativeQuery=true)
+```
+
+### 도커 이미지 검색 
+- docker search 이름 

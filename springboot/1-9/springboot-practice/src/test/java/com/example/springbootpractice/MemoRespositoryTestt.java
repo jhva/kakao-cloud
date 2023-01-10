@@ -8,7 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -115,4 +117,51 @@ public class MemoRespositoryTestt {
             System.out.println(memo);
         }
     }
+
+    @Test
+    public void queryMethod1() {
+//        List<Memo> list = memoRepository.findByIdBetweenOrderByIdDesc(30L,40L);
+//
+//        for(Memo memo : list){
+//            System.out.println(memo);
+//        }
+        Pageable pageable = PageRequest.of(1, 5);
+        Page<Memo> result = memoRepository.findByIdBetweenOrderByIdDesc(0L, 50L, pageable);
+        //0~50번중에서
+
+        for (Memo memo : result.getContent()) {
+            System.out.println(memo);
+        }
+    }
+
+    @Test
+    //특정한 작업에서는 트랜잭션을 적용하지않으면 예외가 발생
+    @Transactional
+    //트랜잭션이 적용되면 자동 COmmit 되지 않으므로 Commit을 호출해야
+    //실제 작업이 완성된다.
+    @Commit
+    public void deleteMehotdTest() {
+        memoRepository.deleteByIdLessThen(10L);
+    }
+
+    @Test
+    public void updateTestQuery() {
+        System.out.println(memoRepository.updateQueryMemoText(Memo.builder().memoText("123").id(1L).build()));
+    }
+
+    @Test
+    public void testSelectQuerty() {
+        //0번 페이지 10개의 데이터를 가져오고 내리참순으로 정렬해서
+
+        //pageable객체
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+        Page<Memo> result = memoRepository.getListWithQuery(50L,pageable);
+
+        for (Memo memo : result.getContent()) {
+            System.out.println(memo);
+        }
+    }
+
+
 }
