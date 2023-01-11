@@ -250,51 +250,55 @@ public class Test {
 }
 ```
 
-- 2개의 조건을 결합해서 사용할때 
+- 2개의 조건을 결합해서 사용할때
+
 ```java
 public class Test {
-  @Test
-  //title에 1일라는 글자가 포함된 entity조회
-  public void testQuery2() {
-    //10개씩 첫번째 페이지의 데이터를 조회
-    //modDate의 내림차순 정렬
-    Pageable pageable = PageRequest.of(0, 10, Sort.by("modDate").descending());
+    @Test
+    //title에 1일라는 글자가 포함된 entity조회
+    public void testQuery2() {
+        //10개씩 첫번째 페이지의 데이터를 조회
+        //modDate의 내림차순 정렬
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("modDate").descending());
 //쿼리dsl 수행을 위해서 Q클래스 가져오기
-    QGuestBook qGuestBook = QGuestBook.guestBook;
+        QGuestBook qGuestBook = QGuestBook.guestBook;
 
-    //타이틀에 1ㅇ이포함된 조건을 생성
-    String keyword = "1";
-    BooleanBuilder builder = new BooleanBuilder();
+        //타이틀에 1ㅇ이포함된 조건을 생성
+        String keyword = "1";
+        BooleanBuilder builder = new BooleanBuilder();
 
 
-    //title이 포함된 조건
-    BooleanExpression expression = qGuestBook.title.contains(keyword);
-    //content에 포함된 조건
-    BooleanExpression expressionContent = qGuestBook.content.contains(keyword);
+        //title이 포함된 조건
+        BooleanExpression expression = qGuestBook.title.contains(keyword);
+        //content에 포함된 조건
+        BooleanExpression expressionContent = qGuestBook.content.contains(keyword);
 
 //2개의 조건을 or로 결합
-    BooleanExpression exAll = expression.or(expressionContent);
-    builder.and(exAll);
-    //100보다 작은것만 골라서 가져오기 
-    builder.and(qGuestBook.id.lt(100L));
-    Page<GuestBook> result =
-            guestRepository.findAll(builder, pageable);
+        BooleanExpression exAll = expression.or(expressionContent);
+        builder.and(exAll);
+        //100보다 작은것만 골라서 가져오기 
+        builder.and(qGuestBook.id.lt(100L));
+        Page<GuestBook> result =
+                guestRepository.findAll(builder, pageable);
 
-    for (GuestBook guestBook : result.getContent()) {
-      System.out.println(guestBook);
+        for (GuestBook guestBook : result.getContent()) {
+            System.out.println(guestBook);
 
+        }
     }
-  }
 }
 ```
-- 항상 Q클래스를 가져와서 사용하고 (querydsl 사용시)
-- Booleanbuilder를 생성함 
-- 그리고 나서 조건을하나씩만든다  
 
+- 항상 Q클래스를 가져와서 사용하고 (querydsl 사용시)
+- Booleanbuilder를 생성함
+- 그리고 나서 조건을하나씩만든다
 
 ### service Layer
+
 > service 와 controller 그리고 view 가 사용할 Guestbook 관련 DTO 클래스 생성
+
 ```java
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -310,6 +314,215 @@ public class GuestBookDTO {
 }
 ```
 
-### service interface create 
-> Service 에서 가장 많이 하는 것 중 하나가 DTO 와 Entity 사이의 변환 
-- 인터페이스에 default method 로 추가해주는 것이 좋다 
+### service interface create
+
+> Service 에서 가장 많이 하는 것 중 하나가 DTO 와 Entity 사이의 변환
+
+- 인터페이스에 default method 로 추가해주는 것이 좋다
+
+```java
+public interface service {
+    //dto를 entity로
+    default GuestBook dtoToEntity(GuestBookDTO dto) {
+        GuestBook entity = GuestBook.builder()
+                .id(dto.getId())
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .writer(dto.getWriter())
+                .build();
+        return entity;
+    }
+
+    //entity를 dto 로
+    //이때는 전부 옮겨줘야한다
+    default GuestBookDTO entityToEntity(GuestBook entiy) {
+        GuestBookDTO dto = GuestBookDTO.builder()
+                .id(entiy.getId())
+                .title(entiy.getTitle())
+                .content(entiy.getContent())
+                .writer(entiy.getWriter())
+                .regDate(entiy.getRegDate())
+                .modDate(entiy.getModDate())
+                .build();
+        return dto;
+    }
+}
+```
+
+### serviceImpl 클래스
+
+- 데이터삽입을 위한 메서드를 선언
+
+```java
+public interface test {
+    //데이터 삽입을 위한 메서드
+    //매개변수는 대부분의 경우 dto
+    //리턴 타입은 보통 삽입된 데이터를그대로 리턴하기도 하고
+    //성공과 실패여부를 위해서 boolean을 리턴하기도하고
+    //단순하게 영향받은 행의 개수를 의미하는 int
+    //기본키의 값을 리턴하는 경우도 있다
+    public Long register(GuestBookDTO dto);
+}
+
+//service class 
+public class service {
+
+    public Long register(GuestBookDTO dto) {
+        //파라미터가 제대로 넘어오는지 확인
+        log.info("삽입 서비스 데이터" + dto.toString());
+
+        //repository 변형
+
+        GuestBook entity = dtoToEntity(dto);
+        guestRepository.save(entity);
+        return entity.getId();
+    }
+}
+```
+
+### service Test하기
+
+### 목록보기
+
+- 게시판 형태에서 목록 보기 요청
+    - 페이지 번호, 페이지 당 데이터 개수 , 검색 항목, 검색 값 - 이런 형태의 요청 DTO가 필요
+- 게시판 형태에서 목록 보기 응답
+    - Pageable 형태의 DTO 목록
+        - 페이지 번호 리스트
+        - 이전 페이지 여부
+        - 다음 페이지 여부
+        - 현재 페이지 번호
+        - 검색 항목
+        - 검색 값
+
+### 목록요청을 위한 DTO 클래스 생성
+
+```java
+
+public class PageResponseDTO<DTO, EN> {
+
+    //데이터 목록
+    private List<DTO> dtoList;
+
+    //Page를 함수를 적용해서 List로 변환해주는 메서드
+    //Page 단위의 Entity를 받아서 DTO의 리스트로 변환
+    //첫번째 매개변수가 Page단위의 Entity 이고
+    //두번째는 데이터 변환을 위한 메서드
+    public PageResponseDTO(Page<EN> result, Function<EN, DTO> fn) {
+
+        //en과 dto ㅌ을 변환해주는
+        //함수를 매개변수로 받아서
+        // dto타입의 list로 변환해주는 것
+        dtoList = result.stream().map(fn).collect(Collectors.toList());
+    }
+}
+
+```
+
+### 서비스 인터페이스에 목록보기를 위한 메서드선언
+
+```java
+public interface service {
+    PageResponseDTO<GuestBookDTO, GuestBook> getList(PageRequestDTO dto);
+}
+
+//serviceImpl
+
+public class implservice implements service {
+    public PageResponseDTO<GuestBookDTO, GuestBook> getList(PageRequestDTO dto) {
+        //repository에게 넘겨줄 Pageable 객체를 생성
+        //gno 내림차순으로 정렬
+        Pageable pageable = dto.getPagealbe(Sort.by("id").descending());
+
+        //데이터 찾아오기
+        Page<GuestBook> result = guestRepository.findAll(pageable);
+        List<GuestBookDTO> list = new ArrayList<>();
+
+        for (GuestBook guestBook : result.getContent()) {
+            list.add(entityToEntity(guestBook));
+        }
+
+        //데이터 목록을 받아서
+        //데이터 목록을 순회하면서 제공된 메서드가 리턴하는
+        //목록을 변경해주는 람다
+        //function은 변환해주는거 
+        Function<GuestBook, GuestBookDTO> fn = (entity -> entityToEntity(entity));
+
+        return new PageResponseDTO<>(result, fn);
+
+    }
+}
+```
+
+
+### 페이지 번호 목록ㄷ을 출력할수잇도록 PageResponseDTO 출력 
+```java
+
+public class PageResponseDTO<DTO, EN> {
+
+    //데이터 목록
+    private List<DTO> dtoList;
+
+
+    //전체 페이지개수
+    private int totalCount;
+
+    //현재 페이지 번호
+    private int page;
+
+    //하나의 페이지에 출력할 데이터 개수
+    private int size;
+
+    // 페이지번호에서 시작하는 페이지 번호 끝나는 페이지 번호
+    private int start, end;
+    //이전과 다음 여부
+    private boolean NextPage, PrevPage;
+
+    //페이지 번호 목록
+    private List<Integer> pageList;
+
+    //paging 결과를 가지고 추가한 항목들을 계산해주는 메서드
+    private void makePageList(Pageable pageable) {
+        //현재페이지번호
+        //jpa 는 페이지 번호가 0부터 시작하므로 +_1
+        this.page = pageable.getPageNumber() + 1;
+
+        //페이지 당 데이터 개수
+        this.size = pageable.getPageSize();
+
+        //임시로 마지막 페이지 번호를 생성
+        //페이지 번호를 10개를 출력
+        //10으로 나누어서 소수가있으면 올림을 하고 곱하기 10
+        int tempend = (int) (Math.ceil(page / 10.0)) * 10;
+
+        start = tempend - 9;
+        //이전 여부
+        PrevPage = start > 1;
+
+        //마지막 페이지 번호 계산
+        end = totalCount > tempend ? tempend : totalCount;
+
+        //다음ㅇ 여부
+        NextPage = totalCount > tempend;
+
+        pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+    }
+
+    //Page를 함수를 적용해서 List로 변환해주는 메서드
+    //Page 단위의 Entity를 받아서 DTO의 리스트로 변환
+    //첫번째 매개변수가 Page단위의 Entity 이고
+    //두번째는 데이터 변환을 위한 메서드
+    public PageResponseDTO(Page<EN> result, Function<EN, DTO> fn) {
+
+        //en과 dto ㅌ을 변환해주는
+        //함수를 매개변수로 받아서
+        // dto타입의 list로 변환해주는 것
+        dtoList = result.stream().map(fn).collect(Collectors.toList());
+        //전체 페이지 개수 
+        totalCount = result.getTotalPages();
+        //페이지 목록 메서드 호출 
+        makePageList(result.getPageable());
+    }
+}
+```
+
