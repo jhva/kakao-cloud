@@ -616,14 +616,36 @@ public class boardServiceImpl implements BoadrdService {
 }
 ```
 
+### 게시물 수정
 
-### 게시물 수정 
 - setter를 함부로 쓰지말자
-- boardService 인터페이스에 게시글 수정을 위한 메서드를 생성 
+- boardService 인터페이스에 게시글 수정을 위한 메서드를 생성
+
 ```java
-public class serviceImpl implements service{
-    
-    
-    
+public class boardService {
+    @Override
+    @Transactional
+    public Long modifyBoard(BoardDTO dto) {
+        //JPA에서는 삽입과 수정 메서드가 동일
+        //upsert(있으면 수정 없으면 삽입) 를 하고자 하는 경우는 save를 호출하면 되지만
+        //명시적으로 update를 하고자하면 데이터가 있는지 확인한 후
+        if (dto.getBno() == null) {
+            return 0L;
+        }
+        //데이터 존재 여부를 확인
+        Optional<Board> board = boardRepository.findById(dto.getBno());
+        //존재하는경우
+        if (board.isPresent()) {
+            board.get().changeTitle(dto.getTitle());
+            board.get().changeContent(dto.getContent());
+            boardRepository.save(board.get());
+            return board.get().getBno();
+        } else {
+            return 0L;
+        }
+
+    }
 }
 ```
+
+### controller 계층 
