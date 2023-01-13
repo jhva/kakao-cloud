@@ -3,8 +3,10 @@ package com.example.springboardproject;
 
 import com.example.springboardproject.BaseEntity;
 import com.example.springboardproject.Board;
-import jakarta.persistence.*;
+
 import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @Builder
