@@ -32,12 +32,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @SpringBootTest
 @Service
 public class ServiceTest {
     @Autowired
     public BoardService boardService;
 
+    @Autowired
+    public CommentService commentService;
+
+    @Test
+    public void reigster() {
+        CommentDTO dto = CommentDTO.builder()
+                .text("댓글 텍스트")
+                .replyer("user1")
+                .bno(27L)
+                .build();
+//        commentService.register(dto);
+        System.out.println(commentService.register(dto));
+    }
+
+
+    @Test
+    public void testGetList() {
+        List<CommentDTO> list = commentService.getList(27L);
+        list.forEach(dto -> System.out.println(dto));
+    }
 
     @Test
     public void test() {

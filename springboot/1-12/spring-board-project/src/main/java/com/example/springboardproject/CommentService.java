@@ -1,6 +1,9 @@
 package com.example.springboardproject;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
+
 
 public interface CommentService {
 

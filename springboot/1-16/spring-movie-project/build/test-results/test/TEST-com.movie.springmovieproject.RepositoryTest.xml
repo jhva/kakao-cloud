@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.movie.springmovieproject.RepositoryTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-01-16T08:49:05" hostname="gimjeonghun-ui-MacBookPro.local" time="0.421">
+  <properties/>
+  <testcase name="jointest()" classname="com.movie.springmovieproject.RepositoryTest" time="0.421"/>
+  <system-out><![CDATA[17:49:00.675 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [RepositoryTest]: using SpringBootContextLoader
+17:49:00.687 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.movie.springmovieproject.RepositoryTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+17:49:00.688 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.movie.springmovieproject.RepositoryTest]: RepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:49:00.734 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using ContextCustomizers for test class [RepositoryTest]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
+17:49:00.856 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/Users/kimjeounghoun/Downloads/spring-movie-project/build/classes/java/main/com/movie/springmovieproject/SpringMovieProjectApplication.class]
+17:49:00.857 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.movie.springmovieproject.SpringMovieProjectApplication for test class com.movie.springmovieproject.RepositoryTest
+17:49:00.981 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners for test class [RepositoryTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
+17:49:00.984 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: class [RepositoryTest], class annotated with @DirtiesContext [false] with mode [null]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.0.1)
+
+2023-01-16T17:49:01.403+09:00  INFO 2672 --- [    Test worker] c.m.springmovieproject.RepositoryTest    : Starting RepositoryTest using Java 17.0.4.1 with PID 2672 (started by kimjeounghoun in /Users/kimjeounghoun/Downloads/spring-movie-project)
+2023-01-16T17:49:01.406+09:00  INFO 2672 --- [    Test worker] c.m.springmovieproject.RepositoryTest    : No active profile set, falling back to 1 default profile: "default"
+2023-01-16T17:49:02.130+09:00  INFO 2672 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-01-16T17:49:02.197+09:00  INFO 2672 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 59 ms. Found 4 JPA repository interfaces.
+2023-01-16T17:49:02.799+09:00  INFO 2672 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-01-16T17:49:02.861+09:00  INFO 2672 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.6.Final
+2023-01-16T17:49:03.055+09:00  WARN 2672 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2023-01-16T17:49:03.194+09:00  INFO 2672 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-01-16T17:49:03.279+09:00  INFO 2672 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@19ae36f4
+2023-01-16T17:49:03.282+09:00  INFO 2672 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-01-16T17:49:03.334+09:00  INFO 2672 --- [    Test worker] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MariaDBDialect
+2023-01-16T17:49:03.364+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@43588265) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@6f8667bb)
+2023-01-16T17:49:03.364+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@100d0218) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2774dcf4)
+2023-01-16T17:49:03.364+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@20b829d5) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7c5f29c6)
+2023-01-16T17:49:03.365+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@4baf997) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5280688)
+2023-01-16T17:49:03.365+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@643f6179) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@61ab6521)
+2023-01-16T17:49:03.365+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@328e4ec2) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@7757025d)
+2023-01-16T17:49:03.366+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@68fc9167) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@52c46334)
+2023-01-16T17:49:03.366+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@12fccff0) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5d767218)
+2023-01-16T17:49:03.367+09:00 DEBUG 2672 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@510da778) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@20a1b3ae)
+2023-01-16T17:49:04.220+09:00  INFO 2672 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-01-16T17:49:04.231+09:00  INFO 2672 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-01-16T17:49:04.443+09:00  WARN 2672 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-01-16T17:49:05.936+09:00  INFO 2672 --- [    Test worker] c.m.springmovieproject.RepositoryTest    : Started RepositoryTest in 4.881 seconds (process running for 6.373)
+Hibernate: 
+    select
+        m1_0.mno,
+        m1_0.moddate,
+        m1_0.regdate,
+        m1_0.title,
+        m2_0.inum,
+        m2_0.img_name,
+        m2_0.movie_mno,
+        m2_0.path,
+        m2_0.uuid,
+        avg(coalesce(r1_0.score,0)),
+        count(distinct r1_0.reviewnum) 
+    from
+        movie m1_0 
+    left join
+        movie_image m2_0 
+            on m2_0.movie_mno=m1_0.mno 
+    left join
+        review r1_0 
+            on r1_0.movie_mno=m1_0.mno 
+    group by
+        m1_0.mno,
+        m1_0.moddate,
+        m1_0.regdate,
+        m1_0.title 
+    order by
+        m1_0.mno desc limit ?,
+        ?
+Hibernate: 
+    select
+        count(m1_0.mno) 
+    from
+        movie m1_0 
+    left join
+        movie_image m2_0 
+            on m2_0.movie_mno=m1_0.mno 
+    left join
+        review r1_0 
+            on r1_0.movie_mno=m1_0.mno 
+    group by
+        m1_0.mno
+[Movie(mno=100, title=무비제목100), MovieImage(inum=292, uuid=070670f2-a480-4396-b4a0-a7d6be43bad4, imgName=testImage0.jpg, path=null), 3.0, 2]
+[Movie(mno=99, title=무비제목99), MovieImage(inum=287, uuid=d5a05c5a-99c4-46a1-9ae1-938b28717800, imgName=testImage0.jpg, path=null), 2.0, 1]
+[Movie(mno=98, title=무비제목98), MovieImage(inum=284, uuid=fb399c51-9b3f-416d-be18-bb301c5d401e, imgName=testImage0.jpg, path=null), 3.0, 3]
+[Movie(mno=97, title=무비제목97), MovieImage(inum=280, uuid=42dccaef-9062-4f0b-862b-6bd9178abf30, imgName=testImage0.jpg, path=null), 0.0, 0]
+[Movie(mno=96, title=무비제목96), MovieImage(inum=275, uuid=2628a9cd-2723-48a8-8292-fa5f340064f0, imgName=testImage0.jpg, path=null), 3.0, 1]
+[Movie(mno=95, title=무비제목95), MovieImage(inum=273, uuid=b89bdb78-3d49-4299-9796-b1b3d4148d56, imgName=testImage0.jpg, path=null), 2.0, 1]
+[Movie(mno=94, title=무비제목94), MovieImage(inum=268, uuid=b002084d-bfa7-4e6c-bcab-bddb7fb96622, imgName=testImage0.jpg, path=null), 4.0, 2]
+[Movie(mno=93, title=무비제목93), MovieImage(inum=264, uuid=9b419f23-ac13-4193-a7ab-6afdbe611a13, imgName=testImage0.jpg, path=null), 1.0, 1]
+[Movie(mno=92, title=무비제목92), MovieImage(inum=263, uuid=057fbd25-4283-40c0-98ef-8d4991b11ebc, imgName=testImage0.jpg, path=null), 2.0, 1]
+[Movie(mno=91, title=무비제목91), MovieImage(inum=262, uuid=08f4916b-1291-483c-9571-47b6b0fe087c, imgName=testImage0.jpg, path=null), 3.4, 5]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
