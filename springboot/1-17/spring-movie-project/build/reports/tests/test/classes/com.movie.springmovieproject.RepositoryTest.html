@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - RepositoryTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>RepositoryTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.movie.springmovieproject.html">com.movie.springmovieproject</a> &gt; RepositoryTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.342s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">update()</td>
+<td class="success">0.342s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>11:39:35.061 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [RepositoryTest]: using SpringBootContextLoader
+11:39:35.068 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.movie.springmovieproject.RepositoryTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+11:39:35.069 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.movie.springmovieproject.RepositoryTest]: RepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+11:39:35.104 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using ContextCustomizers for test class [RepositoryTest]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
+11:39:35.193 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/Users/kimjeounghoun/Downloads/spring-movie-project/build/classes/java/main/com/movie/springmovieproject/SpringMovieProjectApplication.class]
+11:39:35.195 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.movie.springmovieproject.SpringMovieProjectApplication for test class com.movie.springmovieproject.RepositoryTest
+11:39:35.331 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners for test class [RepositoryTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
+11:39:35.333 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: class [RepositoryTest], class annotated with @DirtiesContext [false] with mode [null]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.0.1)
+
+2023-01-17T11:39:35.778+09:00  INFO 34111 --- [    Test worker] c.m.springmovieproject.RepositoryTest    : Starting RepositoryTest using Java 17.0.4.1 with PID 34111 (started by kimjeounghoun in /Users/kimjeounghoun/Downloads/spring-movie-project)
+2023-01-17T11:39:35.780+09:00  INFO 34111 --- [    Test worker] c.m.springmovieproject.RepositoryTest    : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2023-01-17T11:39:36.608+09:00  INFO 34111 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-01-17T11:39:36.687+09:00  INFO 34111 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 4 JPA repository interfaces.
+2023-01-17T11:39:37.315+09:00  INFO 34111 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-01-17T11:39:37.386+09:00  INFO 34111 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.6.Final
+2023-01-17T11:39:37.632+09:00  WARN 34111 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2023-01-17T11:39:37.790+09:00  INFO 34111 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-01-17T11:39:37.900+09:00  INFO 34111 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@3070f3e6
+2023-01-17T11:39:37.906+09:00  INFO 34111 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-01-17T11:39:37.967+09:00  INFO 34111 --- [    Test worker] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MariaDBDialect
+2023-01-17T11:39:38.003+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2c8a445b) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@356b6b5d)
+2023-01-17T11:39:38.003+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@37b1149b) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@1187dc82)
+2023-01-17T11:39:38.004+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@6fd1ea75) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@18e4551)
+2023-01-17T11:39:38.004+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@3ea48c37) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@11e834ad)
+2023-01-17T11:39:38.005+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@710ae6a7) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@25d911a)
+2023-01-17T11:39:38.005+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@18026052) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@489f62a3)
+2023-01-17T11:39:38.005+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@6e068ac9) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@3d0352)
+2023-01-17T11:39:38.006+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@bb6f3f7) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@388f1258)
+2023-01-17T11:39:38.006+09:00 DEBUG 34111 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@62058742) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@aca2fc3)
+2023-01-17T11:39:39.022+09:00  INFO 34111 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-01-17T11:39:39.034+09:00  INFO 34111 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-01-17T11:39:39.333+09:00  WARN 34111 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-01-17T11:39:40.885+09:00  INFO 34111 --- [    Test worker] c.m.springmovieproject.RepositoryTest    : Started RepositoryTest in 5.485 seconds (process running for 7.114)
+Hibernate: 
+    update
+        review 
+    set
+        member_mid=null 
+    where
+        member_mid=?
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 7.6</a> at Jan 17, 2023, 11:39:41 AM</p>
+</div>
+</div>
+</body>
+</html>

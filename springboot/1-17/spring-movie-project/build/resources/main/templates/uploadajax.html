@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파일업로드 테스트</title>
+
+    <style></style>
+
+</head>
+
+<body>
+<input name="uploadFiles" type="file" accept="image/*" multiple="multiple"/>
+<button id="uploadBtn">업로드하기</button>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"
+></script>
+<script>
+    $('#uploadBtn').click(function () {
+        var formData = new FormData();
+        var inputFile = $("input[type='file']");
+        var files = inputFile[0].files;
+        if (files.length < 1) {
+            alert("업로드할 파일을 선택하지 않으셨습니다.");
+            return;
+        }
+        for (var i = 0; i < files.length; i++) {
+            console.log(files[i]);
+            formData.append("uploadFiles", files[i]);
+        }
+        $.ajax({
+            url: '/uploadajax',
+            processData: false, contentType: false,
+            data: formData,
+            type: 'POST', dataType: 'json',
+            success: function (result) {
+                console.log(result);
+//나중에 화면 처리 },
+
+            }
+        })
+    });
+
+</script>
+</html>

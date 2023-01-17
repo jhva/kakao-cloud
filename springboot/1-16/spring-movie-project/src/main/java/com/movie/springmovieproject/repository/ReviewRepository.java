@@ -1,7 +1,0 @@
-package com.movie.springmovieproject.repository;
-
-import com.movie.springmovieproject.domain.Review;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface ReviewRepository extends JpaRepository<Review, Long> {
-}
