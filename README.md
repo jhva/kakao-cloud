@@ -11,7 +11,8 @@
 - Java ~ jsp 12/12 ~12/29: [JAVA]
 - spring 1/3 ~ 1/6 :[SPRING LEGACY] 
   - 1-6 폴더 
-- spring 1/9 ~ 스프링부트 시작  
+- spring 1/9 ~ 1/25 : [SPRING BOOT]
+- Linux 1/26 ~ 
 <br/>
 
 # 정훈 메모
