@@ -1,0 +1,77 @@
+
+#spring:
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
+#  thymeleaf:
+#    cache: false
+#    prefix: classpath:templates/
+#    suffix: .html
+#    view-names: thymeleaf/*
+server:
+  port: 8010
+thymeleaf:
+  cache: false
+#spring:
+#  mvc:view.suffix=.jsp
+#spring:thymeleaf.prefix=classpath:/templates/
+#spring:thymeleaf.cache=false
+#spring:thymeleaf.view-names=thymeleaf/*
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: b363b5afcbfbfcefd27f66bc97e322f6
+            client-secret: 1GJLVO7A0mvZ6lx9XwKjO5XpOlOCkOy6
+            redirect-uri: http://localhost:8010/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  servlet:
+    multipart:
+      enabled: true
+      location: /Users/kimjeounghoun/Downloads
+      max-request-size: 30MB
+      max-file-size: 10MB
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/jpapractice # jpaparactice ? ???????
+    username: root
+    password: 12345678
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      # ???? ?????? ????? ?????? ??
+    properties:
+      hibernate:
+        format_sql: true # format? ??? sql ? ????
+        show_sql: true # sql??? ?????? ? ????????
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace
+
+com:
+  kjh:
+    upload:
+      path: /Users/kimjeounghoun/Downloads
+
+
+
+
+#      1GJLVO7A0mvZ6lx9XwKjO5XpOlOCkOy6 카카오 시크릿키
+# restapi key b363b5afcbfbfcefd27f66bc97e322f6
