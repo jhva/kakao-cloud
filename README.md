@@ -14,6 +14,8 @@
 - spring 1/9 ~ 1/25 : [SPRING BOOT]
 - Linux 1/26 : [LINUX]
 - Docker 1/27 : [DOCKER]
+- Docker-compose: [DOCKER-COMPOSE] 
+- kubernetes 1/30 ~  : [Kubernetes] 
 <br/>
 
 # 정훈 메모
