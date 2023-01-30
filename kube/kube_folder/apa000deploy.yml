@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:
+spec:
+  selector:
+    matchLabels:
+      app: app000kube
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        aap: app000kube
+    spec:
+      containers:
+        - name: app000ex91
+          image: httpd
+          ports:
+          - containerPort: 80
